@@ -7,12 +7,6 @@ const meta = {
   title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
-  argTypes: {
-    variant: { control: 'select', options: ['primary', 'secondary', 'link'] },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    disabled: { control: 'boolean' },
-    focusableWhenDisabled: { control: 'boolean' },
-  },
   args: {
     children: 'Button',
   },

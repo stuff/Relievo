@@ -10,20 +10,46 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 type LockedProps = 'className' | 'style';
 
 interface ButtonOwnProps {
+  /**
+   * Visual style. `primary` for the main action, `secondary` for supporting actions,
+   * `link` for low-emphasis actions in text or dense layouts.
+   * @default 'primary'
+   */
   variant?: ButtonVariant;
+  /**
+   * Height, horizontal padding and font size.
+   * @default 'md'
+   */
   size?: ButtonSize;
+  /**
+   * Whether the button ignores user interaction. A disabled link has no `href`
+   * and is out of the tab order.
+   * @default false
+   */
+  disabled?: boolean;
 }
 
 export interface ButtonAsButtonProps
   extends ButtonOwnProps,
     Omit<ComponentProps<typeof BaseButton>, LockedProps | 'render' | 'nativeButton'> {
+  /**
+   * Native button type. Use `submit` to submit the enclosing form.
+   * @default 'button'
+   */
+  type?: 'button' | 'submit' | 'reset';
   href?: never;
 }
 
-export interface ButtonAsLinkProps extends ButtonOwnProps, Omit<ComponentProps<'a'>, LockedProps> {
-  /** Renders the button as a link. */
+// `type` is dropped: on a link it is a rarely used MIME type hint, and it would clash with
+// the button `type` in the docs.
+export interface ButtonAsLinkProps
+  extends ButtonOwnProps,
+    Omit<ComponentProps<'a'>, LockedProps | 'type'> {
+  /**
+   * Renders the button as a link, using the link component configured in `UiKitProvider`
+   * (a native `<a>` by default).
+   */
   href: string;
-  disabled?: boolean;
 }
 
 export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;

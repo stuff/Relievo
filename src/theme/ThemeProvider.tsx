@@ -20,7 +20,10 @@ export interface ThemeContextValue {
 }
 
 export interface ThemeProviderProps {
-  /** Initial theme mode. `system` follows the OS preference. */
+  /**
+   * Initial theme mode. `system` follows the OS preference.
+   * @default 'system'
+   */
   defaultMode?: ThemeMode;
   children?: ReactNode;
 }

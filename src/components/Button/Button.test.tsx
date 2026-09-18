@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ArrowRightIcon, PlusIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
 import { UiKitProvider, type LinkComponentProps } from '../../provider';
 import { Button, type ButtonProps } from './Button';
@@ -67,6 +68,46 @@ describe('Button', () => {
 
     await userEvent.keyboard('{Enter}');
     expect(onClick).not.toHaveBeenCalled();
+  });
+
+  it('renders icons around the label, hidden from assistive technologies', () => {
+    render(
+      <Button startIcon={<PlusIcon data-testid="start" />} endIcon={<ArrowRightIcon data-testid="end" />}>
+        Add
+      </Button>,
+    );
+
+    const button = screen.getByRole('button', { name: 'Add' });
+    const [start, label, end] = Array.from(button.childNodes);
+    expect(start).toContainElement(screen.getByTestId('start'));
+    expect(label).toHaveTextContent('Add');
+    expect(end).toContainElement(screen.getByTestId('end'));
+    expect(start).toHaveAttribute('aria-hidden', 'true');
+    expect(end).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('renders Phosphor icons in bold, unless the icon sets its own weight', () => {
+    const { container: bold } = render(<PlusIcon weight="bold" />);
+    const { container: regular } = render(<PlusIcon weight="regular" />);
+    render(
+      <>
+        <Button startIcon={<PlusIcon data-testid="default" />}>Add</Button>
+        <Button startIcon={<PlusIcon data-testid="explicit" weight="regular" />}>Add</Button>
+      </>,
+    );
+
+    expect(screen.getByTestId('default').innerHTML).toBe(bold.querySelector('svg')!.innerHTML);
+    expect(screen.getByTestId('explicit').innerHTML).toBe(regular.querySelector('svg')!.innerHTML);
+  });
+
+  it('renders icons in links too', () => {
+    render(
+      <Button href="/new" startIcon={<PlusIcon data-testid="start" />}>
+        New
+      </Button>,
+    );
+
+    expect(screen.getByRole('link', { name: 'New' })).toContainElement(screen.getByTestId('start'));
   });
 
   it('ignores className and style passed by untyped callers', () => {

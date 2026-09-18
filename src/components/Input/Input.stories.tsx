@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { EnvelopeIcon, GlobeIcon, MagnifyingGlassIcon, ScalesIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../Button';
 import { Input } from './Input';
@@ -41,6 +42,28 @@ export const Controlled: Story = {
 
 export const Email: Story = {
   args: { label: 'Email', type: 'email', placeholder: 'jane@example.com' },
+};
+
+export const WithIcons: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 'var(--ui-space-4)' }}>
+      <Input {...args} label="Search" type="search" placeholder="Search…" startIcon={<MagnifyingGlassIcon />} />
+      <Input {...args} label="Email" type="email" placeholder="jane@example.com" endIcon={<EnvelopeIcon />} />
+    </div>
+  ),
+};
+
+/** `prefix` and `suffix` hold text such as a currency or a unit. Screen readers announce them. */
+export const WithPrefixAndSuffix: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 'var(--ui-space-4)' }}>
+      <Input {...args} label="Price" type="number" placeholder="0.00" suffix="€" />
+      <Input {...args} label="Amount" type="number" placeholder="0.00" prefix="$" />
+      <Input {...args} label="Website" placeholder="acme" prefix="https://" suffix=".com" />
+      <Input {...args} label="Weight" type="number" placeholder="0" startIcon={<ScalesIcon />} suffix="kg" />
+      <Input {...args} label="Domain" placeholder="acme" startIcon={<GlobeIcon />} suffix=".com" error helperText="This domain is taken." />
+    </div>
+  ),
 };
 
 export const HiddenLabel: Story = {

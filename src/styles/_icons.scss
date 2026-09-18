@@ -1,0 +1,22 @@
+// Icon slot: the design system sizes and colors the icon, whatever props it was given
+// (<PlusIcon size={40} color="red" /> still renders at the slot size, in the text color).
+// CSS beats SVG presentation attributes (width, height, fill, stroke).
+@mixin icon-slot($size: 1.125em) {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+
+  > svg {
+    width: $size;
+    height: $size;
+  }
+
+  // Fill-based icons (Phosphor) and stroke-based ones (Lucide…): only recolor what is painted.
+  > svg:not([fill='none']) {
+    fill: currentColor;
+  }
+
+  > svg[stroke]:not([stroke='none']) {
+    stroke: currentColor;
+  }
+}

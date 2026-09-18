@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use '../../styles/a11y';
 @use '../../styles/controls' as *;
+@use '../../styles/icons';
 
 // Single size: the medium control size, so the input lines up with a default Button.
 $size: map.get($control-sizes, md);
@@ -61,21 +62,76 @@ $size: map.get($control-sizes, md);
   }
 }
 
-.input {
+.control {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
   inline-size: 100%;
+  min-inline-size: 0;
   height: map.get($size, height);
   padding-inline: map.get($size, padding);
-  font-size: map.get($size, font-size);
-  min-inline-size: 0;
   border: 1px solid var(--ui-color-border);
   border-radius: var(--ui-radius-full);
   // background: var(--ui-color-surface);
   background: color-mix(in oklab, var(--ui-color-surface), white 5%);
-  color: var(--ui-color-text);
   // box-shadow: var(--ui-shadow-inset);
-  font-family: var(--ui-font-family);
-  line-height: 1;
+  cursor: text;
   transition: outline-color 150ms ease;
+
+  // Text fields show the ring on any focus, not only keyboard focus: the caret alone is easy to miss.
+  &:focus-within {
+    outline: 2px solid var(--ui-color-focus-ring);
+    outline-offset: -1px;
+  }
+
+  // Same ring as focus, in red. After :focus-within: an invalid field stays red while focused.
+  .field[data-invalid] & {
+    outline: 2px solid var(--ui-color-danger);
+    outline-offset: -1px;
+  }
+
+  .field[data-disabled] & {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+// Icons and affixes: muted, like the helper text (5.6:1 in light, 6:1+ in dark)
+.icon,
+.affix {
+  color: color-mix(in oklab, var(--ui-color-text), transparent 10%);
+  user-select: none;
+}
+
+.icon {
+  @include icons.icon-slot;
+}
+
+.affix {
+  flex-shrink: 0;
+  font-family: var(--ui-font-family);
+  font-size: map.get($size, font-size);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+// The borderless <input> inside the pill
+.input {
+  flex: 1;
+  align-self: stretch;
+  min-inline-size: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-size: map.get($size, font-size);
+  line-height: 1;
+
+  // The ring is drawn by .control, around the whole pill
+  &:focus {
+    outline: none;
+  }
 
   // Native clear button and decoration of type="search" (Chromium, Safari): unstyleable and
   // absent from Firefox, so hidden for a consistent field. Escape still clears the value.
@@ -86,21 +142,5 @@ $size: map.get($control-sizes, md);
 
   &::placeholder {
     color: color-mix(in oklab, var(--ui-color-text), transparent 45%);
-  }
-
-  // Text fields show the ring on any focus, not only keyboard focus: the caret alone is easy to miss.
-  &:focus {
-    outline: 2px solid var(--ui-color-focus-ring);
-    outline-offset: -1px;
-  }
-
-  // Same ring as focus, in red. After :focus: an invalid field stays red while focused.
-  &[data-invalid] {
-    outline: 2px solid var(--ui-color-danger);
-    outline-offset: -1px;
-  }
-
-  &[data-disabled] {
-    opacity: 0.6;
   }
 }

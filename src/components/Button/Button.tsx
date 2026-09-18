@@ -1,5 +1,6 @@
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { Button as BaseButton } from '@base-ui/react/button';
+import { IconSlot } from '../../internal/IconSlot';
 import { useLinkComponent } from '../../provider/UiKitProvider';
 import styles from './Button.module.scss';
 
@@ -21,6 +22,15 @@ interface ButtonOwnProps {
    * @default 'md'
    */
   size?: ButtonSize;
+  /**
+   * Icon before the label, such as `<PlusIcon />` from `@phosphor-icons/react`. The button sets its
+   * size and color; the icon is decorative (hidden from screen readers).
+   */
+  startIcon?: ReactElement;
+  /**
+   * Icon after the label, such as `<ArrowRightIcon />`. Sized and colored like `startIcon`.
+   */
+  endIcon?: ReactElement;
   /**
    * Whether the button ignores user interaction. A disabled link has no `href`
    * and is out of the tab order.
@@ -54,11 +64,43 @@ export interface ButtonAsLinkProps
 
 export type ButtonProps = ButtonAsButtonProps | ButtonAsLinkProps;
 
+function Content({
+  startIcon,
+  endIcon,
+  children,
+}: {
+  startIcon?: ReactElement;
+  endIcon?: ReactElement;
+  children?: ReactNode;
+}) {
+  return (
+    <>
+      <IconSlot icon={startIcon} className={styles.icon} />
+      {children}
+      <IconSlot icon={endIcon} className={styles.icon} />
+    </>
+  );
+}
+
 export function Button(props: ButtonProps) {
   const Link = useLinkComponent();
 
   if (props.href !== undefined) {
-    const { variant = 'primary', size = 'md', href, disabled = false, ...linkProps } = props;
+    const {
+      variant = 'primary',
+      size = 'md',
+      href,
+      disabled = false,
+      startIcon,
+      endIcon,
+      children,
+      ...linkProps
+    } = props;
+    const content = (
+      <Content startIcon={startIcon} endIcon={endIcon}>
+        {children}
+      </Content>
+    );
     const sharedProps = {
       'data-variant': variant,
       'data-size': size,
@@ -70,22 +112,22 @@ export function Button(props: ButtonProps) {
     // Router links require an href, so a disabled link is always a native <a>.
     if (disabled) {
       return (
-        <a
-          {...linkProps}
-          role="link"
-          aria-disabled
-          data-disabled=""
-          {...sharedProps}
-        />
+        <a {...linkProps} role="link" aria-disabled data-disabled="" {...sharedProps}>
+          {content}
+        </a>
       );
     }
 
     // A link is not a button: render the app's link (a native <a> by default)
     // rather than Base UI's role="button".
-    return <Link {...linkProps} href={href} {...sharedProps} />;
+    return (
+      <Link {...linkProps} href={href} {...sharedProps}>
+        {content}
+      </Link>
+    );
   }
 
-  const { variant = 'primary', size = 'md', ...buttonProps } = props;
+  const { variant = 'primary', size = 'md', startIcon, endIcon, children, ...buttonProps } = props;
 
   return (
     <BaseButton
@@ -94,6 +136,10 @@ export function Button(props: ButtonProps) {
       data-size={size}
       className={styles.button}
       style={undefined}
-    />
+    >
+      <Content startIcon={startIcon} endIcon={endIcon}>
+        {children}
+      </Content>
+    </BaseButton>
   );
 }

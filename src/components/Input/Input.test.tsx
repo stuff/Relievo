@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
+import { EnvelopeIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Input, type InputProps } from './Input';
 
@@ -133,6 +134,56 @@ describe('Input', () => {
 
     expect(container.querySelector('p')).toBeNull();
     expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-describedby');
+  });
+
+  describe('icons and affixes', () => {
+    it('renders them in order around the input', () => {
+      const { container } = render(
+        <Input
+          label="Email"
+          startIcon={<EnvelopeIcon data-testid="start" />}
+          prefix="to:"
+          suffix="@acme.com"
+          endIcon={<MagnifyingGlassIcon data-testid="end" />}
+        />,
+      );
+
+      const control = container.querySelector('input')!.parentElement!;
+      const order = Array.from(control.children).map((child) =>
+        child.tagName === 'INPUT' ? 'input' : child.textContent || child.querySelector('svg')?.dataset.testid,
+      );
+      expect(order).toEqual(['start', 'to:', 'input', '@acme.com', 'end']);
+    });
+
+    it('hides icons from assistive technologies', () => {
+      render(<Input label="Search" startIcon={<MagnifyingGlassIcon data-testid="icon" />} />);
+
+      expect(screen.getByTestId('icon').parentElement).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('announces the prefix and suffix with the helper text', () => {
+      render(<Input label="Price" prefix="$" suffix="USD" helperText="Tax included." />);
+
+      expect(screen.getByRole('textbox', { name: 'Price' })).toHaveAccessibleDescription(
+        '$ USD Tax included.',
+      );
+    });
+
+    it('focuses the input when an affix is clicked', async () => {
+      render(<Input label="Weight" suffix="kg" />);
+
+      await userEvent.click(screen.getByText('kg'));
+
+      expect(screen.getByRole('textbox')).toHaveFocus();
+    });
+
+    it('does not focus a disabled input when an affix is clicked', async () => {
+      render(<Input label="Weight" suffix="kg" disabled />);
+
+      await userEvent.click(screen.getByText('kg'));
+
+      expect(screen.getByRole('textbox')).not.toHaveFocus();
+    });
   });
 
   it('ignores className and style passed by untyped callers', () => {

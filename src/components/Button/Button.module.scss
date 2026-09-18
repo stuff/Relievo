@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '../../styles/controls' as *;
+@use '../../styles/icons';
 
 $flat: 0 0 transparent;
 
@@ -94,5 +95,10 @@ $flat: 0 0 transparent;
     &:active:not([data-disabled]) {
       --button-elevation: #{$flat};
     }
+  }
+
+  // Icons: 1.125em follows the size's font size (about 16px sm, 18px md, 20px lg)
+  .icon {
+    @include icons.icon-slot;
   }
 }

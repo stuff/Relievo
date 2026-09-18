@@ -1,3 +1,4 @@
+import { ArrowRightIcon, CaretDownIcon, DownloadSimpleIcon, PlusIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { LinkComponentProps } from '../../provider';
 import { UiKitProvider } from '../../provider';
@@ -70,6 +71,39 @@ export const Themes: Story = {
           </Button>
         </div>
       ))}
+    </div>
+  ),
+};
+
+export const WithIcons: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--ui-space-3)', alignItems: 'center' }}>
+      <Button {...args} startIcon={<PlusIcon />}>
+        Add
+      </Button>
+      <Button {...args} variant="secondary" endIcon={<ArrowRightIcon />}>
+        Continue
+      </Button>
+      <Button {...args} variant="secondary" startIcon={<DownloadSimpleIcon />} endIcon={<CaretDownIcon />}>
+        Export
+      </Button>
+    </div>
+  ),
+};
+
+/** Icons follow the button size. */
+export const IconSizes: Story = {
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'center' }}>
+      <Button {...args} size="sm" startIcon={<PlusIcon />}>
+        Small
+      </Button>
+      <Button {...args} size="md" startIcon={<PlusIcon />}>
+        Medium
+      </Button>
+      <Button {...args} size="lg" startIcon={<PlusIcon />}>
+        Large
+      </Button>
     </div>
   ),
 };

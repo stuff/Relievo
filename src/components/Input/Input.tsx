@@ -1,12 +1,21 @@
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, MouseEvent, ReactElement, ReactNode } from 'react';
 import { Field } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
+import { IconSlot } from '../../internal/IconSlot';
 import styles from './Input.module.scss';
 
 // Styling is owned by the design system: className, style and render are not part of the
 // public API. The input has a single size, so the native `size` attribute (width in characters)
-// is dropped too, and an <input> has no children. `error` replaces `aria-invalid`.
-type OmittedProps = 'className' | 'style' | 'render' | 'size' | 'children' | 'aria-invalid';
+// is dropped too, and an <input> has no children. `error` replaces `aria-invalid`, and our
+// `prefix` replaces the rarely used HTML attribute (an RDFa vocabulary prefix).
+type OmittedProps =
+  | 'className'
+  | 'style'
+  | 'render'
+  | 'size'
+  | 'children'
+  | 'aria-invalid'
+  | 'prefix';
 
 export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, OmittedProps> {
   /**
@@ -33,6 +42,26 @@ export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, Omitt
    * @default false
    */
   hideLabel?: boolean;
+  /**
+   * Icon at the start of the field, such as `<MagnifyingGlassIcon />` from `@phosphor-icons/react`.
+   * The input sets its size and color; the icon is decorative (hidden from screen readers).
+   */
+  startIcon?: ReactElement;
+  /**
+   * Icon at the end of the field. Sized and colored like `startIcon`. Decorative only: not
+   * a button.
+   */
+  endIcon?: ReactElement;
+  /**
+   * Text before the value, such as a currency (`$`) or a protocol (`https://`). Announced to
+   * screen readers as part of the input description.
+   */
+  prefix?: string;
+  /**
+   * Text after the value, such as a unit (`€`, `kg`) or a domain (`.com`). Announced to
+   * screen readers as part of the input description.
+   */
+  suffix?: string;
   /**
    * Text below the input: a hint on the expected format, or the error message when `error` is
    * set. Linked to the input with `aria-describedby`, so screen readers announce it.
@@ -61,6 +90,9 @@ export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, Omitt
  * A single-line text field with its label and an optional helper text. Set `error` to show the
  * error state. Other props (`name`, `placeholder`, `ref`, …) go to the `<input>`.
  *
+ * Icons and text can sit on both sides of the value, in this order:
+ * `startIcon`, `prefix`, value, `suffix`, `endIcon`.
+ *
  * Works uncontrolled or controlled:
  * - **Uncontrolled**: `<Input label="Name" defaultValue="Jane" />`. The input keeps its own value.
  *   Read it on submit (`FormData`, `name`) or follow edits with `onValueChange`.
@@ -70,6 +102,10 @@ export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, Omitt
 export function Input({
   label,
   hideLabel = false,
+  startIcon,
+  endIcon,
+  prefix,
+  suffix,
   helperText,
   error = false,
   type = 'text',
@@ -83,16 +119,42 @@ export function Input({
       <Field.Label className={styles.label} data-hidden={hideLabel ? '' : undefined}>
         {label}
       </Field.Label>
-      <BaseInput
-        {...props}
-        type={type}
-        disabled={disabled}
-        className={styles.input}
-        style={undefined}
-      />
+      {/* The pill: icons and affixes sit inside it, around the borderless <input>. */}
+      <div className={styles.control} onMouseDown={focusInput}>
+        <IconSlot icon={startIcon} className={styles.icon} />
+        {prefix != null && <Affix>{prefix}</Affix>}
+        <BaseInput
+          {...props}
+          type={type}
+          disabled={disabled}
+          className={styles.input}
+          style={undefined}
+        />
+        {suffix != null && <Affix>{suffix}</Affix>}
+        <IconSlot icon={endIcon} className={styles.icon} />
+      </div>
       {helperText != null && (
         <Field.Description className={styles.helperText}>{helperText}</Field.Description>
       )}
     </Field.Root>
   );
+}
+
+// A Field description: Base UI adds it to the input's aria-describedby, next to helperText.
+function Affix({ children }: { children: string }) {
+  return (
+    <Field.Description render={<span />} className={styles.affix}>
+      {children}
+    </Field.Description>
+  );
+}
+
+// Clicking an icon, an affix or the padding focuses the input, as if the pill were the input.
+function focusInput(event: MouseEvent<HTMLDivElement>) {
+  const input = event.currentTarget.querySelector('input');
+  if (!input || event.target === input || input.disabled) {
+    return;
+  }
+  event.preventDefault();
+  input.focus();
 }

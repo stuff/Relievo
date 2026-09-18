@@ -13,7 +13,12 @@ export default defineConfig({
       cssFileName: 'styles',
     },
     rolldownOptions: {
-      external: [/^react($|\/)/, /^react-dom($|\/)/, /^@base-ui\/react($|\/)/],
+      external: [
+        /^react($|\/)/,
+        /^react-dom($|\/)/,
+        /^@base-ui\/react($|\/)/,
+        /^@phosphor-icons\/react($|\/)/,
+      ],
       // The kit relies on context and hooks: mark the bundle as a client module for RSC frameworks.
       output: { banner: "'use client';" },
     },

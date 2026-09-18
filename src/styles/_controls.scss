@@ -1,0 +1,18 @@
+// Shared by interactive controls (Button, Input, …) so they line up in a row.
+$control-sizes: (
+  sm: (
+    height: 2rem,
+    padding: var(--ui-space-3),
+    font-size: var(--ui-font-size-sm),
+  ),
+  md: (
+    height: 2.5rem,
+    padding: var(--ui-space-4),
+    font-size: var(--ui-font-size-md),
+  ),
+  lg: (
+    height: 3rem,
+    padding: var(--ui-space-6),
+    font-size: var(--ui-font-size-lg),
+  ),
+);

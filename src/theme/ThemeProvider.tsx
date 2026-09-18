@@ -3,10 +3,10 @@ import {
   use,
   useLayoutEffect,
   useMemo,
-  useState,
   useSyncExternalStore,
   type ReactNode,
 } from 'react';
+import { useControllableState } from '../utils/useControllableState';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 export type ResolvedThemeMode = 'light' | 'dark';
@@ -21,10 +21,18 @@ export interface ThemeContextValue {
 
 export interface ThemeProviderProps {
   /**
-   * Initial theme mode. `system` follows the OS preference.
+   * Theme mode, when controlled. Use with `onModeChange`, for example to persist the choice.
+   */
+  mode?: ThemeMode;
+  /**
+   * Initial theme mode, when uncontrolled. `system` follows the OS preference.
    * @default 'system'
    */
   defaultMode?: ThemeMode;
+  /**
+   * Called when `setMode` requests a new mode, in both controlled and uncontrolled use.
+   */
+  onModeChange?: (mode: ThemeMode) => void;
   children?: ReactNode;
 }
 
@@ -45,9 +53,25 @@ const getServerPrefersDark = () => false;
  * Applies the theme by setting `data-theme` on `<html>`, so portalled content (popups, dialogs)
  * is themed too. In `system` mode the attribute is removed and the CSS follows the OS preference.
  * Render a single ThemeProvider at the app root; use a `data-theme` attribute to theme a section.
+ *
+ * Works uncontrolled or controlled:
+ * - **Uncontrolled**: `<ThemeProvider defaultMode="system">`. The provider keeps the mode;
+ *   `setMode` from `useTheme()` changes it.
+ * - **Controlled**: `<ThemeProvider mode={mode} onModeChange={setMode}>`. Your state is the source
+ *   of truth, for example to persist the choice: `setMode` only reports the requested mode.
  */
-export function ThemeProvider({ defaultMode = 'system', children }: ThemeProviderProps) {
-  const [mode, setMode] = useState<ThemeMode>(defaultMode);
+export function ThemeProvider({
+  mode: modeProp,
+  defaultMode = 'system',
+  onModeChange,
+  children,
+}: ThemeProviderProps) {
+  const [mode, setMode] = useControllableState({
+    value: modeProp,
+    defaultValue: defaultMode,
+    onChange: onModeChange,
+    name: 'ThemeProvider mode',
+  });
   const systemPrefersDark = useSyncExternalStore(
     subscribeToSystemScheme,
     getSystemPrefersDark,

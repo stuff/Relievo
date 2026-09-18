@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../components/Button';
 import { ThemeProvider, useTheme, type ThemeMode } from './ThemeProvider';
@@ -37,6 +38,8 @@ const meta = {
   },
   argTypes: {
     defaultMode: { control: 'inline-radio', options: modes },
+    // The story is uncontrolled: it demonstrates defaultMode and the switcher.
+    mode: { control: false },
     children: { control: false },
   },
   args: {
@@ -53,4 +56,30 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {};
+/** The provider keeps the mode, starting from `defaultMode`. */
+export const Uncontrolled: Story = {};
+
+/** The parent owns the mode: here it also logs every requested change. */
+export const Controlled: Story = {
+  render: function Render() {
+    const [mode, setMode] = useState<ThemeMode>('light');
+    const [log, setLog] = useState<ThemeMode[]>([]);
+
+    return (
+      <ThemeProvider
+        mode={mode}
+        onModeChange={(next) => {
+          setLog((entries) => [...entries, next]);
+          setMode(next);
+        }}
+      >
+        <div style={{ display: 'grid', gap: 'var(--ui-space-3)', fontFamily: 'var(--ui-font-family)' }}>
+          <ThemeSwitcher />
+          <span>
+            onModeChange: <code>{log.join(' → ') || '—'}</code>
+          </span>
+        </div>
+      </ThemeProvider>
+    );
+  },
+};

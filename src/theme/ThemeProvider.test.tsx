@@ -1,6 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { useState } from 'react';
+import { describe, expect, it, vi } from 'vitest';
 import { setSystemPrefersDark } from '../test/matchMedia';
 import { ThemeProvider, useTheme, type ThemeMode } from './ThemeProvider';
 
@@ -77,6 +78,52 @@ describe('ThemeProvider', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'system' }));
     expect(root).not.toHaveAttribute('data-theme');
+  });
+
+  it('reports mode changes when uncontrolled', async () => {
+    const onModeChange = vi.fn();
+    render(
+      <ThemeProvider onModeChange={onModeChange}>
+        <ThemeProbe />
+      </ThemeProvider>,
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'dark' }));
+
+    expect(onModeChange).toHaveBeenCalledWith('dark');
+    expect(root).toHaveAttribute('data-theme', 'dark');
+  });
+
+  it('renders the mode prop when controlled, and only reports setMode', async () => {
+    const onModeChange = vi.fn();
+    render(
+      <ThemeProvider mode="light" onModeChange={onModeChange}>
+        <ThemeProbe />
+      </ThemeProvider>,
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'dark' }));
+
+    expect(onModeChange).toHaveBeenCalledWith('dark');
+    expect(screen.getByLabelText('mode')).toHaveTextContent('light');
+    expect(root).toHaveAttribute('data-theme', 'light');
+  });
+
+  it('follows the mode prop when the parent updates it', async () => {
+    function ControlledTheme() {
+      const [mode, setMode] = useState<ThemeMode>('light');
+      return (
+        <ThemeProvider mode={mode} onModeChange={setMode}>
+          <ThemeProbe />
+        </ThemeProvider>
+      );
+    }
+    render(<ControlledTheme />);
+
+    await userEvent.click(screen.getByRole('button', { name: 'dark' }));
+
+    expect(screen.getByLabelText('mode')).toHaveTextContent('dark');
+    expect(root).toHaveAttribute('data-theme', 'dark');
   });
 
   it('restores the previous data-theme on unmount', () => {

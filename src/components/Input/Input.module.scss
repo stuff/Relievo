@@ -1,0 +1,106 @@
+@use 'sass:map';
+@use '../../styles/a11y';
+@use '../../styles/controls' as *;
+
+// Single size: the medium control size, so the input lines up with a default Button.
+$size: map.get($control-sizes, md);
+
+.field {
+  // Positioning context for the visually hidden label
+  position: relative;
+  display: grid;
+  gap: var(--ui-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.label {
+  // Aligned with the input text, inside the pill's rounded end
+  padding-inline-start: map.get($size, padding);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-size: var(--ui-font-size-sm);
+  font-weight: var(--ui-font-weight-medium);
+  line-height: 1.2;
+  transition: color 150ms ease;
+
+  &[data-focused] {
+    color: var(--ui-color-primary-text);
+  }
+
+  // After data-focused: an invalid field stays red while focused
+  &[data-invalid] {
+    color: var(--ui-color-danger);
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+  }
+
+  &[data-hidden] {
+    @include a11y.visually-hidden;
+  }
+}
+
+.helperText {
+  margin: 0;
+  // Aligned with the label and the input text
+  padding-inline-start: map.get($size, padding);
+  // Slightly lighter than the label, still 5.6:1 in light and 6:1+ in dark
+  color: color-mix(in oklab, var(--ui-color-text), transparent 10%);
+  font-family: var(--ui-font-family);
+  font-size: var(--ui-font-size-sm);
+  line-height: 1.3;
+
+  &[data-invalid] {
+    color: var(--ui-color-danger);
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+  }
+}
+
+.input {
+  inline-size: 100%;
+  height: map.get($size, height);
+  padding-inline: map.get($size, padding);
+  font-size: map.get($size, font-size);
+  min-inline-size: 0;
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-full);
+  // background: var(--ui-color-surface);
+  background: color-mix(in oklab, var(--ui-color-surface), white 5%);
+  color: var(--ui-color-text);
+  // box-shadow: var(--ui-shadow-inset);
+  font-family: var(--ui-font-family);
+  line-height: 1;
+  transition: outline-color 150ms ease;
+
+  // Native clear button and decoration of type="search" (Chromium, Safari): unstyleable and
+  // absent from Firefox, so hidden for a consistent field. Escape still clears the value.
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    appearance: none;
+  }
+
+  &::placeholder {
+    color: color-mix(in oklab, var(--ui-color-text), transparent 45%);
+  }
+
+  // Text fields show the ring on any focus, not only keyboard focus: the caret alone is easy to miss.
+  &:focus {
+    outline: 2px solid var(--ui-color-focus-ring);
+    outline-offset: -1px;
+  }
+
+  // Same ring as focus, in red. After :focus: an invalid field stays red while focused.
+  &[data-invalid] {
+    outline: 2px solid var(--ui-color-danger);
+    outline-offset: -1px;
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+  }
+}

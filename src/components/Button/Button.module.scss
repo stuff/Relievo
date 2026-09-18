@@ -1,22 +1,5 @@
 @use 'sass:map';
-
-$sizes: (
-  sm: (
-    height: 2rem,
-    padding: var(--ui-space-3),
-    font-size: var(--ui-font-size-sm),
-  ),
-  md: (
-    height: 2.5rem,
-    padding: var(--ui-space-4),
-    font-size: var(--ui-font-size-md),
-  ),
-  lg: (
-    height: 3rem,
-    padding: var(--ui-space-6),
-    font-size: var(--ui-font-size-lg),
-  ),
-);
+@use '../../styles/controls' as *;
 
 $flat: 0 0 transparent;
 
@@ -60,7 +43,7 @@ $flat: 0 0 transparent;
   }
 
   // Sizes
-  @each $size, $values in $sizes {
+  @each $size, $values in $control-sizes {
     &[data-size='#{$size}'] {
       height: map.get($values, height);
       padding-inline: map.get($values, padding);

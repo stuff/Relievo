@@ -73,6 +73,22 @@ import { ThemeProvider } from 'my-ui-kit';
 </ThemeProvider>;
 ```
 
+To own the mode yourself (to persist it, for example), control it with `mode` and `onModeChange`:
+
+```tsx
+const [mode, setMode] = useState<ThemeMode>(() => (localStorage.getItem('theme') as ThemeMode) ?? 'system');
+
+<ThemeProvider
+  mode={mode}
+  onModeChange={(next) => {
+    localStorage.setItem('theme', next);
+    setMode(next);
+  }}
+>
+  <App />
+</ThemeProvider>;
+```
+
 Read or change the mode anywhere inside it with `useTheme()`:
 
 ```tsx

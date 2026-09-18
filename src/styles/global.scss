@@ -1,0 +1,20 @@
+:where(*, *::before, *::after) {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--ui-font-size-root);
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+:where(body) {
+  font-size: inherit;
+  font-family: var(--ui-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--ui-color-background);
+  color: var(--ui-color-text);
+}

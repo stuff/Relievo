@@ -1,0 +1,85 @@
+# my-ui-kit
+
+A React design system built on [Base UI](https://base-ui.com/), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
+
+## Scripts
+
+| Command                | Description                                   |
+| ---------------------- | --------------------------------------------- |
+| `pnpm storybook`       | Start Storybook at http://localhost:6006      |
+| `pnpm build-storybook` | Build a static Storybook to `storybook-static` |
+| `pnpm build`           | Build the library to `dist/` (ESM + types + CSS) |
+| `pnpm typecheck`       | Type-check the project                        |
+
+## Structure
+
+```
+src/
+  index.ts              # public entry
+  styles/tokens.scss    # design tokens (--ui-*), light/dark palettes as Sass maps
+  styles/global.scss    # global element styles (html font size, scroll behavior)
+  theme/                # ThemeProvider and useTheme
+  components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, index
+```
+
+## Usage
+
+```tsx
+import { Button } from 'my-ui-kit';
+import 'my-ui-kit/styles.css';
+
+<Button variant="primary" size="md">Save</Button>;
+```
+
+## Styling rules
+
+Components do not accept `className`, `style` or Base UI's `render` prop: their look is owned by the design system and changed through variants, sizes and tokens only. Use `href` to render a `Button` as a link.
+
+## Router links
+
+Components that take an `href` render a native `<a>` by default. To use your router's link, pass it once to `UiKitProvider` at the app root. It must forward its props, including `className`, to the rendered `<a>`.
+
+```tsx
+// Next.js (App Router): app/providers.tsx
+'use client';
+import Link from 'next/link';
+import { UiKitProvider } from 'my-ui-kit';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <UiKitProvider linkComponent={Link}>{children}</UiKitProvider>;
+}
+```
+
+For routers whose link takes another prop than `href` (React Router's `to`), pass a small adapter:
+
+```tsx
+const RouterLink = ({ href, ...props }: LinkComponentProps) => <Link to={href} {...props} />;
+```
+
+The bundle is marked `'use client'`, so the components can be imported from Server Components.
+
+## Theming (light / dark)
+
+Wrap your app in `ThemeProvider`. `defaultMode` is `"system"` (follow the OS preference, the default), `"light"` or `"dark"`:
+
+```tsx
+import { ThemeProvider } from 'my-ui-kit';
+
+<ThemeProvider defaultMode="system">
+  <App />
+</ThemeProvider>;
+```
+
+Read or change the mode anywhere inside it with `useTheme()`:
+
+```tsx
+const { mode, resolvedMode, setMode } = useTheme();
+```
+
+The provider sets `data-theme` on `<html>`, so portalled popups are themed too. In `system` mode it removes the attribute and the CSS follows `prefers-color-scheme`. Render a single provider at the app root. To force a theme for one section, set the attribute directly:
+
+```html
+<section data-theme="dark">Always dark here</section>
+```
+
+In Storybook, switch modes from the toolbar.

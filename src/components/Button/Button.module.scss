@@ -1,0 +1,115 @@
+@use 'sass:map';
+
+$sizes: (
+  sm: (
+    height: 2rem,
+    padding: var(--ui-space-3),
+    font-size: var(--ui-font-size-sm),
+  ),
+  md: (
+    height: 2.5rem,
+    padding: var(--ui-space-4),
+    font-size: var(--ui-font-size-md),
+  ),
+  lg: (
+    height: 3rem,
+    padding: var(--ui-space-6),
+    font-size: var(--ui-font-size-lg),
+  ),
+);
+
+$flat: 0 0 transparent;
+
+.button {
+  // Variants and states override these
+  --button-bg: var(--ui-color-surface);
+  --button-fg: var(--ui-color-text);
+  --button-elevation: var(--ui-shadow-raised);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ui-space-2);
+  border: none;
+  border-radius: var(--ui-radius-full);
+  background: var(--button-bg);
+  color: var(--button-fg);
+  box-shadow: var(--button-elevation);
+  font-family: var(--ui-font-family);
+  font-weight: var(--ui-font-weight-medium);
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: box-shadow 150ms ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--ui-color-focus-ring);
+    outline-offset: 3px;
+  }
+
+  &:active:not([data-disabled]) {
+    --button-elevation: var(--ui-shadow-pressed);
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  // Sizes
+  @each $size, $values in $sizes {
+    &[data-size='#{$size}'] {
+      height: map.get($values, height);
+      padding-inline: map.get($values, padding);
+      font-size: map.get($values, font-size);
+    }
+  }
+
+  // Variants
+  &[data-variant='primary'] {
+    --button-bg: linear-gradient(
+      var(--ui-color-primary-top) 0% 5%,
+      var(--ui-color-primary-bottom) 95% 100%
+    );
+    --button-fg: var(--ui-color-on-primary);
+
+    &:hover:not([data-disabled]) {
+      --button-bg: linear-gradient(
+        var(--ui-color-primary-top-hover) 0% 5%,
+        var(--ui-color-primary-bottom-hover) 95% 100%
+      );
+    }
+  }
+
+  &[data-variant='secondary'] {
+    --button-bg: linear-gradient(
+      var(--ui-color-sheen-top) 0% 25%,
+      var(--ui-color-sheen-bottom) 95% 100%
+    );
+
+    &:hover:not([data-disabled]) {
+      --button-bg: linear-gradient(
+        var(--ui-color-sheen-top-hover) 0% 25%,
+        var(--ui-color-sheen-bottom-hover) 95% 100%
+      );
+    }
+  }
+
+  &[data-variant='link'] {
+    --button-bg: none;
+    --button-elevation: #{$flat};
+
+    &:hover:not([data-disabled]) {
+      --button-bg: var(--ui-color-surface-hover);
+      --button-elevation: #{$flat};
+      text-decoration: underline;
+    }
+
+    &:active:not([data-disabled]) {
+      --button-elevation: #{$flat};
+    }
+  }
+}

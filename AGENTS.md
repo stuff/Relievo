@@ -6,9 +6,16 @@ React design system built on Base UI. See README.md for usage and project struct
 
 - `pnpm typecheck`: type-check `src`, `.storybook` and configs
 - `pnpm build`: library build to `dist/` (ESM, types, `styles.css`)
+- `pnpm test`: unit tests (Vitest + Testing Library, jsdom); `pnpm test:watch` in watch mode
 - `pnpm storybook`: dev Storybook on port 6006
 
-Run `pnpm typecheck` and `pnpm build` after every change. There are no tests yet.
+Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
+
+## Tests
+
+- Each component has a `<Name>.test.tsx` next to it. Test behaviour through the DOM the way a user sees it: query by role and accessible name, interact with `userEvent`, avoid asserting on CSS module class names.
+- Every styling lock (`className`, `style`) and every accessibility contract (roles, `aria-disabled`, focus) gets a test.
+- `src/test/setup.ts` cleans up after each test, including `data-theme` on `<html>`. jsdom has no `matchMedia`: `src/test/matchMedia.ts` mocks it, and `setSystemPrefersDark()` simulates an OS theme change.
 
 ## Component rules
 
@@ -16,7 +23,7 @@ Run `pnpm typecheck` and `pnpm build` after every change. There are no tests yet
 - **Alternate elements get dedicated props**, not `render`. For example, `Button` takes `href`.
 - **Links use the app's router link** from `useLinkComponent()` (configured with `UiKitProvider`), never a hardcoded `<a>`. Exception: a disabled link is a native `<a>` without `href`, with `role="link"` and `aria-disabled`. Do not render links through Base UI Button: it adds `role="button"`.
 - **Variants and sizes are `data-variant` / `data-size` attributes**, styled in the component's `*.module.scss`. State selectors use Base UI's data attributes (`[data-disabled]`, …).
-- Each component lives in `src/components/<Name>/` with `<Name>.tsx`, `<Name>.module.scss`, `<Name>.stories.tsx` and an `index.ts`, and is re-exported from `src/index.ts`.
+- Each component lives in `src/components/<Name>/` with `<Name>.tsx`, `<Name>.module.scss`, `<Name>.stories.tsx`, `<Name>.test.tsx` and an `index.ts`, and is re-exported from `src/index.ts`.
 
 ## Tokens and theming
 

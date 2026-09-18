@@ -10,6 +10,8 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `pnpm build-storybook` | Build a static Storybook to `storybook-static` |
 | `pnpm build`           | Build the library to `dist/` (ESM + types + CSS) |
 | `pnpm typecheck`       | Type-check the project                        |
+| `pnpm test`            | Run the unit tests (Vitest + Testing Library) |
+| `pnpm test:watch`      | Run the unit tests in watch mode              |
 
 ## Structure
 
@@ -19,7 +21,8 @@ src/
   styles/tokens.scss    # design tokens (--ui-*), light/dark palettes as Sass maps
   styles/global.scss    # global element styles (html font size, scroll behavior)
   theme/                # ThemeProvider and useTheme
-  components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, index
+  components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, tests, index
+  test/                 # test setup and mocks
 ```
 
 ## Usage

@@ -1,6 +1,6 @@
 # AGENTS.md
 
-React design system built on Base UI. See README.md for usage and project structure.
+React design system built on Base UI. See README.md for usage, the component list and the project structure, and `docs/backlog.md` for what is planned next.
 
 ## Commands
 
@@ -47,7 +47,7 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
 
 - The kit's typeface is Geist (`@fontsource-variable/geist`, OFL, variable: one file for every weight). `src/index.ts` imports it and it stays external to the bundle, so the app's bundler serves the font files. Storybook imports it in `.storybook/preview.tsx`.
 - Every metric-sensitive choice (heights, `text-box` trimming, optical offsets) is measured with Geist. Do not tune centering for system fonts: they only show while Geist loads.
-- Labels in pills (Button, Chip) are trimmed to their capitals with the `trim-text` mixin (`src/styles/_typography.scss`), on a wrapper element: `text-box` does not reach text placed directly in a flex container. An `<input>` value cannot be trimmed: the Input pill offsets its content by whole pixels instead (half pixels move the affixes but not the value).
+- Labels in pills (Button, Chip, Segmented items) are trimmed to their capitals with the `trim-text` mixin (`src/styles/_typography.scss`), on a wrapper element: `text-box` does not reach text placed directly in a flex container. An `<input>` value cannot be trimmed: the Input pill offsets its content by whole pixels instead (half pixels move the affixes but not the value).
 
 ## Relief
 
@@ -83,9 +83,18 @@ Components never contain a color literal: only `--ui-*` tokens. Adding a hardcod
 
 ## Build
 
-- `react`, `react-dom` and `@base-ui/react` are external to the bundle.
+- `react`, `react-dom`, `@base-ui/react`, `@phosphor-icons/react` and `@fontsource-variable/geist` are external to the bundle (`vite.config.ts`). React and Phosphor are peerDependencies; Base UI and Geist are dependencies.
 - The bundle starts with `'use client'` (a Rolldown banner in `vite.config.ts`). Do not add the directive to source files.
 
-## Naming
+## Naming and repository
 
-"UiKit" / `my-ui-kit` is a placeholder name. Keep using it until the user picks a real name.
+- The kit's name is **Relievo** (chosen by the maintainer). The code still uses the placeholder names ("UiKit", `my-ui-kit`, `UiKitProvider`, the `--ui-` token prefix): the rename is planned but **do not rename until the maintainer asks**. It will touch the package name, `UiKitProvider`, README, AGENTS.md and maybe the token prefix.
+- Repository: `git@github.com:stuff/Relievo.git` (remote `origin`, branch `main`). Private for now, to be open-sourced later; the history may be rewritten before going public (undecided). Before any public release, remind the maintainer that commits carry their email and `Co-Authored-By` lines.
+
+## Working with the maintainer
+
+- The maintainer talks in French; code, comments, docs and commit messages are in English.
+- Propose before building when a choice is a design decision: give options with a recommendation, then wait. The maintainer makes the visual calls.
+- Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup.
+- **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Recipe: `pnpm build-storybook -o <dir>`, serve it (`python3 -m http.server 6199 -d <dir>`), then `google-chrome --headless=new --no-sandbox --hide-scrollbars --force-device-scale-factor=2 --window-size=W,H --virtual-time-budget=10000 --screenshot=out.png "http://localhost:6199/iframe.html?id=<story-id>&viewMode=story&globals=theme:light"` (`theme:dark` for dark; use a window of at least 300px high or the capture is cut). Check selection states in grayscale too.
+- **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, tests and build before committing.

@@ -2,6 +2,8 @@
 
 A React design system built on [Base UI](https://base-ui.com/), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
 
+> Working name: the kit will be renamed **Relievo**; the code still uses `my-ui-kit` for now.
+
 ## Scripts
 
 | Command                | Description                                   |
@@ -13,19 +15,42 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `pnpm test`            | Run the unit tests (Vitest + Testing Library) |
 | `pnpm test:watch`      | Run the unit tests in watch mode              |
 
+## Components
+
+| Component | Purpose |
+| --- | --- |
+| `Button` | Actions; `href` renders it as a link; `startIcon` / `endIcon` |
+| `Input` | Single-line text field with label, helper text, error, icons, prefix / suffix |
+| `Chip` | Tags and statuses (static), or selectable toggles |
+| `Chip.Group` | Filters: several choices among chips |
+| `Segmented` | A single choice among a few short options (radio group) |
+| `ThemeProvider`, `useTheme` | Light / dark / system mode |
+| `UiKitProvider` | App-level configuration (router link component) |
+
 ## Structure
 
 ```
 src/
   index.ts              # public entry
-  styles/tokens.scss    # design tokens (--ui-*), light/dark palettes as Sass maps
-  styles/global.scss    # global element styles (html font size, scroll behavior)
-  theme/                # ThemeProvider and useTheme
   components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, tests, index
+  theme/                # ThemeProvider and useTheme
+  provider/             # UiKitProvider (router link)
+  internal/             # shared internals (IconSlot)
+  utils/                # useControllableState
+  styles/tokens.scss    # design tokens (--ui-*), light/dark palettes, relief tokens
+  styles/_*.scss        # shared Sass mixins (control sizes, icons, typography, a11y)
+  styles/global.scss    # global element styles (html font size, body colors, scroll behavior)
+  overview/             # a story using every component together
   test/                 # test setup and mocks
+docs/
+  theming.md            # plan for app-chosen colors
+  backlog.md            # planned work and open points
 ```
 
 ## Usage
+
+Install the kit with its peer dependencies: `react`, `react-dom` and `@phosphor-icons/react` (the
+icon set used by the components and recommended for yours).
 
 ```tsx
 import { Button } from 'my-ui-kit';

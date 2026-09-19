@@ -1,7 +1,7 @@
 // Icon slot: the design system sizes and colors the icon, whatever props it was given
 // (<PlusIcon size={40} color="red" /> still renders at the slot size, in the text color).
 // CSS beats SVG presentation attributes (width, height, fill, stroke).
-@mixin icon-slot($size: 1.125em) {
+@mixin icon-slot($size: 1.4em) {
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;

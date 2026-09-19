@@ -1,0 +1,143 @@
+@use 'sass:map';
+@use '../../styles/icons';
+
+$tones: neutral, primary, info, success, warning, danger;
+
+$sizes: (
+  xs: (
+    height: 1.25rem,
+    padding: var(--ui-space-2),
+    font-size: 0.6875rem,
+  ),
+  sm: (
+    height: 1.5rem,
+    padding: 0.625rem,
+    font-size: 0.75rem,
+  ),
+  md: (
+    height: 1.75rem,
+    padding: var(--ui-space-3),
+    font-size: 0.8125rem,
+  ),
+  lg: (
+    height: 2rem,
+    padding: 0.875rem,
+    font-size: var(--ui-font-size-sm),
+  ),
+);
+
+.chip {
+  // Tones set these; variants map them onto the chip
+  --chip-tint: var(--ui-color-neutral-tint);
+  --chip-text: var(--ui-color-neutral-text);
+  // Variants and states override these. Solid is a 20% tint of the tone over whatever is behind
+  // the chip; the tone text keeps 4.5:1 on it up to 32% (see tokens.scss).
+  --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 80%);
+  --chip-fg: var(--chip-text);
+  // A softer border than outline's full-strength one: the tint carries the shape
+  --chip-border: color-mix(in oklab, var(--chip-text), transparent 65%);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25em;
+  box-sizing: border-box;
+  margin: 0;
+  border: 1px solid var(--chip-border);
+  border-radius: var(--ui-radius-full);
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  font-family: var(--ui-font-family);
+  font-weight: var(--ui-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  vertical-align: middle;
+  transition: background-color 150ms ease;
+
+  @each $tone in $tones {
+    &[data-tone='#{$tone}'] {
+      --chip-tint: var(--ui-color-#{$tone}-tint);
+      --chip-text: var(--ui-color-#{$tone}-text);
+    }
+  }
+
+  &[data-variant='outline'] {
+    --chip-bg: transparent;
+    --chip-fg: var(--chip-text);
+    --chip-border: var(--chip-text);
+  }
+
+  @each $size, $values in $sizes {
+    &[data-size='#{$size}'] {
+      height: map.get($values, height);
+      padding-inline: map.get($values, padding);
+      font-size: map.get($values, font-size);
+    }
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+  }
+
+  // Selectable chips: flat, selection shown by the check mark (and a tint when outlined)
+  &[data-selectable] {
+    cursor: pointer;
+    user-select: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--ui-color-focus-ring);
+      outline-offset: 2px;
+    }
+
+    &:hover:not([data-disabled]) {
+      --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 74%);
+    }
+
+    &[data-pressed] {
+      --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 68%);
+    }
+
+    &[data-variant='outline']:hover:not([data-disabled]) {
+      --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 88%);
+    }
+
+    &[data-variant='outline'][data-pressed] {
+      --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 80%);
+    }
+
+    &[data-disabled] {
+      cursor: default;
+    }
+  }
+
+  // Centers the text on its capital letters instead of the full line box, whose extra space
+  // above makes the label look low. Ignored where unsupported (about 15% of browsers in 2026):
+  // the label then renders as before.
+  .label {
+    text-box: trim-both cap alphabetic;
+  }
+
+  .icon {
+    @include icons.icon-slot(1.15em);
+  }
+
+  // The check mark replaces the start icon while selected
+  .check {
+    display: none;
+  }
+
+  &[data-pressed] {
+    .check {
+      display: inline-flex;
+    }
+
+    .startIcon {
+      display: none;
+    }
+  }
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ui-space-2);
+}

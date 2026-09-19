@@ -31,7 +31,7 @@ $size: map.get($control-sizes, md);
 
   // After data-focused: an invalid field stays red while focused
   &[data-invalid] {
-    color: var(--ui-color-danger);
+    color: var(--ui-color-danger-text);
   }
 
   &[data-disabled] {
@@ -54,7 +54,7 @@ $size: map.get($control-sizes, md);
   line-height: 1.3;
 
   &[data-invalid] {
-    color: var(--ui-color-danger);
+    color: var(--ui-color-danger-text);
   }
 
   &[data-disabled] {
@@ -86,7 +86,7 @@ $size: map.get($control-sizes, md);
 
   // Same ring as focus, in red. After :focus-within: an invalid field stays red while focused.
   .field[data-invalid] & {
-    outline: 2px solid var(--ui-color-danger);
+    outline: 2px solid var(--ui-color-danger-text);
     outline-offset: -1px;
   }
 

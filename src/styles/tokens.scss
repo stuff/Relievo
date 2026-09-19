@@ -9,15 +9,28 @@
 $light-palette: (
   primary: #45824d,
   on-primary: #ffffffe8,
-  // Primary as text on the background: darkened to reach 4.5:1 (5.1:1)
-  primary-text: color-mix(in oklab, var(--ui-color-primary), black 20%),
+  // Primary as text on the background, and on its tint (chips)
+  primary-text: color-mix(in oklab, var(--ui-color-primary), black 35%),
   background: #dad6c3,
   surface: #f3f0e4,
   surface-hover: rgba(0, 0, 0, 0.15),
   text: rgba(0, 0, 0, 0.7),
   border: color-mix(in oklab, var(--ui-color-background), black 12%),
   focus-ring: var(--ui-color-primary),
-  danger: #ad231b, // 4.7:1 on the background
+  // Tones: <tone>-tint is a vivid color for tinted backgrounds, always used transparent (20–32%).
+  // <tone>-text is the tone as text or border: 4.5:1 on the background, the surface, and over
+  // its tint up to 32% on either.
+  primary-tint: var(--ui-color-primary),
+  neutral-tint: #8a8272,
+  info-tint: #2b6fd6,
+  success-tint: #2e9a5a,
+  warning-tint: #e0a000,
+  danger-tint: #d93a2f,
+  neutral-text: #423e35,
+  info-text: #123e72,
+  success-text: #0f4627,
+  warning-text: #573700,
+  danger-text: #75140f,
   // Neumorphic light source, derived from the background
   shadow: color-mix(in oklab, var(--ui-color-background), black 60%),
   shadow-pressed: color-mix(in oklab, var(--ui-color-background), black 90%),
@@ -32,8 +45,9 @@ $light-palette: (
 $dark-palette: (
   primary: #305836,
   on-primary: rgba(255, 255, 255, 0.8),
-  // Primary as text on the background: lightened to reach 4.5:1 (5.9:1)
-  primary-text: color-mix(in oklab, var(--ui-color-primary), white 40%),
+  // Primary as text on the background, and on its tint (chips). A saturated green: lightening
+  // the dull primary with white would turn it gray.
+  primary-text: #9ccfa3,
   background: rgb(23, 19, 19),
   surface: rgb(35, 28, 28),
   surface-hover: rgba(255, 255, 255, 0.05),
@@ -42,7 +56,18 @@ $dark-palette: (
   border: rgba(255, 255, 255, 0.2),
   // Lightened so the ring stays visible against the dark background
   focus-ring: color-mix(in oklab, var(--ui-color-primary), white 35%),
-  danger: #f2b8b5,
+  // Tones: see the light palette. The primary tint is brighter than the dull dark primary.
+  primary-tint: #5fae6a,
+  neutral-tint: #a8a097,
+  info-tint: #5b9cf0,
+  success-tint: #4fc07f,
+  warning-tint: #f0b429,
+  danger-tint: #f06b60,
+  neutral-text: #cfc8c0,
+  info-text: #9cc3f5,
+  success-text: #8fd6a8,
+  warning-text: #f2c261,
+  danger-text: #f2b8b5,
   // Neumorphic light source, derived from the background
   shadow: black,
   shadow-pressed: black,

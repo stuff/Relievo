@@ -7,16 +7,16 @@ $line-height: 1.5;
 .field {
   display: grid;
   justify-items: start;
-  gap: var(--ui-space-1);
+  gap: var(--rv-space-1);
 }
 
 .checkbox {
   display: inline-flex;
   align-items: flex-start;
-  gap: var(--ui-space-2);
-  color: var(--ui-color-text);
-  font-family: var(--ui-font-family);
-  font-size: var(--ui-font-size-md);
+  gap: var(--rv-space-2);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-size: var(--rv-font-size-md);
   line-height: $line-height;
   cursor: pointer;
   user-select: none;
@@ -41,17 +41,17 @@ $line-height: 1.5;
   block-size: $box-size;
   // Centered on the first line of the label, however many lines it wraps to
   margin-block-start: calc((#{$line-height}em - #{$box-size}) / 2);
-  border-radius: var(--ui-radius-md);
-  background-color: var(--ui-color-surface);
+  border-radius: var(--rv-radius-md);
+  background-color: var(--rv-color-surface);
   background-image: linear-gradient(
-    var(--ui-color-sheen-top) 0% 25%,
-    var(--ui-color-sheen-bottom) 95% 100%
+    var(--rv-color-sheen-top) 0% 25%,
+    var(--rv-color-sheen-bottom) 95% 100%
   );
-  box-shadow: var(--ui-shadow-raised-sm);
-  color: var(--ui-color-on-primary);
+  box-shadow: var(--rv-shadow-raised-sm);
+  color: var(--rv-color-on-primary);
   transition:
-    box-shadow var(--ui-duration-press) ease,
-    translate var(--ui-duration-press) ease;
+    box-shadow var(--rv-duration-press) ease,
+    translate var(--rv-duration-press) ease;
 
   // The primary fill, as a layer over the secondary one: a gradient cannot be transitioned, its
   // opacity can
@@ -61,28 +61,28 @@ $line-height: 1.5;
     inset: 0;
     border-radius: inherit;
     background-image: linear-gradient(
-      var(--ui-color-primary-top) 0% 5%,
-      var(--ui-color-primary-bottom) 95% 100%
+      var(--rv-color-primary-top) 0% 5%,
+      var(--rv-color-primary-bottom) 95% 100%
     );
     opacity: 0;
-    transition: opacity var(--ui-duration-state) ease;
+    transition: opacity var(--rv-duration-state) ease;
   }
 
   .checkbox:hover &:not([data-disabled], [data-checked], [data-indeterminate]) {
     background-image: linear-gradient(
-      var(--ui-color-sheen-top-hover) 0% 25%,
-      var(--ui-color-sheen-bottom-hover) 95% 100%
+      var(--rv-color-sheen-top-hover) 0% 25%,
+      var(--rv-color-sheen-bottom-hover) 95% 100%
     );
   }
 
   &:focus-visible {
-    outline: 2px solid var(--ui-color-focus-ring);
+    outline: 2px solid var(--rv-color-focus-ring);
     outline-offset: 2px;
   }
 
   &:active:not([data-disabled]) {
-    translate: 0 var(--ui-press-offset);
-    box-shadow: var(--ui-shadow-contact);
+    translate: 0 var(--rv-press-offset);
+    box-shadow: var(--rv-shadow-contact);
   }
 
   &[data-checked],
@@ -96,14 +96,14 @@ $line-height: 1.5;
   // brand color: the label and the helper text carry the error.
   &[data-invalid]:not([data-checked], [data-indeterminate]) {
     box-shadow:
-      var(--ui-shadow-raised-sm),
-      0 0 0 1.5px var(--ui-color-danger-text);
+      var(--rv-shadow-raised-sm),
+      0 0 0 1.5px var(--rv-color-danger-text);
   }
 
   // Disabled: it cannot be pressed, so it is flat. A light outline keeps the empty box visible
   // once faded on the background.
   &[data-disabled] {
-    box-shadow: inset 0 0 0 1px var(--ui-color-border);
+    box-shadow: inset 0 0 0 1px var(--rv-color-border);
   }
 }
 
@@ -114,8 +114,8 @@ $line-height: 1.5;
   // Pops in (scale with a small overshoot, and opacity); Base UI waits for the transition before
   // removing it
   transition:
-    opacity var(--ui-duration-state) ease,
-    scale calc(var(--ui-duration-state) + 40ms) var(--ui-easing-pop);
+    opacity var(--rv-duration-state) ease,
+    scale calc(var(--rv-duration-state) + 40ms) var(--rv-easing-pop);
 
   &[data-starting-style],
   &[data-ending-style] {
@@ -138,7 +138,7 @@ $line-height: 1.5;
 
 .label {
   &[data-invalid] {
-    color: var(--ui-color-danger-text);
+    color: var(--rv-color-danger-text);
   }
 
   &[data-hidden] {
@@ -149,14 +149,14 @@ $line-height: 1.5;
 .helperText {
   margin: 0;
   // Aligned with the label text, after the box
-  padding-inline-start: calc(#{$box-size} + var(--ui-space-2));
-  color: var(--ui-color-text-muted);
-  font-family: var(--ui-font-family);
-  font-size: var(--ui-font-size-sm);
+  padding-inline-start: calc(#{$box-size} + var(--rv-space-2));
+  color: var(--rv-color-text-muted);
+  font-family: var(--rv-font-family);
+  font-size: var(--rv-font-size-sm);
   line-height: 1.3;
 
   &[data-invalid] {
-    color: var(--ui-color-danger-text-muted);
+    color: var(--rv-color-danger-text-muted);
   }
 
   &[data-disabled] {

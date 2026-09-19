@@ -10,17 +10,17 @@ $light-palette: (
   primary: #45824d,
   on-primary: #ffffffe8,
   // Primary as text on the background, and on its tint (chips)
-  primary-text: color-mix(in oklab, var(--ui-color-primary), black 35%),
+  primary-text: color-mix(in oklab, var(--rv-color-primary), black 35%),
   background: #dad6c3,
   surface: #f3f0e4,
   surface-hover: rgba(0, 0, 0, 0.15),
   text: rgba(0, 0, 0, 0.7),
-  border: color-mix(in oklab, var(--ui-color-background), black 12%),
-  focus-ring: var(--ui-color-primary),
+  border: color-mix(in oklab, var(--rv-color-background), black 12%),
+  focus-ring: var(--rv-color-primary),
   // Tones: <tone>-tint is a vivid color for tinted backgrounds, always used transparent (20–32%).
   // <tone>-text is the tone as text or border: 4.5:1 on the background, the surface, and over
   // its tint up to 32% on either.
-  primary-tint: var(--ui-color-primary),
+  primary-tint: var(--rv-color-primary),
   neutral-tint: #8a8272,
   info-tint: #2b6fd6,
   success-tint: #2e9a5a,
@@ -32,10 +32,10 @@ $light-palette: (
   warning-text: #573700,
   danger-text: #75140f,
   // Relief light source, derived from the background
-  shadow: color-mix(in oklab, var(--ui-color-background), black 60%),
+  shadow: color-mix(in oklab, var(--rv-color-background), black 60%),
   highlight: white,
   // Text fields: near white, so they stand out from the surface as the place for a value
-  field: color-mix(in oklab, var(--ui-color-surface), white 75%),
+  field: color-mix(in oklab, var(--rv-color-surface), white 75%),
 );
 
 $dark-palette: (
@@ -48,10 +48,10 @@ $dark-palette: (
   surface: rgb(35, 28, 28),
   surface-hover: rgba(255, 255, 255, 0.05),
   text: #ffffff9f,
-  // border: color-mix(in oklab, var(--ui-color-background), white 12%),
+  // border: color-mix(in oklab, var(--rv-color-background), white 12%),
   border: rgba(255, 255, 255, 0.2),
   // Lightened so the ring stays visible against the dark background
-  focus-ring: color-mix(in oklab, var(--ui-color-primary), white 35%),
+  focus-ring: color-mix(in oklab, var(--rv-color-primary), white 35%),
   // Tones: see the light palette. The primary tint is brighter than the dull dark primary.
   primary-tint: #5fae6a,
   neutral-tint: #a8a097,
@@ -67,9 +67,9 @@ $dark-palette: (
   // Relief light source. Black shadows vanish on the dark background: the relief comes from the
   // highlight instead (see the dark shadows in the palette mixin)
   shadow: black,
-  highlight: color-mix(in oklab, var(--ui-color-background), white 30%),
+  highlight: color-mix(in oklab, var(--rv-color-background), white 30%),
   // Text fields: the page background, darker than the surface, so they sink below it
-  field: var(--ui-color-background),
+  field: var(--rv-color-background),
 );
 
 @each $name in map.keys($light-palette) {
@@ -82,104 +82,104 @@ $dark-palette: (
   color-scheme: $scheme;
 
   @each $name, $value in $colors {
-    --ui-color-#{$name}: #{$value};
+    --rv-color-#{$name}: #{$value};
   }
 
   // Relief tells what can be pressed (see AGENTS.md):
-  // - raised: buttons (--ui-shadow-raised) and selectable chips (--ui-shadow-raised-sm);
-  // - pressed: a pushed button (--ui-shadow-pressed) or a selected chip (--ui-shadow-pressed-sm);
-  // - carved: text fields (--ui-shadow-inset, --ui-field-depth);
-  // - floating: layers above the page, such as a select's list (--ui-shadow-floating);
+  // - raised: buttons (--rv-shadow-raised) and selectable chips (--rv-shadow-raised-sm);
+  // - pressed: a pushed button (--rv-shadow-pressed) or a selected chip (--rv-shadow-pressed-sm);
+  // - carved: text fields (--rv-shadow-inset, --rv-field-depth);
+  // - floating: layers above the page, such as a select's list (--rv-shadow-floating);
   // - flat: everything else, including static chips.
   // Values are redeclared with each palette so var() resolves against that scope's colors.
 
   // Primary button gradient (top / bottom stop): hover lightens
-  --ui-color-primary-top: color-mix(in oklab, var(--ui-color-primary), white 5%);
-  --ui-color-primary-bottom: color-mix(in oklab, var(--ui-color-primary), black 20%);
-  --ui-color-primary-top-hover: color-mix(in oklab, var(--ui-color-primary), white 12%);
-  --ui-color-primary-bottom-hover: color-mix(in oklab, var(--ui-color-primary), black 14%);
+  --rv-color-primary-top: color-mix(in oklab, var(--rv-color-primary), white 5%);
+  --rv-color-primary-bottom: color-mix(in oklab, var(--rv-color-primary), black 20%);
+  --rv-color-primary-top-hover: color-mix(in oklab, var(--rv-color-primary), white 12%);
+  --rv-color-primary-bottom-hover: color-mix(in oklab, var(--rv-color-primary), black 14%);
 
   // Secondary button gradient, over the surface
-  --ui-color-sheen-top: color-mix(in oklab, var(--ui-color-surface), white 15%);
-  --ui-color-sheen-bottom: color-mix(in oklab, var(--ui-color-surface), black 10%);
-  --ui-color-sheen-top-hover: color-mix(in oklab, var(--ui-color-surface), white 25%);
-  --ui-color-sheen-bottom-hover: color-mix(in oklab, var(--ui-color-surface), black 7%);
+  --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 15%);
+  --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 10%);
+  --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 25%);
+  --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 7%);
 
   // Secondary text: helper texts, descriptions. As muted as 4.5:1 allows, with some margin: 5:1 on
   // the light background (the worst case; 4.4:1 at 20%), 5.4:1 on the light surface, 5.6:1+ in dark
-  --ui-color-text-muted: color-mix(in oklab, var(--ui-color-text), transparent 15%);
+  --rv-color-text-muted: color-mix(in oklab, var(--rv-color-text), transparent 15%);
   // Error message under a field: muted like the helper text it replaces. 5.3:1 on the light
   // background (the worst case; 4.7:1 at 25%), 6.2:1 on the light surface, 6.7:1+ in dark
-  --ui-color-danger-text-muted: color-mix(in oklab, var(--ui-color-danger-text), transparent 20%);
+  --rv-color-danger-text-muted: color-mix(in oklab, var(--rv-color-danger-text), transparent 20%);
 
-  // Physical press: a small control pushed down to the page, 1px lower (--ui-press-offset) with a
+  // Physical press: a small control pushed down to the page, 1px lower (--rv-press-offset) with a
   // contact shadow only. Used where an inset shadow would eat too much of the control (Checkbox).
-  --ui-shadow-contact: 0 0 1px color-mix(in oklab, var(--ui-color-shadow), transparent 30%);
+  --rv-shadow-contact: 0 0 1px color-mix(in oklab, var(--rv-color-shadow), transparent 30%);
 
-  --ui-shadow-pressed: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 40%);
+  --rv-shadow-pressed: inset 1px 1px 2px color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
 
   @if $scheme == dark {
     // Dark: a strong highlight and a thin lit top edge carry the relief
     $lit-edge: inset 0 1px 0 color-mix(in oklab, white, transparent 88%);
 
-    --ui-shadow-raised: 1px 2px 3px var(--ui-color-shadow), -1px -1px 3px var(--ui-color-highlight),
+    --rv-shadow-raised: 1px 2px 3px var(--rv-color-shadow), -1px -1px 3px var(--rv-color-highlight),
       #{$lit-edge};
-    --ui-shadow-raised-sm: 1px 1px 2px var(--ui-color-shadow),
-      -1px -1px 2px var(--ui-color-highlight), #{$lit-edge};
-    --ui-shadow-pressed-sm: inset 1px 1px 3px var(--ui-color-shadow),
+    --rv-shadow-raised-sm: 1px 1px 2px var(--rv-color-shadow),
+      -1px -1px 2px var(--rv-color-highlight), #{$lit-edge};
+    --rv-shadow-pressed-sm: inset 1px 1px 3px var(--rv-color-shadow),
       inset -1px -1px 1px color-mix(in oklab, white, transparent 88%);
-    --ui-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 40%);
-    --ui-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 60%), transparent 15px);
+    --rv-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
+    --rv-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 60%), transparent 15px);
     // Floating: a layer above the page (a select's list), a deep shadow and the lit top edge
-    --ui-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
+    --rv-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
   } @else {
-    --ui-shadow-raised: 1px 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 30%),
-      -1px -1px 3px var(--ui-color-highlight);
-    --ui-shadow-raised-sm: 1px 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 45%),
-      -1px -1px 3px var(--ui-color-highlight);
-    --ui-shadow-pressed-sm: inset 1px 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 45%),
-      inset -1px -1px 2px var(--ui-color-highlight);
-    --ui-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 65%);
-    --ui-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 92%), transparent 15px);
+    --rv-shadow-raised: 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 30%),
+      -1px -1px 3px var(--rv-color-highlight);
+    --rv-shadow-raised-sm: 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
+      -1px -1px 3px var(--rv-color-highlight);
+    --rv-shadow-pressed-sm: inset 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
+      inset -1px -1px 2px var(--rv-color-highlight);
+    --rv-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--rv-color-shadow), transparent 65%);
+    --rv-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 92%), transparent 15px);
     // Floating: a layer above the page (a select's list), a soft shadow cast far below it
-    --ui-shadow-floating: 0 8px 24px color-mix(in oklab, var(--ui-color-shadow), transparent 65%),
-      0 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 70%);
+    --rv-shadow-floating: 0 8px 24px color-mix(in oklab, var(--rv-color-shadow), transparent 65%),
+      0 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 70%);
   }
 }
 
 :root {
   // Spacing
-  --ui-space-1: 0.25rem;
-  --ui-space-2: 0.5rem;
-  --ui-space-3: 0.75rem;
-  --ui-space-4: 1rem;
-  --ui-space-5: 1.25rem;
-  --ui-space-6: 1.5rem;
-  --ui-space-7: 2rem;
+  --rv-space-1: 0.25rem;
+  --rv-space-2: 0.5rem;
+  --rv-space-3: 0.75rem;
+  --rv-space-4: 1rem;
+  --rv-space-5: 1.25rem;
+  --rv-space-6: 1.5rem;
+  --rv-space-7: 2rem;
 
   // Motion: micro animations. Components turn them off under prefers-reduced-motion.
-  --ui-duration-press: 100ms;
-  --ui-duration-state: 180ms;
+  --rv-duration-press: 100ms;
+  --rv-duration-state: 180ms;
   // A small overshoot, for an element popping in (a check mark)
-  --ui-easing-pop: cubic-bezier(0.3, 1.6, 0.5, 1);
-  --ui-press-offset: 1px;
+  --rv-easing-pop: cubic-bezier(0.3, 1.6, 0.5, 1);
+  --rv-press-offset: 1px;
 
   // Radius
-  --ui-radius-sm: 0.25rem;
-  --ui-radius-md: 0.375rem;
-  --ui-radius-lg: 0.5rem;
-  --ui-radius-full: 9999px;
+  --rv-radius-sm: 0.25rem;
+  --rv-radius-md: 0.375rem;
+  --rv-radius-lg: 0.5rem;
+  --rv-radius-full: 9999px;
 
   // Typography
   // Geist everywhere, so text metrics (and centering) are the same on every OS. The system
   // fonts only show while Geist loads, or if the app does not load it.
-  --ui-font-family: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --ui-font-size-root: 100%;
-  --ui-font-size-sm: 0.875rem;
-  --ui-font-size-md: 1rem;
-  --ui-font-size-lg: 1.125rem;
-  --ui-font-weight-medium: 500;
-  --ui-font-weight-semibold: 600;
+  --rv-font-family: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --rv-font-size-root: 100%;
+  --rv-font-size-sm: 0.875rem;
+  --rv-font-size-md: 1rem;
+  --rv-font-size-lg: 1.125rem;
+  --rv-font-weight-medium: 500;
+  --rv-font-weight-semibold: 600;
 }
 
 :root,

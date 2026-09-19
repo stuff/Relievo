@@ -41,7 +41,7 @@ src/
   provider/             # RelievoProvider (router link)
   internal/             # shared internals (IconSlot)
   utils/                # useControllableState
-  styles/tokens.scss    # design tokens (--ui-*), light/dark palettes, relief tokens
+  styles/tokens.scss    # design tokens (--rv-*), light/dark palettes, relief tokens
   styles/_*.scss        # shared Sass mixins (control sizes, icons, typography, a11y)
   styles/global.scss    # global element styles (html font size, body colors, scroll behavior)
   overview/             # a story using every component together

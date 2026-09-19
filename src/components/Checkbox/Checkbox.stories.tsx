@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Checkbox } from './Checkbox';
 
-const stack = { display: 'grid', gap: 'var(--ui-space-3)', justifyItems: 'start' } as const;
+const stack = { display: 'grid', gap: 'var(--rv-space-3)', justifyItems: 'start' } as const;
 
 const meta = {
   title: 'Components/Checkbox',
@@ -62,7 +62,7 @@ export const Controlled: Story = {
     return (
       <div style={stack}>
         <Checkbox {...args} checked={checked} onCheckedChange={setChecked} />
-        <span style={{ fontFamily: 'var(--ui-font-family)', color: 'var(--ui-color-text)' }}>
+        <span style={{ fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' }}>
           Checked: {String(checked)}
         </span>
       </div>
@@ -86,7 +86,7 @@ export const SelectAll: Story = {
           indeterminate={selected.length > 0 && !all}
           onCheckedChange={(checked) => setSelected(checked ? toppings : [])}
         />
-        <div style={{ ...stack, paddingInlineStart: 'var(--ui-space-6)' }}>
+        <div style={{ ...stack, paddingInlineStart: 'var(--rv-space-6)' }}>
           {toppings.map((topping) => (
             <Checkbox
               key={topping}

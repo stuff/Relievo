@@ -30,7 +30,7 @@ export const Link: Story = {
 
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
       <Button {...args} size="sm">
         Small
       </Button>
@@ -46,18 +46,18 @@ export const Sizes: Story = {
 
 export const Themes: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--ui-space-4)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-4)' }}>
       {(['light', 'dark'] as const).map((theme) => (
         <div
           key={theme}
           data-theme={theme}
           style={{
             display: 'flex',
-            gap: 'var(--ui-space-3)',
-            padding: 'var(--ui-space-4)',
-            borderRadius: 'var(--ui-radius-lg)',
-            backgroundColor: 'var(--ui-color-background)',
-            border: '1px solid var(--ui-color-border)',
+            gap: 'var(--rv-space-3)',
+            padding: 'var(--rv-space-4)',
+            borderRadius: 'var(--rv-radius-lg)',
+            backgroundColor: 'var(--rv-color-background)',
+            border: '1px solid var(--rv-color-border)',
           }}
         >
           <Button {...args} variant="primary">
@@ -77,7 +77,7 @@ export const Themes: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--ui-space-3)', alignItems: 'center' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
       <Button {...args} startIcon={<PlusIcon />}>
         Add
       </Button>
@@ -94,7 +94,7 @@ export const WithIcons: Story = {
 /** Icons follow the button size. */
 export const IconSizes: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
       <Button {...args} size="sm" startIcon={<PlusIcon />}>
         Small
       </Button>
@@ -111,7 +111,7 @@ export const IconSizes: Story = {
 export const Disabled: Story = {
   args: { disabled: true },
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'center' }}>
+    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
       <Button {...args} variant="primary">
         Primary
       </Button>

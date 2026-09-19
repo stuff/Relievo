@@ -3,7 +3,7 @@
 }
 
 html {
-  font-size: var(--ui-font-size-root);
+  font-size: var(--rv-font-size-root);
 
   @media (prefers-reduced-motion: no-preference) {
     scroll-behavior: smooth;
@@ -12,9 +12,9 @@ html {
 
 :where(body) {
   font-size: inherit;
-  font-family: var(--ui-font-family);
+  font-family: var(--rv-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--ui-color-background);
-  color: var(--ui-color-text);
+  background-color: var(--rv-color-background);
+  color: var(--rv-color-text);
 }

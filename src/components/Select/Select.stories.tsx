@@ -26,7 +26,7 @@ const options = countries.map((country) => (
   </Select.Item>
 ));
 
-const text = { fontFamily: 'var(--ui-font-family)', color: 'var(--ui-color-text)' } as const;
+const text = { fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' } as const;
 
 const meta = {
   title: 'Components/Select',
@@ -127,7 +127,7 @@ export const Controlled: Story = {
     const [value, setValue] = useState<string | null>('fr');
 
     return (
-      <div style={{ display: 'grid', gap: 'var(--ui-space-3)' }}>
+      <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
         <Select {...args} value={value} onValueChange={setValue} />
         <span style={text}>Value: {String(value)}</span>
       </div>
@@ -139,7 +139,7 @@ export const Controlled: Story = {
 export const WithInputAndButton: Story = {
   parameters: { maxWidth: '40rem' },
   render: (args: SelectProps) => (
-    <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'end' }}>
+    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'end' }}>
       <div style={{ flex: 1 }}>
         <Input label="City" placeholder="Paris" />
       </div>

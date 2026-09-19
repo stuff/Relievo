@@ -78,7 +78,7 @@ const tones: { tone: CardTone; title: string }[] = [
 export const Tones: Story = {
   parameters: { maxWidth: '50rem' },
   render: (args: CardProps) => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: 'var(--ui-space-4)' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: 'var(--rv-space-4)' }}>
       {tones.map(({ tone, title }) => (
         <Card key={tone} variant={args.variant} {...({ tone } as CardProps)}>
           <Card.Header>

@@ -65,35 +65,35 @@ $max-items: 15;
   justify-content: center;
   min-inline-size: var(--item-size);
   block-size: var(--item-size);
-  padding-inline: var(--ui-space-2);
+  padding-inline: var(--rv-space-2);
   border: none;
-  border-radius: var(--ui-radius-full);
+  border-radius: var(--rv-radius-full);
   background: none;
-  color: var(--ui-color-text);
-  font-family: var(--ui-font-family);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
   font-size: inherit;
-  font-weight: var(--ui-font-weight-medium);
+  font-weight: var(--rv-font-weight-medium);
   font-variant-numeric: tabular-nums;
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
   user-select: none;
   transition:
-    background-color var(--ui-duration-state) ease,
-    box-shadow var(--ui-duration-press) ease;
+    background-color var(--rv-duration-state) ease,
+    box-shadow var(--rv-duration-press) ease;
 
   &:hover:not([data-disabled], [data-current]) {
-    background-color: var(--ui-color-surface-hover);
+    background-color: var(--rv-color-surface-hover);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--ui-color-focus-ring);
+    outline: 2px solid var(--rv-color-focus-ring);
     outline-offset: 2px;
   }
 
   &[data-current] {
-    background-color: var(--ui-color-primary);
-    color: var(--ui-color-on-primary);
+    background-color: var(--rv-color-primary);
+    color: var(--rv-color-on-primary);
     cursor: default;
   }
 
@@ -119,18 +119,18 @@ $max-items: 15;
   align-items: center;
   justify-content: center;
   min-inline-size: var(--item-size);
-  color: var(--ui-color-text-muted);
-  font-family: var(--ui-font-family);
+  color: var(--rv-color-text-muted);
+  font-family: var(--rv-font-family);
   user-select: none;
 }
 
 .status {
   display: none;
   align-items: center;
-  padding-inline: var(--ui-space-2);
-  color: var(--ui-color-text);
-  font-family: var(--ui-font-family);
-  font-weight: var(--ui-font-weight-medium);
+  padding-inline: var(--rv-space-2);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-weight: var(--rv-font-weight-medium);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }

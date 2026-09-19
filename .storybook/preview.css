@@ -1,7 +1,7 @@
 /* Paint docs story blocks with the active theme (the canvas body is styled by src/styles/global.scss). */
 .docs-story {
-  background-color: var(--ui-color-background);
-  color: var(--ui-color-text);
+  background-color: var(--rv-color-background);
+  color: var(--rv-color-text);
 }
 
 /* "Light + Dark" toolbar mode: the story rendered once per theme, laid out by the Split toolbar.
@@ -9,7 +9,7 @@
 .theme-split {
   display: inline-grid;
   grid-auto-flow: column;
-  gap: var(--ui-space-6);
+  gap: var(--rv-space-6);
   align-items: start;
 }
 
@@ -19,16 +19,16 @@
 
 .theme-split__pane {
   display: grid;
-  gap: var(--ui-space-5);
-  padding: var(--ui-space-7);
-  border: 1px solid var(--ui-color-border);
-  border-radius: var(--ui-radius-lg);
-  background-color: var(--ui-color-background);
-  color: var(--ui-color-text);
+  gap: var(--rv-space-5);
+  padding: var(--rv-space-7);
+  border: 1px solid var(--rv-color-border);
+  border-radius: var(--rv-radius-lg);
+  background-color: var(--rv-color-background);
+  color: var(--rv-color-text);
 }
 
 .theme-split__label {
-  font-family: var(--ui-font-family);
+  font-family: var(--rv-font-family);
   font-size: 0.6875rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;

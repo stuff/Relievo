@@ -17,8 +17,8 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
 .track {
   // The chosen item is in the brand color: a choice among options carries no status, so there
   // is no tone
-  --segment-tint: var(--ui-color-primary-tint);
-  --segment-text: var(--ui-color-primary-text);
+  --segment-tint: var(--rv-color-primary-tint);
+  --segment-text: var(--rv-color-primary-text);
 
   position: relative;
   // Each control anchors its own thumb, even with several controls on the page
@@ -30,11 +30,11 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
   align-self: start;
   gap: 2px;
   padding: 3px;
-  border: 1px solid var(--ui-color-border);
-  border-radius: var(--ui-radius-full);
-  background-color: var(--ui-color-field);
-  background-image: var(--ui-field-depth);
-  box-shadow: var(--ui-shadow-inset);
+  border: 1px solid var(--rv-color-border);
+  border-radius: var(--rv-radius-full);
+  background-color: var(--rv-color-field);
+  background-image: var(--rv-field-depth);
+  box-shadow: var(--rv-shadow-inset);
 
   // Heights and font sizes of the control scale: lines up with Button and Input
   @each $size, $values in $control-sizes {
@@ -62,10 +62,10 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
   justify-content: center;
   gap: 0.35em;
   padding-inline: var(--segment-padding);
-  border-radius: var(--ui-radius-full);
-  color: var(--ui-color-text);
-  font-family: var(--ui-font-family);
-  font-weight: var(--ui-font-weight-medium);
+  border-radius: var(--rv-radius-full);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-weight: var(--rv-font-weight-medium);
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
@@ -79,7 +79,7 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--ui-color-focus-ring);
+    outline: 2px solid var(--rv-color-focus-ring);
     outline-offset: 1px;
   }
 
@@ -89,7 +89,7 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
     background-color: color-mix(in oklab, var(--segment-tint), transparent 68%);
     box-shadow:
       inset 0 0 0 2px var(--segment-text),
-      var(--ui-shadow-raised-sm);
+      var(--rv-shadow-raised-sm);
     color: var(--segment-text);
   }
 
@@ -131,11 +131,11 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
     position: absolute;
     position-anchor: --segment-thumb;
     inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
-    border-radius: var(--ui-radius-full);
+    border-radius: var(--rv-radius-full);
     background-color: color-mix(in oklab, var(--segment-tint), transparent 68%);
     box-shadow:
       inset 0 0 0 2px var(--segment-text),
-      var(--ui-shadow-raised-sm);
+      var(--rv-shadow-raised-sm);
     transition:
       inset 250ms $thumb-easing,
       opacity 150ms ease;

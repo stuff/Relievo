@@ -42,7 +42,7 @@ export const WithIcons: Story = {
 /** The group never wraps: in a narrow container, the buttons overflow instead of stacking. */
 export const SingleLine: Story = {
   render: (args) => (
-    <div style={{ width: '16rem', padding: 'var(--ui-space-3)', border: '1px dashed var(--ui-color-border)' }}>
+    <div style={{ width: '16rem', padding: 'var(--rv-space-3)', border: '1px dashed var(--rv-color-border)' }}>
       <ButtonGroup {...args}>
         <Button variant="secondary">Cancel</Button>
         <Button variant="secondary">Save draft</Button>

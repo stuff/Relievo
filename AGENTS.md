@@ -1,6 +1,6 @@
 # AGENTS.md
 
-React design system built on Base UI. See README.md for usage, the component list and the project structure, and `docs/backlog.md` for what is planned next.
+Relievo, a React design system built on Base UI. See README.md for usage, the component list and the project structure, and `docs/backlog.md` for what is planned next.
 
 ## Commands
 
@@ -30,7 +30,7 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
   - Test both modes: uncontrolled (the default value, then updates on its own) and controlled (renders the prop, only reports changes, follows the parent's update).
   - Dev-only warnings use `process.env.NODE_ENV !== 'production'`, not `import.meta.env.DEV`, which Vite inlines when building the library.
 - **Common props: `tone`, `variant`, `size`.** Every component uses these names, with these meanings:
-  - `tone`: the meaning of the component, as a color. Values: `neutral` (default, no meaning), `primary` (brand highlight, no status), `info`, `success`, `warning`, `danger`. A component may support a subset, or none when its states carry no meaning (Segmented: a choice among options has no status, so its selection is always in the brand color). Each tone has two tokens in both palettes: `--ui-color-<tone>-tint`, a vivid color always used transparent for backgrounds (`color-mix(in oklab, var(--ui-color-<tone>-tint), transparent 80%)` for a 20% tint, up to 32%), and `--ui-color-<tone>-text`, the tone as text or border. The text must reach 4.5:1 on the background, the surface, and over the tint up to 32% on either: check it when changing a color or a tint level. Pair a status tone with an icon or text that says the same thing: color alone does not carry meaning.
+  - `tone`: the meaning of the component, as a color. Values: `neutral` (default, no meaning), `primary` (brand highlight, no status), `info`, `success`, `warning`, `danger`. A component may support a subset, or none when its states carry no meaning (Segmented: a choice among options has no status, so its selection is always in the brand color). Each tone has two tokens in both palettes: `--rv-color-<tone>-tint`, a vivid color always used transparent for backgrounds (`color-mix(in oklab, var(--rv-color-<tone>-tint), transparent 80%)` for a 20% tint, up to 32%), and `--rv-color-<tone>-text`, the tone as text or border. The text must reach 4.5:1 on the background, the surface, and over the tint up to 32% on either: check it when changing a color or a tint level. Pair a status tone with an icon or text that says the same thing: color alone does not carry meaning.
   - `variant`: how the component is drawn, independently of its tone. The default rendering is `solid`; other values (`outline`, …) are added per component when needed. Button's `primary` / `secondary` / `link` predate this rule.
   - `size`: the scale `xs`, `sm`, `md`, `lg`, default `md`. A component may support a subset (Button and Segmented: `sm`–`lg`), or a single size and no prop (Input). Controls (Button, Input, Segmented) share the heights of `$control-sizes` so they line up; chips are compact and have their own heights.
 - **Tone, variant and size are `data-tone` / `data-variant` / `data-size` attributes**, styled in the component's `*.module.scss`. State selectors use Base UI's data attributes (`[data-disabled]`, `[data-pressed]`, …).
@@ -56,13 +56,13 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
 
 Relief tells what can be pressed. Use the relief tokens (defined per theme in the `palette` mixin of `src/styles/tokens.scss`), never ad hoc shadows:
 
-- **Raised: it can be pressed.** Buttons (`--ui-shadow-raised`, with the primary / sheen gradients) selectable chips (`--ui-shadow-raised-sm`) and the Checkbox cube.
-- **Pressed: pushed or selected.** A button while active (`--ui-shadow-pressed`), a selected chip (`--ui-shadow-pressed-sm`).
-- **Carved: a value goes here.** Text fields: `--ui-color-field` background (near white in light, the page background in dark), `--ui-shadow-inset`, and `--ui-field-depth` (a dark gradient at the bottom) while not focused.
-- **Floating: a layer above the page.** A select's list, a menu (`--ui-shadow-floating`, surface background, border; the `floating` mixins in `src/styles/_floating.scss`). Its content is flat: the options are rows, not buttons.
+- **Raised: it can be pressed.** Buttons (`--rv-shadow-raised`, with the primary / sheen gradients) selectable chips (`--rv-shadow-raised-sm`) and the Checkbox cube.
+- **Pressed: pushed or selected.** A button while active (`--rv-shadow-pressed`), a selected chip (`--rv-shadow-pressed-sm`).
+- **Carved: a value goes here.** Text fields: `--rv-color-field` background (near white in light, the page background in dark), `--rv-shadow-inset`, and `--rv-field-depth` (a dark gradient at the bottom) while not focused.
+- **Floating: a layer above the page.** A select's list, a menu (`--rv-shadow-floating`, surface background, border; the `floating` mixins in `src/styles/_floating.scss`). Its content is flat: the options are rows, not buttons.
 - **Flat: everything else**, including static chips, which are information. Disabled controls lose their relief.
 - **Exception, `Segmented`**: the track is carved (it holds one value), unselected items are flat inside it, and the chosen item comes out raised, like a thumb on a rail. Its highlight is a pseudo-element of the track anchored to the chosen item (CSS anchor positioning, `anchor-scope` per control), so it slides between items without JavaScript; browsers without anchor positioning get a static highlight. Everywhere else, a selected control is pressed in.
-- **Exception, `Checkbox`**: the box is a raised cube in the secondary button colors; ticked, it turns primary and **stays raised**, and the check mark carries the selection. Pressed, it goes down physically (`--ui-press-offset`, `--ui-shadow-contact`) instead of taking an inset shadow, which would eat most of so small a box and push the check off-center.
+- **Exception, `Checkbox`**: the box is a raised cube in the secondary button colors; ticked, it turns primary and **stays raised**, and the check mark carries the selection. Pressed, it goes down physically (`--rv-press-offset`, `--rv-shadow-contact`) instead of taking an inset shadow, which would eat most of so small a box and push the check off-center.
 - **Selection never relies on color alone** (WCAG 1.4.1): a selected chip also gets a full-strength ring. Check new selectable components in grayscale.
 
 In dark theme, black shadows vanish on the dark background: the relief comes from a stronger highlight and a thin lit top edge instead. Check both themes when changing a relief value.
@@ -71,7 +71,7 @@ In dark theme, black shadows vanish on the dark background: the relief comes fro
 
 Micro animations make state changes readable; the plan is to add them across the kit over time (see `docs/backlog.md`).
 
-- Use the motion tokens of `tokens.scss`: `--ui-duration-press` (pressing), `--ui-duration-state` (a state change), `--ui-easing-pop` (an element popping in).
+- Use the motion tokens of `tokens.scss`: `--rv-duration-press` (pressing), `--rv-duration-state` (a state change), `--rv-easing-pop` (an element popping in).
 - Turn transitions off under `@media (prefers-reduced-motion: reduce)`.
 - Gradients cannot be transitioned: put the new gradient on a layer (a pseudo-element) and transition its opacity (Checkbox's primary fill).
 - Elements Base UI mounts and unmounts (indicators, popups) animate with `[data-starting-style]` / `[data-ending-style]`: Base UI waits for the transition before removing them.
@@ -85,13 +85,13 @@ Apps will be able to choose some colors (the primary, the background): see `docs
 - **Status tone**: `info`, `success`, `warning`, `danger`, fixed by the kit.
 - **Neutral constant**: black or white, usually with alpha, valid on any background of its theme.
 
-Components never contain a color literal: only `--ui-*` tokens. Adding a hardcoded color to `tokens.scss` means adding a line to the inventory in `docs/theming.md`.
+Components never contain a color literal: only `--rv-*` tokens. Adding a hardcoded color to `tokens.scss` means adding a line to the inventory in `docs/theming.md`.
 
 ## Tokens and theming
 
-- Tokens are CSS custom properties prefixed `--ui-`, defined in `src/styles/tokens.scss`.
+- Tokens are CSS custom properties prefixed `--rv-`, defined in `src/styles/tokens.scss`.
 - Colors live in the `$light-palette` / `$dark-palette` Sass maps, which must have the same keys (a Sass `@error` enforces it).
-- Tokens derived with `var()` (for example `color-mix(..., var(--ui-color-primary), ...)`) must be redeclared in every theme block, through the `palette` mixin. If they are declared only on `:root`, `data-theme` subtrees would not pick them up.
+- Tokens derived with `var()` (for example `color-mix(..., var(--rv-color-primary), ...)`) must be redeclared in every theme block, through the `palette` mixin. If they are declared only on `:root`, `data-theme` subtrees would not pick them up.
 - Do not use `light-dark()`: CSS minifiers downlevel it in a way that breaks subtree theme overrides.
 - `ThemeProvider` sets `data-theme` on `<html>`. Only one should be rendered per page.
 
@@ -102,7 +102,7 @@ Components never contain a color literal: only `--ui-*` tokens. Adding a hardcod
 
 ## Naming and repository
 
-- The kit's name is **Relievo** (chosen by the maintainer). The code still uses the placeholder names ("UiKit", `my-ui-kit`, `UiKitProvider`, the `--ui-` token prefix): the rename is planned but **do not rename until the maintainer asks**. It will touch the package name, `UiKitProvider`, README, AGENTS.md and maybe the token prefix.
+- The kit is **Relievo**: package `relievo`, provider `RelievoProvider`, token prefix `--rv-`. Use these names in code, docs and stories.
 - Repository: `git@github.com:stuff/Relievo.git` (remote `origin`, branch `main`). Private for now, to be open-sourced later; the history may be rewritten before going public (undecided). Before any public release, remind the maintainer that commits carry their email and `Co-Authored-By` lines.
 
 ## Working with the maintainer

@@ -5,9 +5,9 @@ $tones: primary, info, success, warning, danger;
 // A flat panel: information, not something to press (see Relief in AGENTS.md).
 .card {
   // Tones and variants override these
-  --card-bg: var(--ui-color-surface);
-  --card-border: var(--ui-color-border);
-  --card-separator: var(--ui-color-border);
+  --card-bg: var(--rv-color-surface);
+  --card-border: var(--rv-color-border);
+  --card-separator: var(--rv-color-border);
   --card-glow: transparent;
   --card-corner: transparent;
 
@@ -18,7 +18,7 @@ $tones: primary, info, success, warning, danger;
   display: flex;
   flex-direction: column;
   border: 1px solid var(--card-border);
-  border-radius: var(--ui-radius-lg);
+  border-radius: var(--rv-radius-lg);
   // Two light tints of the tone, fading into the surface: a small, stronger one from the top-right
   // corner at 45°, over a band along the top. Together they reach 32% of the tone in the corner,
   // the most a tint may reach under text (see tokens.scss).
@@ -26,18 +26,18 @@ $tones: primary, info, success, warning, danger;
     linear-gradient(225deg, var(--card-corner), transparent 20%),
     linear-gradient(var(--card-glow), transparent 6rem),
     var(--card-bg);
-  color: var(--ui-color-text);
-  font-family: var(--ui-font-family);
-  font-size: var(--ui-font-size-md);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-size: var(--rv-font-size-md);
 
   @each $tone in $tones {
     &[data-tone='#{$tone}'] {
       // Softened like Chip's border: the tint at the top carries the tone
-      --card-border: color-mix(in oklab, var(--ui-color-#{$tone}-text), transparent 65%);
-      --card-separator: color-mix(in oklab, var(--ui-color-#{$tone}-text), transparent 70%);
-      --card-glow: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 85%);
-      --card-corner: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 80%);
-      --card-icon-color: var(--ui-color-#{$tone}-text);
+      --card-border: color-mix(in oklab, var(--rv-color-#{$tone}-text), transparent 65%);
+      --card-separator: color-mix(in oklab, var(--rv-color-#{$tone}-text), transparent 70%);
+      --card-glow: color-mix(in oklab, var(--rv-color-#{$tone}-tint), transparent 85%);
+      --card-corner: color-mix(in oklab, var(--rv-color-#{$tone}-tint), transparent 80%);
+      --card-icon-color: var(--rv-color-#{$tone}-text);
     }
   }
 
@@ -50,8 +50,8 @@ $tones: primary, info, success, warning, danger;
 
     @each $tone in $tones {
       &[data-tone='#{$tone}'] {
-        --card-border: color-mix(in oklab, var(--ui-color-#{$tone}-text), transparent 40%);
-        --card-glow: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 92%);
+        --card-border: color-mix(in oklab, var(--rv-color-#{$tone}-text), transparent 40%);
+        --card-glow: color-mix(in oklab, var(--rv-color-#{$tone}-tint), transparent 92%);
       }
     }
   }
@@ -63,7 +63,7 @@ $tones: primary, info, success, warning, danger;
 .footer {
   position: relative;
   z-index: 1;
-  padding: var(--ui-space-5) var(--ui-space-6);
+  padding: var(--rv-space-5) var(--rv-space-6);
 }
 
 // Decorative tone icon, tucked into the top-right corner (closer than the padding), behind the
@@ -72,8 +72,8 @@ $tones: primary, info, success, warning, danger;
   @include icons.icon-slot(2rem);
 
   position: absolute;
-  inset-block-start: var(--ui-space-1);
-  inset-inline-end: var(--ui-space-1);
+  inset-block-start: var(--rv-space-1);
+  inset-inline-end: var(--rv-space-1);
   color: var(--card-icon-color);
   opacity: 0.2;
   pointer-events: none;
@@ -91,20 +91,20 @@ $tones: primary, info, success, warning, danger;
 
 .header {
   display: grid;
-  gap: var(--ui-space-1);
+  gap: var(--rv-space-1);
 }
 
 .title {
   margin: 0;
-  font-size: var(--ui-font-size-lg);
-  font-weight: var(--ui-font-weight-semibold);
+  font-size: var(--rv-font-size-lg);
+  font-weight: var(--rv-font-weight-semibold);
   line-height: 1.3;
 }
 
 .description {
   margin: 0;
-  color: var(--ui-color-text-muted);
-  font-size: var(--ui-font-size-sm);
+  color: var(--rv-color-text-muted);
+  font-size: var(--rv-font-size-sm);
   line-height: 1.4;
 }
 
@@ -117,5 +117,5 @@ $tones: primary, info, success, warning, danger;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--ui-space-3);
+  gap: var(--rv-space-3);
 }

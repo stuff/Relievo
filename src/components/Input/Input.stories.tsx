@@ -30,7 +30,7 @@ export const Controlled: Story = {
     const [value, setValue] = useState('JANE');
 
     return (
-      <div style={{ display: 'grid', gap: 'var(--ui-space-3)', fontFamily: 'var(--ui-font-family)' }}>
+      <div style={{ display: 'grid', gap: 'var(--rv-space-3)', fontFamily: 'var(--rv-font-family)' }}>
         <Input {...args} value={value} onValueChange={(next) => setValue(next.toUpperCase())} />
         <span>
           value: <code>{value}</code>
@@ -46,7 +46,7 @@ export const Email: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div style={{ display: 'grid', gap: 'var(--ui-space-4)' }}>
+    <div style={{ display: 'grid', gap: 'var(--rv-space-4)' }}>
       <Input {...args} label="Search" type="search" placeholder="Search…" startIcon={<MagnifyingGlassIcon />} />
       <Input {...args} label="Email" type="email" placeholder="jane@example.com" endIcon={<EnvelopeIcon />} />
     </div>
@@ -56,7 +56,7 @@ export const WithIcons: Story = {
 /** `prefix` and `suffix` hold text such as a currency or a unit. Screen readers announce them. */
 export const WithPrefixAndSuffix: Story = {
   render: (args) => (
-    <div style={{ display: 'grid', gap: 'var(--ui-space-4)' }}>
+    <div style={{ display: 'grid', gap: 'var(--rv-space-4)' }}>
       <Input {...args} label="Price" type="number" placeholder="0.00" suffix="€" />
       <Input {...args} label="Amount" type="number" placeholder="0.00" prefix="$" />
       <Input {...args} label="Website" placeholder="acme" prefix="https://" suffix=".com" />
@@ -72,7 +72,7 @@ export const HiddenLabel: Story = {
 
 export const WithButton: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'end' }}>
+    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'end' }}>
       <Input {...args} label="Search" hideLabel placeholder="Search…" type="search" />
       <Button variant="secondary">Search</Button>
     </div>

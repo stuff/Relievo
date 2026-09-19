@@ -7,22 +7,22 @@ $flat: 0 0 transparent;
 
 .button {
   // Variants and states override these
-  --button-bg: var(--ui-color-surface);
-  --button-fg: var(--ui-color-text);
-  --button-elevation: var(--ui-shadow-raised);
+  --button-bg: var(--rv-color-surface);
+  --button-fg: var(--rv-color-text);
+  --button-elevation: var(--rv-shadow-raised);
 
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ui-space-2);
+  gap: var(--rv-space-2);
   border: none;
-  border-radius: var(--ui-radius-full);
+  border-radius: var(--rv-radius-full);
   background: var(--button-bg);
   color: var(--button-fg);
   box-shadow: var(--button-elevation);
-  font-family: var(--ui-font-family);
-  font-weight: var(--ui-font-weight-medium);
+  font-family: var(--rv-font-family);
+  font-weight: var(--rv-font-weight-medium);
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
@@ -31,14 +31,14 @@ $flat: 0 0 transparent;
   transition: box-shadow 150ms ease;
 
   &:focus-visible {
-    outline: 2px solid var(--ui-color-focus-ring);
+    outline: 2px solid var(--rv-color-focus-ring);
     outline-offset: 3px;
   }
 
   // Pressed while held, and while the menu it opens is open (a Menu trigger)
   &:active:not([data-disabled]),
   &[data-popup-open] {
-    --button-elevation: var(--ui-shadow-pressed);
+    --button-elevation: var(--rv-shadow-pressed);
   }
 
   // Disabled: it cannot be pressed, so it is flat
@@ -61,29 +61,29 @@ $flat: 0 0 transparent;
   // Variants
   &[data-variant='primary'] {
     --button-bg: linear-gradient(
-      var(--ui-color-primary-top) 0% 5%,
-      var(--ui-color-primary-bottom) 95% 100%
+      var(--rv-color-primary-top) 0% 5%,
+      var(--rv-color-primary-bottom) 95% 100%
     );
-    --button-fg: var(--ui-color-on-primary);
+    --button-fg: var(--rv-color-on-primary);
 
     &:hover:not([data-disabled]) {
       --button-bg: linear-gradient(
-        var(--ui-color-primary-top-hover) 0% 5%,
-        var(--ui-color-primary-bottom-hover) 95% 100%
+        var(--rv-color-primary-top-hover) 0% 5%,
+        var(--rv-color-primary-bottom-hover) 95% 100%
       );
     }
   }
 
   &[data-variant='secondary'] {
     --button-bg: linear-gradient(
-      var(--ui-color-sheen-top) 0% 25%,
-      var(--ui-color-sheen-bottom) 95% 100%
+      var(--rv-color-sheen-top) 0% 25%,
+      var(--rv-color-sheen-bottom) 95% 100%
     );
 
     &:hover:not([data-disabled]) {
       --button-bg: linear-gradient(
-        var(--ui-color-sheen-top-hover) 0% 25%,
-        var(--ui-color-sheen-bottom-hover) 95% 100%
+        var(--rv-color-sheen-top-hover) 0% 25%,
+        var(--rv-color-sheen-bottom-hover) 95% 100%
       );
     }
   }
@@ -93,7 +93,7 @@ $flat: 0 0 transparent;
     --button-elevation: #{$flat};
 
     &:hover:not([data-disabled]) {
-      --button-bg: var(--ui-color-surface-hover);
+      --button-bg: var(--rv-color-surface-hover);
       --button-elevation: #{$flat};
       text-decoration: underline;
     }
@@ -111,7 +111,7 @@ $flat: 0 0 transparent;
   .icon {
     @include icons.icon-slot;
 
-    transition: rotate var(--ui-duration-state) ease;
+    transition: rotate var(--rv-duration-state) ease;
   }
 
   // The end icon (a Menu trigger's chevron) turns over while the menu it opens is open

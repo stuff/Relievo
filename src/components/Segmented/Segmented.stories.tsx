@@ -6,7 +6,7 @@ import { Input } from '../Input';
 import { Segmented, type SegmentedSize } from './Segmented';
 
 const sizes: SegmentedSize[] = ['sm', 'md', 'lg'];
-const stack = { display: 'grid', gap: 'var(--ui-space-4)', justifyItems: 'start' } as const;
+const stack = { display: 'grid', gap: 'var(--rv-space-4)', justifyItems: 'start' } as const;
 
 const periods = [
   { value: 'day', label: 'Day' },
@@ -49,7 +49,7 @@ export const Sizes: Story = {
     return (
       <div style={stack}>
         {sizes.map((size) => (
-          <div key={size} style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'center' }}>
+          <div key={size} style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
             <Segmented {...args} size={size} value={period} onValueChange={setPeriod} defaultValue={undefined}>
               {periods.map((item) => (
                 <Segmented.Item key={item.value} value={item.value}>
@@ -94,7 +94,7 @@ export const Controlled: Story = {
     const [period, setPeriod] = useState('month');
 
     return (
-      <div style={{ ...stack, fontFamily: 'var(--ui-font-family)' }}>
+      <div style={{ ...stack, fontFamily: 'var(--rv-font-family)' }}>
         <Segmented {...args} value={period} onValueChange={setPeriod} defaultValue={undefined}>
           {periods.map((item) => (
             <Segmented.Item key={item.value} value={item.value}>
@@ -134,7 +134,7 @@ export const Disabled: Story = {
 /** In a toolbar, next to an Input and a Button of the same size. */
 export const InToolbar: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'end', width: '40rem' }}>
+    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'end', width: '40rem' }}>
       <Input label="Search" hideLabel placeholder="Search…" type="search" />
       <Segmented {...args} label="View" defaultValue="grid">
         <Segmented.Item value="list" startIcon={<ListIcon />}>

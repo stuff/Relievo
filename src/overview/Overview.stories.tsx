@@ -27,10 +27,10 @@ import { Select } from '../components/Select';
 // A realistic screen using every component together, to judge the kit's overall coherence:
 // spacing, alignment, sizes, tones and both themes (use the toolbar's Light + Dark mode).
 
-const text: CSSProperties = { margin: 0, fontFamily: 'var(--ui-font-family)', color: 'var(--ui-color-text)' };
-const row: CSSProperties = { display: 'flex', flexWrap: 'wrap', gap: 'var(--ui-space-3)', alignItems: 'center' };
+const text: CSSProperties = { margin: 0, fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' };
+const row: CSSProperties = { display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-3)', alignItems: 'center' };
 
-const stack: CSSProperties = { display: 'grid', gap: 'var(--ui-space-5)' };
+const stack: CSSProperties = { display: 'grid', gap: 'var(--rv-space-5)' };
 
 // Options as an array, like data from an API (Category above uses Select.Item children)
 const suppliers = [
@@ -52,7 +52,7 @@ function Overview() {
   const allSelected = selected.length === products.length;
 
   return (
-    <div style={{ display: 'grid', gap: 'var(--ui-space-6)', width: 'min(100%, 44rem)' }}>
+    <div style={{ display: 'grid', gap: 'var(--rv-space-6)', width: 'min(100%, 44rem)' }}>
       {/* A toned card: an alert about the list below */}
       <Card as="section" tone="warning">
         <Card.Header>
@@ -78,7 +78,7 @@ function Overview() {
         <Card.Body>
           <div style={stack}>
             {/* Toolbar: search next to buttons, all at the md control height */}
-            <div style={{ display: 'flex', gap: 'var(--ui-space-3)', alignItems: 'end' }}>
+            <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'end' }}>
               <Input label="Search products" hideLabel placeholder="Search…" type="search" startIcon={<MagnifyingGlassIcon />} />
               <Button variant="secondary" startIcon={<FunnelIcon />}>
                 Filters
@@ -86,7 +86,7 @@ function Overview() {
               <Button startIcon={<PlusIcon />}>New product</Button>
             </div>
 
-            <div style={{ display: 'grid', gap: 'var(--ui-space-3)' }}>
+            <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
               <Chip.Group label="Categories" value={categories} onValueChange={setCategories}>
                 <Chip value="clothing">Clothing</Chip>
                 <Chip value="accessories">Accessories</Chip>
@@ -103,7 +103,7 @@ function Overview() {
             {/* List: a checkbox per row, status chips next to text and a link button */}
             <div style={{ display: 'grid' }}>
               {/* Selection: select all, and a menu of actions on the selected products */}
-              <div style={{ ...row, justifyContent: 'space-between', paddingBlock: 'var(--ui-space-3)' }}>
+              <div style={{ ...row, justifyContent: 'space-between', paddingBlock: 'var(--rv-space-3)' }}>
                 <Checkbox
                   label={`${selected.length} selected`}
                   checked={allSelected}
@@ -130,8 +130,8 @@ function Overview() {
                   style={{
                     ...row,
                     flexWrap: 'nowrap',
-                    paddingBlock: 'var(--ui-space-3)',
-                    borderTop: '1px solid var(--ui-color-border)',
+                    paddingBlock: 'var(--rv-space-3)',
+                    borderTop: '1px solid var(--rv-color-border)',
                   }}
                 >
                   <Checkbox
@@ -168,7 +168,7 @@ function Overview() {
         </Card.Header>
         <Card.Body>
           <div style={stack}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 'var(--ui-space-5)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 'var(--rv-space-5)' }}>
               <Input label="Name" defaultValue="Linen shirt" helperText="Shown on the product page." />
               <Input label="Price" type="number" defaultValue="49" suffix="€" />
               <Select label="Category" defaultValue="clothing">
@@ -181,8 +181,8 @@ function Overview() {
               <Input label="Website" placeholder="acme" prefix="https://" suffix=".com" />
               <Input label="Contact email" type="email" defaultValue="not-an-email" error helperText="Enter an email address, like jane@example.com." />
               <Input label="SKU" defaultValue="LS-0042" disabled helperText="Generated automatically." />
-              <div style={{ display: 'grid', gap: 'var(--ui-space-2)', alignContent: 'start' }}>
-                <span style={{ ...text, fontSize: 'var(--ui-font-size-sm)', fontWeight: 500 }}>Tags</span>
+              <div style={{ display: 'grid', gap: 'var(--rv-space-2)', alignContent: 'start' }}>
+                <span style={{ ...text, fontSize: 'var(--rv-font-size-sm)', fontWeight: 500 }}>Tags</span>
                 <div style={row}>
                   <Chip tone="primary">New</Chip>
                   <Chip>Summer</Chip>
@@ -191,7 +191,7 @@ function Overview() {
                 </div>
               </div>
             </div>
-            <div style={{ display: 'grid', gap: 'var(--ui-space-3)' }}>
+            <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
               <Checkbox label="Show in the shop" defaultChecked helperText="Customers can find and buy it." />
               <Checkbox label="Feature on the home page" />
             </div>

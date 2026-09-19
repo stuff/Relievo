@@ -18,8 +18,8 @@ const sizes: ChipSize[] = ['xs', 'sm', 'md', 'lg'];
 // Story labels start with a capital: all-lowercase text sits visually high in a chip.
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
-const row = { display: 'flex', flexWrap: 'wrap', gap: 'var(--ui-space-2)', alignItems: 'center' } as const;
-const stack = { display: 'grid', gap: 'var(--ui-space-4)' } as const;
+const row = { display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-2)', alignItems: 'center' } as const;
+const stack = { display: 'grid', gap: 'var(--rv-space-4)' } as const;
 
 const meta = {
   title: 'Components/Chip',
@@ -111,7 +111,7 @@ export const Controlled: Story = {
     const [pressed, setPressed] = useState(true);
 
     return (
-      <div style={{ ...stack, fontFamily: 'var(--ui-font-family)' }}>
+      <div style={{ ...stack, fontFamily: 'var(--rv-font-family)' }}>
         <Chip {...args} tone="primary" variant="outline" pressed={pressed} onPressedChange={setPressed}>
           Vegan
         </Chip>
@@ -136,9 +136,9 @@ export const GroupMultiple: Story = {
     const [selection, setSelection] = useState<Record<string, string[]>>({});
 
     return (
-      <div style={{ ...stack, fontFamily: 'var(--ui-font-family)' }}>
+      <div style={{ ...stack, fontFamily: 'var(--rv-font-family)' }}>
         {variants.map((variant) => (
-          <div key={variant} style={{ display: 'grid', gap: 'var(--ui-space-3)' }}>
+          <div key={variant} style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
             <strong>{variant}</strong>
             {sizes.map((size) => {
               const key = `${variant}-${size}`;

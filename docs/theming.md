@@ -13,14 +13,14 @@ The user gives **seed colors**. The kit keeps each seed's hue and chroma and set
 role and per theme, with CSS relative color syntax in OKLCH:
 
 ```css
---ui-color-primary-text: oklch(from var(--ui-seed-primary) 0.42 c h); /* light theme */
---ui-color-primary-text: oklch(from var(--ui-seed-primary) 0.82 c h); /* dark theme */
+--rv-color-primary-text: oklch(from var(--rv-seed-primary) 0.42 c h); /* light theme */
+--rv-color-primary-text: oklch(from var(--rv-seed-primary) 0.82 c h); /* dark theme */
 ```
 
 Contrast then depends on lightness only, which the kit controls, so it holds for any seed hue.
 Very saturated seeds may need their chroma clamped at the extreme lightnesses (out of gamut).
 
-Planned API: `RelievoProvider` gets `theme={{ primary, background }}`, which sets `--ui-seed-*`
+Planned API: `RelievoProvider` gets `theme={{ primary, background }}`, which sets `--rv-seed-*`
 custom properties; CSS users can set those properties directly.
 
 ## Color categories
@@ -36,7 +36,7 @@ Every color in the kit falls in one of these categories:
 
 ## Inventory (tokens.scss, as of the Segmented component)
 
-Components contain no color literal: they only use `--ui-*` tokens. Everything below is in
+Components contain no color literal: they only use `--rv-*` tokens. Everything below is in
 `src/styles/tokens.scss`.
 
 ### Seeds, today hardcoded per theme

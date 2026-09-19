@@ -9,11 +9,11 @@ function ThemeSwitcher() {
   const { mode, resolvedMode, setMode } = useTheme();
 
   return (
-    <div style={{ display: 'grid', gap: 'var(--ui-space-3)', fontFamily: 'var(--ui-font-family)' }}>
+    <div style={{ display: 'grid', gap: 'var(--rv-space-3)', fontFamily: 'var(--rv-font-family)' }}>
       <p style={{ margin: 0 }}>
         mode: <strong>{mode}</strong> · resolved: <strong>{resolvedMode}</strong>
       </p>
-      <div style={{ display: 'flex', gap: 'var(--ui-space-2)' }}>
+      <div style={{ display: 'flex', gap: 'var(--rv-space-2)' }}>
         {modes.map((option) => (
           <Button
             key={option}
@@ -73,7 +73,7 @@ export const Controlled: Story = {
           setMode(next);
         }}
       >
-        <div style={{ display: 'grid', gap: 'var(--ui-space-3)', fontFamily: 'var(--ui-font-family)' }}>
+        <div style={{ display: 'grid', gap: 'var(--rv-space-3)', fontFamily: 'var(--rv-font-family)' }}>
           <ThemeSwitcher />
           <span>
             onModeChange: <code>{log.join(' → ') || '—'}</code>

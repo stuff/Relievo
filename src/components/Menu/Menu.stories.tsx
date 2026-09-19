@@ -16,7 +16,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { RelievoProvider, type LinkComponentProps } from '../../provider';
 import { Menu } from './Menu';
 
-const text = { fontFamily: 'var(--ui-font-family)', color: 'var(--ui-color-text)' } as const;
+const text = { fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' } as const;
 // Room for the open list below the button
 const tall = { minHeight: '22rem' } as const;
 
@@ -160,7 +160,7 @@ export const Checkable: Story = {
     const [sort, setSort] = useState('name');
 
     return (
-      <div style={{ ...tall, display: 'grid', alignContent: 'start', gap: 'var(--ui-space-3)' }}>
+      <div style={{ ...tall, display: 'grid', alignContent: 'start', gap: 'var(--rv-space-3)' }}>
         <span style={text}>
           Grid: {String(grid)}, sort: {sort}
         </span>
@@ -196,7 +196,7 @@ export const Controlled: Story = {
     const [open, setOpen] = useState(false);
 
     return (
-      <div style={{ ...tall, display: 'grid', alignContent: 'start', gap: 'var(--ui-space-3)' }}>
+      <div style={{ ...tall, display: 'grid', alignContent: 'start', gap: 'var(--rv-space-3)' }}>
         <span style={text}>Open: {String(open)}</span>
         <div>
           <Menu {...args} open={open} onOpenChange={setOpen}>

@@ -7,7 +7,7 @@ $tones: neutral, primary, info, success, warning, danger;
 $sizes: (
   xs: (
     height: 1.25rem,
-    padding: var(--ui-space-2),
+    padding: var(--rv-space-2),
     font-size: 0.6875rem,
   ),
   sm: (
@@ -17,20 +17,20 @@ $sizes: (
   ),
   md: (
     height: 1.75rem,
-    padding: var(--ui-space-3),
+    padding: var(--rv-space-3),
     font-size: 0.8125rem,
   ),
   lg: (
     height: 2rem,
     padding: 0.875rem,
-    font-size: var(--ui-font-size-sm),
+    font-size: var(--rv-font-size-sm),
   ),
 );
 
 .chip {
   // Tones set these; variants map them onto the chip
-  --chip-tint: var(--ui-color-neutral-tint);
-  --chip-text: var(--ui-color-neutral-text);
+  --chip-tint: var(--rv-color-neutral-tint);
+  --chip-text: var(--rv-color-neutral-text);
   // Variants and states override these. Solid is a 20% tint of the tone over whatever is behind
   // the chip; the tone text keeps 4.5:1 on it up to 32% (see tokens.scss).
   --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 80%);
@@ -44,11 +44,11 @@ $sizes: (
   box-sizing: border-box;
   margin: 0;
   border: 1px solid var(--chip-border);
-  border-radius: var(--ui-radius-full);
+  border-radius: var(--rv-radius-full);
   background: var(--chip-bg);
   color: var(--chip-fg);
-  font-family: var(--ui-font-family);
-  font-weight: var(--ui-font-weight-medium);
+  font-family: var(--rv-font-family);
+  font-weight: var(--rv-font-weight-medium);
   line-height: 1;
   white-space: nowrap;
   vertical-align: middle;
@@ -58,8 +58,8 @@ $sizes: (
 
   @each $tone in $tones {
     &[data-tone='#{$tone}'] {
-      --chip-tint: var(--ui-color-#{$tone}-tint);
-      --chip-text: var(--ui-color-#{$tone}-text);
+      --chip-tint: var(--rv-color-#{$tone}-tint);
+      --chip-text: var(--rv-color-#{$tone}-text);
     }
   }
 
@@ -84,12 +84,12 @@ $sizes: (
   // Selectable chips can be pressed, so they are raised like buttons; once selected, they are
   // pressed in. Static chips are information: they stay flat (see the relief rule in AGENTS.md).
   &[data-selectable] {
-    box-shadow: var(--ui-shadow-raised-sm);
+    box-shadow: var(--rv-shadow-raised-sm);
     cursor: pointer;
     user-select: none;
 
     &:focus-visible {
-      outline: 2px solid var(--ui-color-focus-ring);
+      outline: 2px solid var(--rv-color-focus-ring);
       outline-offset: 2px;
     }
 
@@ -106,14 +106,14 @@ $sizes: (
 
       box-shadow:
         inset 0 0 0 1px var(--chip-text),
-        var(--ui-shadow-pressed-sm);
+        var(--rv-shadow-pressed-sm);
     }
 
     // A neutral chip has no meaning of its own: once selected, it takes the brand color.
     // Explicit tones keep their color when selected.
     &[data-tone='neutral'][data-pressed] {
-      --chip-tint: var(--ui-color-primary-tint);
-      --chip-text: var(--ui-color-primary-text);
+      --chip-tint: var(--rv-color-primary-tint);
+      --chip-text: var(--rv-color-primary-text);
     }
 
     &[data-variant='outline']:hover:not([data-disabled]) {
@@ -147,5 +147,5 @@ $sizes: (
 .group {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--ui-space-2);
+  gap: var(--rv-space-2);
 }

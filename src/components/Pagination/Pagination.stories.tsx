@@ -5,8 +5,8 @@ import { Pagination } from './Pagination';
 
 // Grid items stretch, so each pagination gets the width of the story and can switch to its
 // compact row (a grid item aligned to start would keep its full width and overflow instead)
-const stack = { display: 'grid', gap: 'var(--ui-space-4)' } as const;
-const text = { fontFamily: 'var(--ui-font-family)', color: 'var(--ui-color-text)' } as const;
+const stack = { display: 'grid', gap: 'var(--rv-space-4)' } as const;
+const text = { fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' } as const;
 
 const meta = {
   title: 'Components/Pagination',
@@ -120,8 +120,8 @@ export const Compact: Story = {
         inlineSize: '12rem',
         minInlineSize: '8rem',
         maxInlineSize: '40rem',
-        padding: 'var(--ui-space-3)',
-        border: '1px dashed var(--ui-color-border)',
+        padding: 'var(--rv-space-3)',
+        border: '1px dashed var(--rv-color-border)',
         resize: 'horizontal',
         overflow: 'hidden',
       }}

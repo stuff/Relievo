@@ -2,17 +2,17 @@
 $control-sizes: (
   sm: (
     height: 2rem,
-    padding: var(--ui-space-3),
-    font-size: var(--ui-font-size-sm),
+    padding: var(--rv-space-3),
+    font-size: var(--rv-font-size-sm),
   ),
   md: (
     height: 2.5rem,
-    padding: var(--ui-space-4),
-    font-size: var(--ui-font-size-md),
+    padding: var(--rv-space-4),
+    font-size: var(--rv-font-size-md),
   ),
   lg: (
     height: 3rem,
-    padding: var(--ui-space-6),
-    font-size: var(--ui-font-size-lg),
+    padding: var(--rv-space-6),
+    font-size: var(--rv-font-size-lg),
   ),
 );

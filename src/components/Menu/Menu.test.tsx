@@ -42,6 +42,8 @@ describe('Menu', () => {
     await userEvent.click(screen.getByRole('menuitem', { name: 'Edit' }));
 
     expect(onSelect).toHaveBeenCalledOnce();
+    // No click event: a server action passed as onSelect could not serialize it
+    expect(onSelect).toHaveBeenCalledWith();
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
 

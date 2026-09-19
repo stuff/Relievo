@@ -246,6 +246,9 @@ function MenuItem({
   children,
 }: MenuItemProps) {
   const Link = useLinkComponent();
+  // Called without the click event, as its type says: a server action passed as onSelect would
+  // otherwise receive the event and fail to serialize it
+  const select = onSelect && (() => onSelect());
   const content = (
     <ItemContent startIcon={startIcon} endIcon={endIcon}>
       {children}
@@ -257,7 +260,7 @@ function MenuItem({
     return (
       <BaseMenu.LinkItem
         render={<Link href={href} />}
-        onClick={onSelect}
+        onClick={select}
         data-tone={tone}
         className={styles.item}
         style={undefined}
@@ -269,7 +272,7 @@ function MenuItem({
 
   return (
     <BaseMenu.Item
-      onClick={onSelect}
+      onClick={select}
       disabled={disabled}
       data-tone={tone}
       className={styles.item}

@@ -31,15 +31,11 @@ $light-palette: (
   success-text: #0f4627,
   warning-text: #573700,
   danger-text: #75140f,
-  // Neumorphic light source, derived from the background
+  // Relief light source, derived from the background
   shadow: color-mix(in oklab, var(--ui-color-background), black 60%),
-  shadow-pressed: color-mix(in oklab, var(--ui-color-background), black 90%),
   highlight: white,
-  // Secondary surface gradient (top / bottom stop), per theme
-  sheen-top: color-mix(in oklab, var(--ui-color-surface), white 30%),
-  sheen-bottom: color-mix(in oklab, var(--ui-color-surface), black 22%),
-  sheen-top-hover: white,
-  sheen-bottom-hover: color-mix(in oklab, var(--ui-color-surface), black 15%),
+  // Text fields: near white, so they stand out from the surface as the place for a value
+  field: color-mix(in oklab, var(--ui-color-surface), white 75%),
 );
 
 $dark-palette: (
@@ -68,15 +64,12 @@ $dark-palette: (
   success-text: #8fd6a8,
   warning-text: #f2c261,
   danger-text: #f2b8b5,
-  // Neumorphic light source, derived from the background
+  // Relief light source. Black shadows vanish on the dark background: the relief comes from the
+  // highlight instead (see the dark shadows in the palette mixin)
   shadow: black,
-  shadow-pressed: black,
-  highlight: color-mix(in oklab, var(--ui-color-background), white 25%),
-  // Secondary surface gradient (top / bottom stop), per theme
-  sheen-top: color-mix(in oklab, var(--ui-color-surface), white 3%),
-  sheen-bottom: color-mix(in oklab, var(--ui-color-surface), black 20%),
-  sheen-top-hover: color-mix(in oklab, var(--ui-color-surface), white 6%),
-  sheen-bottom-hover: color-mix(in oklab, var(--ui-color-surface), black 14%),
+  highlight: color-mix(in oklab, var(--ui-color-background), white 30%),
+  // Text fields: the page background, darker than the surface, so they sink below it
+  field: var(--ui-color-background),
 );
 
 @each $name in map.keys($light-palette) {
@@ -92,19 +85,49 @@ $dark-palette: (
     --ui-color-#{$name}: #{$value};
   }
 
-  // Primary gradient (top / bottom stop), shared by both themes: hover lightens.
-  // Redeclared with each palette so var() resolves against that scope's primary.
-  --ui-color-primary-top: color-mix(in oklab, var(--ui-color-primary), white 10%);
-  --ui-color-primary-bottom: color-mix(in oklab, var(--ui-color-primary), black 40%);
-  --ui-color-primary-top-hover: color-mix(in oklab, var(--ui-color-primary), white 20%);
-  --ui-color-primary-bottom-hover: color-mix(in oklab, var(--ui-color-primary), black 30%);
+  // Relief tells what can be pressed (see AGENTS.md):
+  // - raised: buttons (--ui-shadow-raised) and selectable chips (--ui-shadow-raised-sm);
+  // - pressed: a pushed button (--ui-shadow-pressed) or a selected chip (--ui-shadow-pressed-sm);
+  // - carved: text fields (--ui-shadow-inset, --ui-field-depth);
+  // - flat: everything else, including static chips.
+  // Values are redeclared with each palette so var() resolves against that scope's colors.
 
-  --ui-shadow-raised: 2px 2px 5px var(--ui-color-shadow), -2px -2px 6px var(--ui-color-highlight);
-  --ui-shadow-pressed:
-    1px 1px 3px var(--ui-color-shadow-pressed), 0 0 2px var(--ui-color-highlight);
-  // Carved into the surface: text fields and other inputs
-  --ui-shadow-inset:
-    inset 2px 2px 4px var(--ui-color-shadow), inset -2px -2px 4px var(--ui-color-highlight);
+  // Primary button gradient (top / bottom stop): hover lightens
+  --ui-color-primary-top: color-mix(in oklab, var(--ui-color-primary), white 5%);
+  --ui-color-primary-bottom: color-mix(in oklab, var(--ui-color-primary), black 20%);
+  --ui-color-primary-top-hover: color-mix(in oklab, var(--ui-color-primary), white 12%);
+  --ui-color-primary-bottom-hover: color-mix(in oklab, var(--ui-color-primary), black 14%);
+
+  // Secondary button gradient, over the surface
+  --ui-color-sheen-top: color-mix(in oklab, var(--ui-color-surface), white 15%);
+  --ui-color-sheen-bottom: color-mix(in oklab, var(--ui-color-surface), black 10%);
+  --ui-color-sheen-top-hover: color-mix(in oklab, var(--ui-color-surface), white 25%);
+  --ui-color-sheen-bottom-hover: color-mix(in oklab, var(--ui-color-surface), black 7%);
+
+  --ui-shadow-pressed: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 40%);
+
+  @if $scheme == dark {
+    // Dark: a strong highlight and a thin lit top edge carry the relief
+    $lit-edge: inset 0 1px 0 color-mix(in oklab, white, transparent 88%);
+
+    --ui-shadow-raised: 1px 2px 3px var(--ui-color-shadow), -1px -1px 3px var(--ui-color-highlight),
+      #{$lit-edge};
+    --ui-shadow-raised-sm: 1px 1px 2px var(--ui-color-shadow),
+      -1px -1px 2px var(--ui-color-highlight), #{$lit-edge};
+    --ui-shadow-pressed-sm: inset 1px 1px 3px var(--ui-color-shadow),
+      inset -1px -1px 1px color-mix(in oklab, white, transparent 88%);
+    --ui-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 40%);
+    --ui-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 60%), transparent 15px);
+  } @else {
+    --ui-shadow-raised: 1px 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 30%),
+      -1px -1px 3px var(--ui-color-highlight);
+    --ui-shadow-raised-sm: 1px 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 45%),
+      -1px -1px 3px var(--ui-color-highlight);
+    --ui-shadow-pressed-sm: inset 1px 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 45%),
+      inset -1px -1px 2px var(--ui-color-highlight);
+    --ui-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 65%);
+    --ui-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 92%), transparent 15px);
+  }
 }
 
 :root {

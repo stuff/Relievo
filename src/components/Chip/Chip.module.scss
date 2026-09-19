@@ -52,7 +52,9 @@ $sizes: (
   line-height: 1;
   white-space: nowrap;
   vertical-align: middle;
-  transition: background-color 150ms ease;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
 
   @each $tone in $tones {
     &[data-tone='#{$tone}'] {
@@ -79,8 +81,10 @@ $sizes: (
     opacity: 0.6;
   }
 
-  // Selectable chips: flat, selection shown by the check mark (and a tint when outlined)
+  // Selectable chips can be pressed, so they are raised like buttons; once selected, they are
+  // pressed in. Static chips are information: they stay flat (see the relief rule in AGENTS.md).
   &[data-selectable] {
+    box-shadow: var(--ui-shadow-raised-sm);
     cursor: pointer;
     user-select: none;
 
@@ -95,6 +99,8 @@ $sizes: (
 
     &[data-pressed] {
       --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 68%);
+
+      box-shadow: var(--ui-shadow-pressed-sm);
     }
 
     // A neutral chip has no meaning of its own: once selected, it takes the brand color.
@@ -113,6 +119,7 @@ $sizes: (
     }
 
     &[data-disabled] {
+      box-shadow: none;
       cursor: default;
     }
   }

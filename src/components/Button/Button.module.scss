@@ -39,7 +39,10 @@ $flat: 0 0 transparent;
     --button-elevation: var(--ui-shadow-pressed);
   }
 
+  // Disabled: it cannot be pressed, so it is flat
   &[data-disabled] {
+    --button-elevation: none;
+
     opacity: 0.6;
     cursor: default;
   }

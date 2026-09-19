@@ -79,11 +79,16 @@ $size: map.get($control-sizes, md);
   padding-block: 2px 0;
   border: 1px solid var(--ui-color-border);
   border-radius: var(--ui-radius-full);
-  // background: var(--ui-color-surface);
-  background: color-mix(in oklab, var(--ui-color-surface), white 5%);
-  // box-shadow: var(--ui-shadow-inset);
+  // Carved in: a field is where a value goes (see the relief rule in AGENTS.md)
+  background-color: var(--ui-color-field);
+  box-shadow: var(--ui-shadow-inset);
   cursor: text;
   transition: outline-color 150ms ease;
+
+  // Depth at rest: a dark gradient over the bottom of the field, removed while typing
+  &:not(:focus-within) {
+    background-image: var(--ui-field-depth);
+  }
 
   // Text fields show the ring on any focus, not only keyboard focus: the caret alone is easy to miss.
   &:focus-within {
@@ -97,7 +102,10 @@ $size: map.get($control-sizes, md);
     outline-offset: -1px;
   }
 
+  // Disabled: no value can go here, so the field is flat
   .field[data-disabled] & {
+    background-image: none;
+    box-shadow: none;
     opacity: 0.6;
     cursor: default;
   }

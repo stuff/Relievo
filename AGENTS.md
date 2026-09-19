@@ -45,6 +45,17 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
 - Every metric-sensitive choice (heights, `text-box` trimming, optical offsets) is measured with Geist. Do not tune centering for system fonts: they only show while Geist loads.
 - Labels in pills (Button, Chip) are trimmed to their capitals with the `trim-text` mixin (`src/styles/_typography.scss`), on a wrapper element: `text-box` does not reach text placed directly in a flex container. An `<input>` value cannot be trimmed: the Input pill offsets its content by whole pixels instead (half pixels move the affixes but not the value).
 
+## Relief
+
+Relief tells what can be pressed. Use the relief tokens (defined per theme in the `palette` mixin of `src/styles/tokens.scss`), never ad hoc shadows:
+
+- **Raised: it can be pressed.** Buttons (`--ui-shadow-raised`, with the primary / sheen gradients) and selectable chips (`--ui-shadow-raised-sm`).
+- **Pressed: pushed or selected.** A button while active (`--ui-shadow-pressed`), a selected chip (`--ui-shadow-pressed-sm`).
+- **Carved: a value goes here.** Text fields: `--ui-color-field` background (near white in light, the page background in dark), `--ui-shadow-inset`, and `--ui-field-depth` (a dark gradient at the bottom) while not focused.
+- **Flat: everything else**, including static chips, which are information. Disabled controls lose their relief.
+
+In dark theme, black shadows vanish on the dark background: the relief comes from a stronger highlight and a thin lit top edge instead. Check both themes when changing a relief value.
+
 ## Tokens and theming
 
 - Tokens are CSS custom properties prefixed `--ui-`, defined in `src/styles/tokens.scss`.

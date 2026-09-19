@@ -13,6 +13,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../components/Button';
 import { ButtonGroup } from '../components/ButtonGroup';
 import { Card } from '../components/Card';
+import { Checkbox } from '../components/Checkbox';
 import { Chip } from '../components/Chip';
 import { Input } from '../components/Input';
 import { Segmented } from '../components/Segmented';
@@ -34,9 +35,29 @@ const products = [
 
 function Overview() {
   const [categories, setCategories] = useState<string[]>(['clothing']);
+  const [selected, setSelected] = useState<string[]>(['Canvas tote', 'Leather boots']);
+  const allSelected = selected.length === products.length;
 
   return (
     <div style={{ display: 'grid', gap: 'var(--ui-space-6)', width: 'min(100%, 44rem)' }}>
+      {/* A toned card: an alert about the list below */}
+      <Card as="section" tone="warning">
+        <Card.Header>
+          <Card.Title as="h2">2 products need your attention</Card.Title>
+          <Card.Description>Canvas tote is low on stock and Leather boots failed to sync.</Card.Description>
+        </Card.Header>
+        <Card.Footer>
+          <ButtonGroup>
+            <Button variant="secondary" size="sm">
+              Review
+            </Button>
+            <Button variant="link" size="sm">
+              Dismiss
+            </Button>
+          </ButtonGroup>
+        </Card.Footer>
+      </Card>
+
       <Card as="section">
         <Card.Header>
           <Card.Title as="h2">Products</Card.Title>
@@ -66,18 +87,36 @@ function Overview() {
               </Segmented>
             </div>
 
-            {/* List: status chips next to text and a link button */}
+            {/* List: a checkbox per row, status chips next to text and a link button */}
             <div style={{ display: 'grid' }}>
-              {products.map((product, index) => (
+              <div style={{ ...row, paddingBlock: 'var(--ui-space-3)' }}>
+                <Checkbox
+                  label={`${selected.length} selected`}
+                  checked={allSelected}
+                  indeterminate={selected.length > 0 && !allSelected}
+                  onCheckedChange={(checked) => setSelected(checked ? products.map((product) => product.name) : [])}
+                />
+              </div>
+              {products.map((product) => (
                 <div
                   key={product.name}
                   style={{
                     ...row,
                     flexWrap: 'nowrap',
                     paddingBlock: 'var(--ui-space-3)',
-                    borderTop: index === 0 ? undefined : '1px solid var(--ui-color-border)',
+                    borderTop: '1px solid var(--ui-color-border)',
                   }}
                 >
+                  <Checkbox
+                    label={`Select ${product.name}`}
+                    hideLabel
+                    checked={selected.includes(product.name)}
+                    onCheckedChange={(checked) =>
+                      setSelected((current) =>
+                        checked ? [...current, product.name] : current.filter((name) => name !== product.name),
+                      )
+                    }
+                  />
                   <span style={{ ...text, flex: 1, fontWeight: 500 }}>{product.name}</span>
                   <span style={{ ...text, width: '4rem', textAlign: 'end' }}>{product.price}</span>
                   <span style={{ width: '8.5rem' }}>
@@ -116,6 +155,10 @@ function Overview() {
                   <Chip disabled>Archived</Chip>
                 </div>
               </div>
+            </div>
+            <div style={{ display: 'grid', gap: 'var(--ui-space-3)' }}>
+              <Checkbox label="Show in the shop" defaultChecked helperText="Customers can find and buy it." />
+              <Checkbox label="Feature on the home page" />
             </div>
           </div>
         </Card.Body>

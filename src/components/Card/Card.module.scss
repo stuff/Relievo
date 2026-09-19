@@ -79,9 +79,9 @@ $tones: primary, info, success, warning, danger;
   pointer-events: none;
 }
 
-// An aside sits in the icon's corner: it usually carries the status already, so the icon gives
-// way to it. The tone's tint stays on the card.
-.card:has(> .header[data-aside]) > .icon {
+// The end slot sits in the icon's corner: it usually carries the status already, so the icon
+// gives way to it. The tone's tint stays on the card.
+.card:has(> .header[data-end]) > .icon {
   display: none;
 }
 
@@ -101,8 +101,8 @@ $tones: primary, info, success, warning, danger;
   gap: var(--rv-space-1);
 }
 
-// With an aside: the title and description on the left, the aside on the right
-.header[data-aside] {
+// With slots: start, then the title and description, then end
+.header[data-slots] {
   display: flex;
   align-items: flex-start;
   gap: var(--rv-space-3);
@@ -114,7 +114,7 @@ $tones: primary, info, success, warning, danger;
 }
 
 // As tall as the title's first line, so its content is centered on it
-.aside {
+.slot {
   display: flex;
   flex: none;
   align-items: center;

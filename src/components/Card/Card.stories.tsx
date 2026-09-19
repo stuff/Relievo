@@ -2,6 +2,7 @@ import { LockIcon, PlusIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../Button';
 import { ButtonGroup } from '../ButtonGroup';
+import { Checkbox } from '../Checkbox';
 import { Chip } from '../Chip';
 import { Input } from '../Input';
 import { Card, type CardProps, type CardTone } from './Card';
@@ -127,16 +128,19 @@ export const WithoutIcon: Story = {
 
 /** Every part is optional. */
 /**
- * `aside` on `Card.Header` puts content beside the title, such as a status or a score as a
- * `Chip`. It stays on the title's first line; a long title wraps before it. On a card with a
- * tone, it replaces the corner icon.
+ * `start` and `end` on `Card.Header` put content around the title: a `Checkbox` that selects the
+ * card, a status or a score as a `Chip`. They stay on the title's first line; a long title wraps
+ * between them. On a card with a tone, `end` replaces the corner icon.
  */
-export const WithAside: Story = {
+export const WithSlots: Story = {
   parameters: { maxWidth: '26rem' },
   render: () => (
     <div style={{ display: 'grid', gap: '1rem' }}>
       <Card as="article">
-        <Card.Header aside={<Chip tone="info" size="sm">Shipped</Chip>}>
+        <Card.Header
+          start={<Checkbox label="Select order 1042" hideLabel />}
+          end={<Chip tone="info" size="sm">Shipped</Chip>}
+        >
           <Card.Title>Order 1042</Card.Title>
           <Card.Description>3 items, delivered by Thursday</Card.Description>
         </Card.Header>
@@ -145,7 +149,10 @@ export const WithAside: Story = {
         </Card.Footer>
       </Card>
       <Card as="article" tone="warning">
-        <Card.Header aside={<Chip tone="warning" size="sm">Late</Chip>}>
+        <Card.Header
+          start={<Checkbox label="Select order 1039" hideLabel />}
+          end={<Chip tone="warning" size="sm">Late</Chip>}
+        >
           <Card.Title>Order 1039, a longer title that wraps onto a second line</Card.Title>
           <Card.Description>1 item, expected on Monday</Card.Description>
         </Card.Header>

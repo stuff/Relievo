@@ -64,7 +64,7 @@ interface CardToneProps extends CardBaseProps {
    * Decorative icon in the top-right corner, in the tone's color, behind the text. Only with a
    * tone other than `neutral`. Defaults to the tone's icon (a warning triangle for `warning`…);
    * pass another element to replace it, such as `<LockIcon />`, or `false` to remove it. Hidden
-   * when `Card.Header` has an `aside`, which takes its corner.
+   * when `Card.Header` has an `end` slot, which takes its corner.
    */
   icon?: ReactElement | false;
 }
@@ -77,12 +77,16 @@ export interface CardHeaderProps {
    */
   children?: ReactNode;
   /**
-   * Content at the end of the header, beside the title: a status or a score as a `Chip`, a
-   * `Menu` of actions. It is centered on the title's first line and never wraps under it; the
-   * title and description take the remaining width. It takes the place of the tone's corner
+   * Content before the title, such as a `Checkbox` that selects the card in a list. Centered on
+   * the title's first line; the title and description take the remaining width.
+   */
+  start?: ReactNode;
+  /**
+   * Content after the title: a status or a score as a `Chip`, a `Menu` of actions. Centered on
+   * the title's first line, it never wraps under it. It takes the place of the tone's corner
    * icon, which is hidden.
    */
-  aside?: ReactNode;
+  end?: ReactNode;
 }
 
 export interface CardTitleProps {
@@ -171,15 +175,21 @@ export function Card({ as: Element = 'div', tone = 'neutral', variant = 'solid',
   );
 }
 
-function CardHeader({ aside, children }: CardHeaderProps) {
-  if (aside === undefined || aside === null || aside === false) {
+const isEmpty = (node: ReactNode) => node === undefined || node === null || node === false;
+
+function CardHeader({ start, end, children }: CardHeaderProps) {
+  const hasStart = !isEmpty(start);
+  const hasEnd = !isEmpty(end);
+
+  if (!hasStart && !hasEnd) {
     return <div className={styles.header}>{children}</div>;
   }
 
   return (
-    <div className={styles.header} data-aside="">
+    <div className={styles.header} data-slots="" data-end={hasEnd ? '' : undefined}>
+      {hasStart && <div className={styles.slot}>{start}</div>}
       <div className={styles.heading}>{children}</div>
-      <div className={styles.aside}>{aside}</div>
+      {hasEnd && <div className={styles.slot}>{end}</div>}
     </div>
   );
 }

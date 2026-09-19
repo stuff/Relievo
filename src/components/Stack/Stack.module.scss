@@ -11,6 +11,12 @@
     }
   }
 
+  @each $align in start, center, end, stretch, baseline {
+    &[data-align='#{$align}'] {
+      align-items: $align;
+    }
+  }
+
   @each $name, $value in $spacing {
     &[data-gap='#{$name}'] {
       gap: $value;

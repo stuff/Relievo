@@ -3,6 +3,7 @@ import styles from './Stack.module.scss';
 
 export type StackDirection = 'row' | 'column' | 'row-reverse' | 'column-reverse';
 export type StackGap = 'xs' | 'sm' | 'md' | 'lg';
+export type StackAlign = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 export type StackElement =
   | 'div'
   | 'section'
@@ -31,6 +32,14 @@ export interface StackProps {
    * @default 'column'
    */
   direction?: StackDirection;
+  /**
+   * How the children line up across the stack's axis, as in flexbox: in a `row`, `center` puts
+   * them on the same middle line, `baseline` on the same text line, `start` and `end` against
+   * one edge. `stretch` gives them the full height of the row (or width of the column), unless
+   * they set their own.
+   * @default 'stretch'
+   */
+  align?: StackAlign;
   /**
    * Space between the children, on the kit's spacing scale: `xs` (0.25rem), `sm` (0.5rem), `md`
    * (1rem), `lg` (1.5rem). With `separator`, the line sits in the middle of it.
@@ -65,6 +74,7 @@ export interface StackProps {
 export function Stack({
   as: Element = 'div',
   direction = 'column',
+  align = 'stretch',
   gap = 'md',
   separator = false,
   wrap = false,
@@ -77,6 +87,7 @@ export function Stack({
   return (
     <Element
       data-direction={direction}
+      data-align={align}
       data-gap={gap}
       data-wrap={wrap ? '' : undefined}
       data-list={isList ? '' : undefined}

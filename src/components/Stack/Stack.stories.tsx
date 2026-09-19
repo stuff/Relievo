@@ -69,6 +69,24 @@ export const Separator: Story = {
   ),
 };
 
+/**
+ * `align` lines the children up across the axis: here a field and its button on the same middle
+ * line, whatever their heights.
+ */
+export const Align: Story = {
+  render: (args) => (
+    <Stack gap="lg">
+      {(['stretch', 'center', 'end'] as const).map((align) => (
+        <Stack key={align} {...args} direction="row" align={align} gap="sm">
+          <div style={{ ...item, paddingBlock: 'var(--rv-space-6)' }}>Tall</div>
+          <div style={item}>{align}</div>
+          <div style={item}>Short</div>
+        </Stack>
+      ))}
+    </Stack>
+  ),
+};
+
 /** `wrap` moves children to a new line when a row runs out of room. */
 export const Wrap: Story = {
   args: {

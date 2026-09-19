@@ -15,6 +15,7 @@ describe('Stack', () => {
     expect(stack.tagName).toBe('DIV');
     expect(stack).toHaveAttribute('data-direction', 'column');
     expect(stack).toHaveAttribute('data-gap', 'md');
+    expect(stack).toHaveAttribute('data-align', 'stretch');
     expect(stack).not.toHaveAttribute('data-wrap');
   });
 
@@ -29,6 +30,16 @@ describe('Stack', () => {
     expect(stack).toHaveAttribute('data-direction', 'row-reverse');
     expect(stack).toHaveAttribute('data-gap', 'xs');
     expect(stack).toHaveAttribute('data-wrap');
+  });
+
+  it('applies the alignment', () => {
+    render(
+      <Stack direction="row" align="center">
+        <span>One</span>
+      </Stack>,
+    );
+
+    expect(screen.getByText('One').parentElement).toHaveAttribute('data-align', 'center');
   });
 
   it('renders the element given by as', () => {

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import {
   BellIcon,
   CheckCircleIcon,
@@ -123,23 +123,6 @@ export const Controlled: Story = {
   },
 };
 
-/** A single choice: a carved track holding one value. Arrow keys move and select. */
-export const GroupSingle: Story = {
-  render: (args) => (
-    <Chip.Group label="Sort by" defaultValue="recent">
-      <Chip {...args} value="recent">
-        Most recent
-      </Chip>
-      <Chip {...args} value="popular">
-        Most popular
-      </Chip>
-      <Chip {...args} value="price">
-        Lowest price
-      </Chip>
-    </Chip.Group>
-  ),
-};
-
 const diets = [
   { value: 'vegan', label: 'Vegan' },
   { value: 'vegetarian', label: 'Vegetarian' },
@@ -147,7 +130,7 @@ const diets = [
   { value: 'halal', label: 'Halal' },
 ];
 
-/** Filters: `multiple` allows several selections. Controlled here, in both variants and every size. */
+/** Filters: any number of chips selected. Controlled here, in both variants and every size. */
 export const GroupMultiple: Story = {
   render: function Render(args) {
     const [selection, setSelection] = useState<Record<string, string[]>>({});
@@ -165,7 +148,6 @@ export const GroupMultiple: Story = {
                 <div key={size} style={row}>
                   <Chip.Group
                     label={`Diet (${variant}, ${size})`}
-                    multiple
                     value={value}
                     onValueChange={(next) => setSelection((current) => ({ ...current, [key]: next }))}
                   >
@@ -189,7 +171,7 @@ export const GroupMultiple: Story = {
 /** Each chip can carry its own icon, telling what it turns on. Selection shows through color and relief. */
 export const GroupWithIcons: Story = {
   render: (args) => (
-    <Chip.Group label="Notifications" multiple defaultValue={['email']}>
+    <Chip.Group label="Notifications" defaultValue={['email']}>
       <Chip {...args} value="email" startIcon={<EnvelopeIcon />}>
         Email
       </Chip>
@@ -201,56 +183,4 @@ export const GroupWithIcons: Story = {
       </Chip>
     </Chip.Group>
   ),
-};
-
-const periods = [
-  { value: 'day', label: 'Day' },
-  { value: 'week', label: 'Week' },
-  { value: 'month', label: 'Month' },
-  { value: 'year', label: 'Year' },
-];
-
-function Column({ title, note, children }: { title: string; note: string; children: ReactNode }) {
-  return (
-    <div style={{ display: 'grid', gap: 'var(--ui-space-3)', alignContent: 'start', justifyItems: 'start', fontFamily: 'var(--ui-font-family)' }}>
-      <strong>{title}</strong>
-      <span style={{ fontSize: 'var(--ui-font-size-sm)', opacity: 0.75 }}>{note}</span>
-      {children}
-    </div>
-  );
-}
-
-/** Single choice reads as a track holding one value; multiple choice as independent switches. */
-export const SingleVsMultiple: Story = {
-  render: function Render(args) {
-    const [period, setPeriod] = useState('week');
-    const [diet, setDiet] = useState<string[]>(['vegan', 'halal']);
-
-    return (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, max-content)', gap: 'var(--ui-space-7)' }}>
-        <Column title="Single choice" note={`value: "${period}"`}>
-          {sizes.map((size) => (
-            <Chip.Group key={size} label={`Period (${size})`} value={period} onValueChange={setPeriod}>
-              {periods.map((item) => (
-                <Chip {...args} key={item.value} value={item.value} size={size}>
-                  {item.label}
-                </Chip>
-              ))}
-            </Chip.Group>
-          ))}
-        </Column>
-        <Column title="Multiple choice" note={`value: ${JSON.stringify(diet)}`}>
-          {sizes.map((size) => (
-            <Chip.Group key={size} label={`Diet (${size})`} multiple value={diet} onValueChange={setDiet}>
-              {diets.map((item) => (
-                <Chip {...args} key={item.value} value={item.value} size={size}>
-                  {item.label}
-                </Chip>
-              ))}
-            </Chip.Group>
-          ))}
-        </Column>
-      </div>
-    );
-  },
 };

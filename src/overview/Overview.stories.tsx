@@ -62,7 +62,7 @@ function Overview() {
         </div>
 
         <div style={{ display: 'grid', gap: 'var(--ui-space-3)' }}>
-          <Chip.Group label="Categories" multiple value={categories} onValueChange={setCategories}>
+          <Chip.Group label="Categories" value={categories} onValueChange={setCategories}>
             <Chip value="clothing">Clothing</Chip>
             <Chip value="accessories">Accessories</Chip>
             <Chip value="shoes">Shoes</Chip>

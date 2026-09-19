@@ -149,202 +149,93 @@ describe('Chip.Group', () => {
     </>
   );
 
-  describe('single choice (default)', () => {
-    it('renders a named radio group', () => {
-      render(<Chip.Group label="Diet">{options}</Chip.Group>);
+  it('renders a named group of toggle buttons', () => {
+    render(
+      <Chip.Group label="Diet">
+        {options}
+      </Chip.Group>,
+    );
 
-      expect(screen.getByRole('radiogroup', { name: 'Diet' })).toBeInTheDocument();
-      expect(screen.getAllByRole('radio')).toHaveLength(3);
-    });
-
-    it('chooses one chip at a time, reporting a single value', async () => {
-      const onValueChange = vi.fn();
-      render(
-        <Chip.Group label="Diet" onValueChange={onValueChange}>
-          {options}
-        </Chip.Group>,
-      );
-
-      await userEvent.click(screen.getByRole('radio', { name: 'Vegan' }));
-      await userEvent.click(screen.getByRole('radio', { name: 'Halal' }));
-
-      expect(screen.getByRole('radio', { name: 'Vegan' })).not.toBeChecked();
-      expect(screen.getByRole('radio', { name: 'Halal' })).toBeChecked();
-      expect(onValueChange).toHaveBeenLastCalledWith('halal', expect.anything());
-    });
-
-    it('keeps the chosen chip when it is clicked again', async () => {
-      render(
-        <Chip.Group label="Diet" defaultValue="vegan">
-          {options}
-        </Chip.Group>,
-      );
-
-      await userEvent.click(screen.getByRole('radio', { name: 'Vegan' }));
-
-      expect(screen.getByRole('radio', { name: 'Vegan' })).toBeChecked();
-    });
-
-    it('selects with the arrow keys', async () => {
-      render(
-        <Chip.Group label="Diet" defaultValue="vegan">
-          {options}
-        </Chip.Group>,
-      );
-
-      await userEvent.tab();
-      expect(screen.getByRole('radio', { name: 'Vegan' })).toHaveFocus();
-      await userEvent.keyboard('{ArrowRight}');
-
-      expect(screen.getByRole('radio', { name: 'Gluten free' })).toHaveFocus();
-      expect(screen.getByRole('radio', { name: 'Gluten free' })).toBeChecked();
-    });
-
-    it('renders the value prop when controlled, and only reports changes', async () => {
-      const onValueChange = vi.fn();
-      render(
-        <Chip.Group label="Diet" value="vegan" onValueChange={onValueChange}>
-          {options}
-        </Chip.Group>,
-      );
-
-      await userEvent.click(screen.getByRole('radio', { name: 'Halal' }));
-
-      expect(onValueChange).toHaveBeenCalledWith('halal', expect.anything());
-      expect(screen.getByRole('radio', { name: 'Vegan' })).toBeChecked();
-    });
-
-    it('follows the value prop when the parent updates it', async () => {
-      function Controlled() {
-        const [value, setValue] = useState('vegan');
-        return (
-          <Chip.Group label="Diet" value={value} onValueChange={setValue}>
-            {options}
-          </Chip.Group>
-        );
-      }
-      render(<Controlled />);
-
-      await userEvent.click(screen.getByRole('radio', { name: 'Halal' }));
-
-      expect(screen.getByRole('radio', { name: 'Halal' })).toBeChecked();
-    });
-
-    it('submits the chosen value with a form under its name', async () => {
-      const { container } = render(
-        <form>
-          <Chip.Group label="Diet" name="diet" defaultValue="halal">
-            {options}
-          </Chip.Group>
-        </form>,
-      );
-
-      const form = container.querySelector('form')!;
-      expect(new FormData(form).get('diet')).toBe('halal');
-    });
-
-    it('disables every chip', () => {
-      render(
-        <Chip.Group label="Diet" disabled>
-          {options}
-        </Chip.Group>,
-      );
-
-      for (const chip of screen.getAllByRole('radio')) {
-        expect(chip).toHaveAttribute('aria-disabled', 'true');
-      }
-    });
+    expect(screen.getByRole('group', { name: 'Diet' })).toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(3);
   });
 
-  describe('multiple choice', () => {
-    it('renders a named group of toggle buttons', () => {
-      render(
-        <Chip.Group label="Diet" multiple>
+  it('allows several selections', async () => {
+    const onValueChange = vi.fn();
+    render(
+      <Chip.Group label="Diet" onValueChange={onValueChange}>
+        {options}
+      </Chip.Group>,
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Vegan' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Halal' }));
+
+    expect(onValueChange).toHaveBeenLastCalledWith(['vegan', 'halal'], expect.anything());
+  });
+
+  it('starts from defaultValue when uncontrolled', () => {
+    render(
+      <Chip.Group label="Diet" defaultValue={['gluten-free']}>
+        {options}
+      </Chip.Group>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Gluten free' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('renders the value prop when controlled, and only reports changes', async () => {
+    const onValueChange = vi.fn();
+    render(
+      <Chip.Group label="Diet" value={['vegan']} onValueChange={onValueChange}>
+        {options}
+      </Chip.Group>,
+    );
+
+    await userEvent.click(screen.getByRole('button', { name: 'Halal' }));
+
+    expect(onValueChange).toHaveBeenCalledWith(['vegan', 'halal'], expect.anything());
+    expect(screen.getByRole('button', { name: 'Halal' })).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('follows the value prop when the parent updates it', async () => {
+    function Controlled() {
+      const [value, setValue] = useState<string[]>([]);
+      return (
+        <Chip.Group label="Diet" value={value} onValueChange={setValue}>
           {options}
-        </Chip.Group>,
+        </Chip.Group>
       );
+    }
+    render(<Controlled />);
 
-      expect(screen.getByRole('group', { name: 'Diet' })).toBeInTheDocument();
-      expect(screen.getAllByRole('button')).toHaveLength(3);
-    });
+    await userEvent.click(screen.getByRole('button', { name: 'Vegan' }));
 
-    it('allows several selections', async () => {
-      const onValueChange = vi.fn();
-      render(
-        <Chip.Group label="Diet" multiple onValueChange={onValueChange}>
-          {options}
-        </Chip.Group>,
-      );
+    expect(screen.getByRole('button', { name: 'Vegan' })).toHaveAttribute('aria-pressed', 'true');
+  });
 
-      await userEvent.click(screen.getByRole('button', { name: 'Vegan' }));
-      await userEvent.click(screen.getByRole('button', { name: 'Halal' }));
+  it('moves focus between chips with the arrow keys', async () => {
+    render(
+      <Chip.Group label="Diet">
+        {options}
+      </Chip.Group>,
+    );
 
-      expect(onValueChange).toHaveBeenLastCalledWith(['vegan', 'halal'], expect.anything());
-    });
+    await userEvent.tab();
+    expect(screen.getByRole('button', { name: 'Vegan' })).toHaveFocus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(screen.getByRole('button', { name: 'Gluten free' })).toHaveFocus();
+  });
 
-    it('starts from defaultValue when uncontrolled', () => {
-      render(
-        <Chip.Group label="Diet" multiple defaultValue={['gluten-free']}>
-          {options}
-        </Chip.Group>,
-      );
+  it('disables every chip', () => {
+    render(
+      <Chip.Group label="Diet" disabled>
+        {options}
+      </Chip.Group>,
+    );
 
-      expect(screen.getByRole('button', { name: 'Gluten free' })).toHaveAttribute('aria-pressed', 'true');
-    });
-
-    it('renders the value prop when controlled, and only reports changes', async () => {
-      const onValueChange = vi.fn();
-      render(
-        <Chip.Group label="Diet" multiple value={['vegan']} onValueChange={onValueChange}>
-          {options}
-        </Chip.Group>,
-      );
-
-      await userEvent.click(screen.getByRole('button', { name: 'Halal' }));
-
-      expect(onValueChange).toHaveBeenCalledWith(['vegan', 'halal'], expect.anything());
-      expect(screen.getByRole('button', { name: 'Halal' })).toHaveAttribute('aria-pressed', 'false');
-    });
-
-    it('follows the value prop when the parent updates it', async () => {
-      function Controlled() {
-        const [value, setValue] = useState<string[]>([]);
-        return (
-          <Chip.Group label="Diet" multiple value={value} onValueChange={setValue}>
-            {options}
-          </Chip.Group>
-        );
-      }
-      render(<Controlled />);
-
-      await userEvent.click(screen.getByRole('button', { name: 'Vegan' }));
-
-      expect(screen.getByRole('button', { name: 'Vegan' })).toHaveAttribute('aria-pressed', 'true');
-    });
-
-    it('moves focus between chips with the arrow keys', async () => {
-      render(
-        <Chip.Group label="Diet" multiple>
-          {options}
-        </Chip.Group>,
-      );
-
-      await userEvent.tab();
-      expect(screen.getByRole('button', { name: 'Vegan' })).toHaveFocus();
-      await userEvent.keyboard('{ArrowRight}');
-      expect(screen.getByRole('button', { name: 'Gluten free' })).toHaveFocus();
-    });
-
-    it('disables every chip', () => {
-      render(
-        <Chip.Group label="Diet" multiple disabled>
-          {options}
-        </Chip.Group>,
-      );
-
-      for (const chip of screen.getAllByRole('button')) {
-        expect(chip).toBeDisabled();
-      }
-    });
+    for (const chip of screen.getAllByRole('button')) {
+      expect(chip).toBeDisabled();
+    }
   });
 });

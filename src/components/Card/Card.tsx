@@ -1,4 +1,14 @@
-import { createContext, useContext, useId, useLayoutEffect, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useId,
+  useLayoutEffect,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
+import { CheckCircleIcon, InfoIcon, SparkleIcon, WarningIcon, XCircleIcon } from '@phosphor-icons/react';
+import { IconSlot } from '../../internal/IconSlot';
 import styles from './Card.module.scss';
 
 export type CardTone = 'neutral' | 'primary' | 'info' | 'success' | 'warning' | 'danger';
@@ -6,7 +16,9 @@ export type CardVariant = 'solid' | 'outline';
 export type CardElement = 'div' | 'article' | 'section';
 export type CardTitleElement = 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-export interface CardProps {
+export type CardStatusTone = Exclude<CardTone, 'neutral'>;
+
+interface CardBaseProps {
   /**
    * The HTML element of the card. `div` for a plain panel; `article` for a self-contained item
    * (a post, a product in a list); `section` for a part of the page. An `article` or a `section`
@@ -14,13 +26,6 @@ export interface CardProps {
    * @default 'div'
    */
   as?: CardElement;
-  /**
-   * The meaning of the card, as a color: the border takes the tone and the top of the card gets a
-   * light tint of it (lighter in `outline`). `neutral` has no meaning. Pair a status tone with a title or an icon that
-   * says the same thing: color alone does not carry meaning.
-   * @default 'neutral'
-   */
-  tone?: CardTone;
   /**
    * Rendering: `solid` fills the card with the surface color, tinted by the tone at the top;
    * `outline` has no fill, over whatever is behind the card, with a lighter tint: a lighter panel.
@@ -33,6 +38,37 @@ export interface CardProps {
    */
   children?: ReactNode;
 }
+
+interface CardNeutralProps extends CardBaseProps {
+  /**
+   * The meaning of the card, as a color: the border takes the tone, the top of the card gets a
+   * light tint of it (lighter in `outline`) and a tone icon sits in the top-right corner.
+   * `neutral` has no meaning, and no icon. Pair a status tone with a title that says the same
+   * thing: color alone does not carry meaning.
+   * @default 'neutral'
+   */
+  tone?: 'neutral';
+  icon?: never;
+}
+
+interface CardToneProps extends CardBaseProps {
+  /**
+   * The meaning of the card, as a color: the border takes the tone, the top of the card gets a
+   * light tint of it (lighter in `outline`) and a tone icon sits in the top-right corner.
+   * `neutral` has no meaning, and no icon. Pair a status tone with a title that says the same
+   * thing: color alone does not carry meaning.
+   * @default 'neutral'
+   */
+  tone: CardStatusTone;
+  /**
+   * Decorative icon in the top-right corner, in the tone's color, behind the text. Only with a
+   * tone other than `neutral`. Defaults to the tone's icon (a warning triangle for `warning`…);
+   * pass another element to replace it, such as `<LockIcon />`, or `false` to remove it.
+   */
+  icon?: ReactElement | false;
+}
+
+export type CardProps = CardNeutralProps | CardToneProps;
 
 export interface CardHeaderProps {
   /**
@@ -79,9 +115,18 @@ interface CardContextValue {
 
 const CardContext = createContext<CardContextValue | null>(null);
 
+const toneIcons: Record<CardStatusTone, ReactElement> = {
+  primary: <SparkleIcon />,
+  info: <InfoIcon />,
+  success: <CheckCircleIcon />,
+  warning: <WarningIcon />,
+  danger: <XCircleIcon />,
+};
+
 /**
  * A flat panel that groups related content: a header (title and
- * description), a body and a footer set apart by a line, each optional.
+ * description), a body and a footer set apart by a line, each optional. A status `tone` colors
+ * it and adds the tone's icon in the corner (`icon` replaces or removes it).
  *
  * ```tsx
  * <Card>
@@ -94,8 +139,10 @@ const CardContext = createContext<CardContextValue | null>(null);
  * </Card>
  * ```
  */
-export function Card({ as: Element = 'div', tone = 'neutral', variant = 'solid', children }: CardProps) {
+export function Card({ as: Element = 'div', tone = 'neutral', variant = 'solid', icon, children }: CardProps) {
   const titleId = useId();
+  // The tone's icon by default; false removes it. A neutral card has none.
+  const cornerIcon = tone === 'neutral' || icon === false ? undefined : (icon ?? toneIcons[tone]);
   const [hasTitle, setHasTitle] = useState(false);
   // A generic div cannot be named; an article or a section is named by its title
   const labelledBy = Element !== 'div' && hasTitle ? titleId : undefined;
@@ -108,6 +155,7 @@ export function Card({ as: Element = 'div', tone = 'neutral', variant = 'solid',
         data-variant={variant}
         className={styles.card}
       >
+        <IconSlot icon={cornerIcon} className={styles.icon} />
         {children}
       </Element>
     </CardContext.Provider>

@@ -1,9 +1,9 @@
-import { PlusIcon } from '@phosphor-icons/react';
+import { LockIcon, PlusIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../Button';
 import { ButtonGroup } from '../ButtonGroup';
 import { Input } from '../Input';
-import { Card, type CardTone } from './Card';
+import { Card, type CardProps, type CardTone } from './Card';
 
 const meta = {
   title: 'Components/Card',
@@ -23,7 +23,7 @@ const meta = {
       </div>
     ),
   ],
-  render: (args) => (
+  render: (args: CardProps) => (
     <Card {...args}>
       <Card.Header>
         <Card.Title>Card with footer</Card.Title>
@@ -33,16 +33,17 @@ const meta = {
       <Card.Footer>Footer actions go here</Card.Footer>
     </Card>
   ),
-} satisfies Meta<typeof Card>;
+} satisfies Meta<CardProps>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+// CardProps is a union (icon only with a status tone): type the stories with it directly
+type Story = StoryObj<CardProps>;
 
 export const Default: Story = {};
 
 /** A form in the body, its actions in the footer. */
 export const WithActions: Story = {
-  render: (args) => (
+  render: (args: CardProps) => (
     <Card {...args}>
       <Card.Header>
         <Card.Title>Invite a teammate</Card.Title>
@@ -71,15 +72,15 @@ const tones: { tone: CardTone; title: string }[] = [
 ];
 
 /**
- * The border takes the tone; the top of the card and its top-right corner a light tint of it.
- * The title says the same thing as the color: color alone does not carry meaning.
+ * The border takes the tone; the top of the card and its top-right corner a light tint of it, with
+ * the tone's icon. The title says the same thing as the color: color alone does not carry meaning.
  */
 export const Tones: Story = {
   parameters: { maxWidth: '50rem' },
-  render: (args) => (
+  render: (args: CardProps) => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: 'var(--ui-space-4)' }}>
       {tones.map(({ tone, title }) => (
-        <Card key={tone} {...args} tone={tone}>
+        <Card key={tone} variant={args.variant} {...({ tone } as CardProps)}>
           <Card.Header>
             <Card.Title>{title}</Card.Title>
             <Card.Description>Tone: {tone}</Card.Description>
@@ -97,9 +98,35 @@ export const Outline: Story = {
   args: { variant: 'outline' },
 };
 
+/** `icon` replaces the tone's icon with any icon. */
+export const CustomIcon: Story = {
+  render: () => (
+    <Card tone="info" icon={<LockIcon />}>
+      <Card.Header>
+        <Card.Title>Private project</Card.Title>
+        <Card.Description>Only invited members can see it.</Card.Description>
+      </Card.Header>
+      <Card.Body>Main content area.</Card.Body>
+    </Card>
+  ),
+};
+
+/** `icon={false}` removes the tone's icon. */
+export const WithoutIcon: Story = {
+  render: () => (
+    <Card tone="success" icon={false}>
+      <Card.Header>
+        <Card.Title>Payment received</Card.Title>
+        <Card.Description>Thank you for your order.</Card.Description>
+      </Card.Header>
+      <Card.Body>Main content area.</Card.Body>
+    </Card>
+  ),
+};
+
 /** Every part is optional. */
 export const BodyOnly: Story = {
-  render: (args) => (
+  render: (args: CardProps) => (
     <Card {...args}>
       <Card.Body>A card with a body and nothing else.</Card.Body>
     </Card>

@@ -6,6 +6,7 @@ export type {
   CardFooterProps,
   CardHeaderProps,
   CardProps,
+  CardStatusTone,
   CardTitleElement,
   CardTitleProps,
   CardTone,

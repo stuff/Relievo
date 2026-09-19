@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { LockIcon } from '@phosphor-icons/react';
 import { Card, type CardProps, type CardTitleProps } from './Card';
 
 function FullCard() {
@@ -100,6 +101,60 @@ describe('Card', () => {
     render(<FullCard />);
 
     expect(screen.getByText('People who can edit this project.').tagName).toBe('P');
+  });
+
+  describe('corner icon', () => {
+    it("shows the tone's icon by default, hidden from assistive technologies", () => {
+      const { container } = render(
+        <Card tone="warning">
+          <Card.Body>Low stock</Card.Body>
+        </Card>,
+      );
+
+      const slot = container.querySelector('svg')!.parentElement!;
+      expect(slot).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('shows no icon on a neutral card', () => {
+      const { container } = render(
+        <Card>
+          <Card.Body>Summary</Card.Body>
+        </Card>,
+      );
+
+      expect(container.querySelector('svg')).toBeNull();
+    });
+
+    it('replaces the icon with the given element', () => {
+      render(
+        <Card tone="info" icon={<LockIcon data-testid="lock" />}>
+          <Card.Body>Private</Card.Body>
+        </Card>,
+      );
+
+      expect(screen.getByTestId('lock')).toBeInTheDocument();
+      expect(document.querySelectorAll('svg')).toHaveLength(1);
+    });
+
+    it('removes the icon with icon={false}', () => {
+      const { container } = render(
+        <Card tone="success" icon={false}>
+          <Card.Body>Paid</Card.Body>
+        </Card>,
+      );
+
+      expect(container.querySelector('svg')).toBeNull();
+    });
+
+    it('only accepts icon with a status tone', () => {
+      // Type-level checks: typecheck fails if these become valid
+      // @ts-expect-error icon needs a tone other than neutral
+      const noTone = <Card icon={false} />;
+      // @ts-expect-error icon needs a tone other than neutral
+      const neutral = <Card tone="neutral" icon={<LockIcon />} />;
+
+      expect([noTone, neutral]).toHaveLength(2);
+    });
   });
 
   it('applies the variant, solid by default', () => {

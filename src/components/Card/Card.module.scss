@@ -1,3 +1,5 @@
+@use '../../styles/icons';
+
 $tones: primary, info, success, warning, danger;
 
 // A flat panel: information, not something to press (see Relief in AGENTS.md).
@@ -9,6 +11,9 @@ $tones: primary, info, success, warning, danger;
   --card-glow: transparent;
   --card-corner: transparent;
 
+  // The corner icon sits under the parts
+  position: relative;
+  isolation: isolate;
   // A column: when the card is stretched (a grid row), the body takes the extra height
   display: flex;
   flex-direction: column;
@@ -32,6 +37,7 @@ $tones: primary, info, success, warning, danger;
       --card-separator: color-mix(in oklab, var(--ui-color-#{$tone}-text), transparent 70%);
       --card-glow: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 85%);
       --card-corner: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 80%);
+      --card-icon-color: var(--ui-color-#{$tone}-text);
     }
   }
 
@@ -51,11 +57,26 @@ $tones: primary, info, success, warning, danger;
   }
 }
 
-// Each part is padded
+// Each part is padded, above the corner icon
 .header,
 .body,
 .footer {
+  position: relative;
+  z-index: 1;
   padding: var(--ui-space-5) var(--ui-space-6);
+}
+
+// Decorative tone icon, tucked into the top-right corner (closer than the padding), behind the
+// text: the tone's text color at 20%
+.icon {
+  @include icons.icon-slot(2rem);
+
+  position: absolute;
+  inset-block-start: var(--ui-space-1);
+  inset-inline-end: var(--ui-space-1);
+  color: var(--card-icon-color);
+  opacity: 0.2;
+  pointer-events: none;
 }
 
 // The body follows the header without a line: the header's padding is the gap between them

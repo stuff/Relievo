@@ -15,8 +15,6 @@ Nothing here is decided unless stated: check with the maintainer before starting
 - **Micro animations everywhere**: state changes (hover, press, selection, focus, error) animated
   with the motion tokens, as in Checkbox. Existing components still use literal durations
   (150ms, 250ms): move them to the tokens.
-- **Select**: for a long single-choice list (Segmented only suits 2 to 5 short options, Chip.Group
-  is for several choices).
 - **Icon-only Button**: square, with a required `aria-label`.
 - **Input end action**: a clickable element at the end of the field (clear, show password), as a
   separate interactive prop (`endAction`?), not an icon prop.

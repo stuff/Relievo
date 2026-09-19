@@ -18,6 +18,7 @@ import { Chip } from '../components/Chip';
 import { Input } from '../components/Input';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
+import { Select } from '../components/Select';
 
 // A realistic screen using every component together, to judge the kit's overall coherence:
 // spacing, alignment, sizes, tones and both themes (use the toolbar's Light + Dark mode).
@@ -26,6 +27,13 @@ const text: CSSProperties = { margin: 0, fontFamily: 'var(--ui-font-family)', co
 const row: CSSProperties = { display: 'flex', flexWrap: 'wrap', gap: 'var(--ui-space-3)', alignItems: 'center' };
 
 const stack: CSSProperties = { display: 'grid', gap: 'var(--ui-space-5)' };
+
+// Options as an array, like data from an API (Category above uses Select.Item children)
+const suppliers = [
+  { value: 'atelier', label: 'Atelier Lin' },
+  { value: 'nordic', label: 'Nordic Wool' },
+  { value: 'tannery', label: 'Old Tannery' },
+];
 
 const products = [
   { name: 'Linen shirt', price: '49 €', status: 'Published', tone: 'success', icon: <CheckCircleIcon /> },
@@ -145,6 +153,13 @@ function Overview() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 'var(--ui-space-5)' }}>
               <Input label="Name" defaultValue="Linen shirt" helperText="Shown on the product page." />
               <Input label="Price" type="number" defaultValue="49" suffix="€" />
+              <Select label="Category" defaultValue="clothing">
+                <Select.Item value="clothing">Clothing</Select.Item>
+                <Select.Item value="accessories">Accessories</Select.Item>
+                <Select.Item value="shoes">Shoes</Select.Item>
+                <Select.Item value="bags">Bags</Select.Item>
+              </Select>
+              <Select label="Supplier" placeholder="Choose a supplier" options={suppliers} />
               <Input label="Website" placeholder="acme" prefix="https://" suffix=".com" />
               <Input label="Contact email" type="email" defaultValue="not-an-email" error helperText="Enter an email address, like jane@example.com." />
               <Input label="SKU" defaultValue="LS-0042" disabled helperText="Generated automatically." />

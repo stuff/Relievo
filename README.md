@@ -28,6 +28,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `Chip` | Tags and statuses (static), or selectable toggles |
 | `Chip.Group` | Filters: several choices among chips |
 | `Segmented` | A single choice among a few short options (radio group) |
+| `Select` | A single choice among a long list (`Select.Item` children or an `options` array) |
 | `ThemeProvider`, `useTheme` | Light / dark / system mode |
 | `UiKitProvider` | App-level configuration (router link component) |
 

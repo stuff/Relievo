@@ -1,0 +1,229 @@
+@use 'sass:map';
+@use '../../styles/a11y';
+@use '../../styles/controls' as *;
+@use '../../styles/icons';
+
+// Single size: the medium control size, so the select lines up with a default Button and Input.
+$size: map.get($control-sizes, md);
+
+// Label, field and helper text: laid out and styled like Input
+.field {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: var(--ui-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.label {
+  // Aligned with the value, inside the pill's rounded end
+  padding-inline-start: map.get($size, padding);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-size: var(--ui-font-size-sm);
+  font-weight: var(--ui-font-weight-medium);
+  line-height: 1.2;
+
+  &[data-invalid] {
+    color: var(--ui-color-danger-text);
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+  }
+
+  &[data-hidden] {
+    @include a11y.visually-hidden;
+  }
+}
+
+.helperText {
+  margin: 0;
+  padding-inline-start: map.get($size, padding);
+  color: var(--ui-color-text-muted);
+  font-family: var(--ui-font-family);
+  font-size: var(--ui-font-size-sm);
+  line-height: 1.3;
+
+  &[data-invalid] {
+    color: var(--ui-color-danger-text-muted);
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+  }
+}
+
+// The field: carved like Input's pill (a value goes here, see the relief rule in AGENTS.md)
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+  height: map.get($size, height);
+  padding-inline: map.get($size, padding) calc(#{map.get($size, padding)} - 0.25rem);
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-full);
+  background-color: var(--ui-color-field);
+  background-image: var(--ui-field-depth);
+  box-shadow: var(--ui-shadow-inset);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-size: map.get($size, font-size);
+  line-height: 1;
+  text-align: start;
+  cursor: pointer;
+
+  &:focus-visible,
+  &[data-popup-open] {
+    outline: 2px solid var(--ui-color-focus-ring);
+    outline-offset: -1px;
+  }
+
+  // Same ring as focus, in red
+  &[data-invalid] {
+    outline: 2px solid var(--ui-color-danger-text);
+    outline-offset: -1px;
+  }
+
+  // Disabled: no value can go here, so the field is flat
+  &[data-disabled] {
+    background-image: none;
+    box-shadow: none;
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+.value {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &[data-placeholder] {
+    color: var(--ui-color-text-muted);
+  }
+}
+
+.icon {
+  @include icons.icon-slot;
+}
+
+// Muted icons, like Input's (5.6:1 in light, 6:1+ in dark)
+.trigger > .icon,
+.caret {
+  color: color-mix(in oklab, var(--ui-color-text), transparent 10%);
+}
+
+// The chevron turns over while the list is open
+.caret {
+  display: inline-flex;
+  transition: rotate var(--ui-duration-state) ease;
+
+  .trigger[data-popup-open] & {
+    rotate: 180deg;
+  }
+}
+
+.positioner {
+  z-index: 1;
+  outline: none;
+}
+
+// The list floats above the page: not something to press, so its content is flat
+.popup {
+  box-sizing: border-box;
+  min-inline-size: var(--anchor-width);
+  max-block-size: min(20rem, var(--available-height));
+  overflow-y: auto;
+  // A thin native scrollbar in the text color, on a transparent track
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--ui-color-text), transparent 60%) transparent;
+  padding: var(--ui-space-1);
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-lg);
+  background-color: var(--ui-color-surface);
+  box-shadow: var(--ui-shadow-floating);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-size: map.get($size, font-size);
+  outline: none;
+  transform-origin: var(--transform-origin);
+  transition:
+    opacity var(--ui-duration-state) ease,
+    scale var(--ui-duration-state) ease;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+.list {
+  outline: none;
+}
+
+// Options: flat rows. The highlighted one (pointer or arrow keys) gets the hover tint; the chosen
+// one a check and a medium weight, so the choice does not rely on color.
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--ui-space-2);
+  min-block-size: 2.25rem;
+  padding-inline: var(--ui-space-3) var(--ui-space-2);
+  border-radius: var(--ui-radius-md);
+  line-height: 1.3;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+
+  &[data-highlighted] {
+    background-color: var(--ui-color-surface-hover);
+  }
+
+  &[data-selected] {
+    font-weight: var(--ui-font-weight-medium);
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+// Groups: a muted title above their options, and a line between two groups
+.group + .group {
+  margin-block-start: var(--ui-space-1);
+  padding-block-start: var(--ui-space-1);
+  border-block-start: 1px solid var(--ui-color-border);
+}
+
+.groupLabel {
+  padding: var(--ui-space-2) var(--ui-space-3) var(--ui-space-1);
+  color: var(--ui-color-text-muted);
+  font-size: var(--ui-font-size-sm);
+  font-weight: var(--ui-font-weight-medium);
+  line-height: 1.3;
+  user-select: none;
+}
+
+.itemText {
+  flex: 1;
+}
+
+.itemIndicator {
+  display: inline-flex;
+  color: var(--ui-color-primary-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret,
+  .popup {
+    transition: none;
+  }
+}

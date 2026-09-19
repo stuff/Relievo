@@ -89,6 +89,7 @@ $dark-palette: (
   // - raised: buttons (--ui-shadow-raised) and selectable chips (--ui-shadow-raised-sm);
   // - pressed: a pushed button (--ui-shadow-pressed) or a selected chip (--ui-shadow-pressed-sm);
   // - carved: text fields (--ui-shadow-inset, --ui-field-depth);
+  // - floating: layers above the page, such as a select's list (--ui-shadow-floating);
   // - flat: everything else, including static chips.
   // Values are redeclared with each palette so var() resolves against that scope's colors.
 
@@ -129,6 +130,8 @@ $dark-palette: (
       inset -1px -1px 1px color-mix(in oklab, white, transparent 88%);
     --ui-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 40%);
     --ui-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 60%), transparent 15px);
+    // Floating: a layer above the page (a select's list), a deep shadow and the lit top edge
+    --ui-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
   } @else {
     --ui-shadow-raised: 1px 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 30%),
       -1px -1px 3px var(--ui-color-highlight);
@@ -138,6 +141,9 @@ $dark-palette: (
       inset -1px -1px 2px var(--ui-color-highlight);
     --ui-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--ui-color-shadow), transparent 65%);
     --ui-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 92%), transparent 15px);
+    // Floating: a layer above the page (a select's list), a soft shadow cast far below it
+    --ui-shadow-floating: 0 8px 24px color-mix(in oklab, var(--ui-color-shadow), transparent 65%),
+      0 1px 3px color-mix(in oklab, var(--ui-color-shadow), transparent 70%);
   }
 }
 

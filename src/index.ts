@@ -11,5 +11,6 @@ export * from './components/Chip';
 export * from './components/Input';
 export * from './components/Pagination';
 export * from './components/Segmented';
+export * from './components/Select';
 export * from './provider';
 export * from './theme';

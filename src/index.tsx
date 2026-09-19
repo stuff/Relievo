@@ -47,6 +47,7 @@ export {
   Checkbox,
   Pagination,
   RelievoProvider,
+  Stack,
   Textarea,
   ThemeProvider,
   useTheme,

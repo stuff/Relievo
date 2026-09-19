@@ -1,0 +1,45 @@
+@use '../../styles/spacing' as *;
+
+.stack {
+  display: flex;
+  box-sizing: border-box;
+  min-inline-size: 0;
+
+  @each $direction in row, column, row-reverse, column-reverse {
+    &[data-direction='#{$direction}'] {
+      flex-direction: $direction;
+    }
+  }
+
+  @each $name, $value in $spacing {
+    &[data-gap='#{$name}'] {
+      gap: $value;
+    }
+  }
+
+  &[data-wrap] {
+    flex-wrap: wrap;
+  }
+
+  // A list lays out its items: no bullets, numbers or indent
+  &[data-list] {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+// A line between two children, in the middle of the gap: across a column, or down a row
+.separator {
+  flex: none;
+  align-self: stretch;
+  background-color: var(--rv-color-border);
+
+  .stack:is([data-direction='column'], [data-direction='column-reverse']) > & {
+    block-size: 1px;
+  }
+
+  .stack:is([data-direction='row'], [data-direction='row-reverse']) > & {
+    inline-size: 1px;
+  }
+}

@@ -25,6 +25,7 @@ import { Menu } from '../components/Menu';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
 import { Select } from '../components/Select';
+import { Stack } from '../components/Stack';
 import { Textarea } from '../components/Textarea';
 
 // A realistic screen using every component together, to judge the kit's overall coherence:
@@ -103,7 +104,7 @@ function Overview() {
               <Button startIcon={<PlusIcon />}>New product</Button>
             </div>
 
-            <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
+            <Stack gap="sm">
               <Chip.Group label="Categories" value={categories} onValueChange={setCategories}>
                 <Chip value="clothing">Clothing</Chip>
                 <Chip value="accessories">Accessories</Chip>
@@ -115,12 +116,12 @@ function Overview() {
                 <Segmented.Item value="price">Price</Segmented.Item>
                 <Segmented.Item value="stock">Stock</Segmented.Item>
               </Segmented>
-            </div>
+            </Stack>
 
-            {/* List: a checkbox per row, status chips next to text and a link button */}
-            <div style={{ display: 'grid' }}>
+            {/* List: a checkbox per row, status chips next to text and a link button, lines between rows */}
+            <Stack gap="sm" separator>
               {/* Selection: select all, and a menu of actions on the selected products */}
-              <div style={{ ...row, justifyContent: 'space-between', paddingBlock: 'var(--rv-space-3)' }}>
+              <div style={{ ...row, justifyContent: 'space-between' }}>
                 <Checkbox
                   label={`${selected.length} selected`}
                   checked={allSelected}
@@ -144,12 +145,7 @@ function Overview() {
               {products.map((product) => (
                 <div
                   key={product.name}
-                  style={{
-                    ...row,
-                    flexWrap: 'nowrap',
-                    paddingBlock: 'var(--rv-space-3)',
-                    borderTop: '1px solid var(--rv-color-border)',
-                  }}
+                  style={{ ...row, flexWrap: 'nowrap' }}
                 >
                   <Checkbox
                     label={`Select ${product.name}`}
@@ -173,7 +169,7 @@ function Overview() {
                   </Button>
                 </div>
               ))}
-            </div>
+            </Stack>
             <Pagination label="Products pages" pageCount={8} defaultPage={1} />
           </div>
         </Card.Body>
@@ -213,10 +209,10 @@ function Overview() {
               defaultValue="A linen shirt with a relaxed fit, mother-of-pearl buttons and a single chest pocket."
               helperText="Shown on the product page, under the price."
             />
-            <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
+            <Stack gap="sm">
               <Checkbox label="Show in the shop" defaultChecked helperText="Customers can find and buy it." />
               <Checkbox label="Feature on the home page" />
-            </div>
+            </Stack>
             {/* A plain bordered container: a side note, not a panel of its own */}
             <Box as="aside" border padding="md">
               <p style={text}>Photos and videos are managed in the media library.</p>

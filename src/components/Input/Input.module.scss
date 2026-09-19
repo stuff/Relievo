@@ -1,67 +1,21 @@
 @use 'sass:map';
-@use '../../styles/a11y';
 @use '../../styles/controls' as *;
+@use '../../styles/fields';
 @use '../../styles/icons';
 
 // Single size: the medium control size, so the input lines up with a default Button.
 $size: map.get($control-sizes, md);
 
 .field {
-  // Positioning context for the visually hidden label
-  position: relative;
-  display: grid;
-  // Keep label, pill and helper text packed at the top when the field is stretched (a form grid
-  // row made taller by a neighbour's helper text): the rows must not share the extra height.
-  align-content: start;
-  gap: var(--rv-space-2);
-  inline-size: 100%;
-  min-inline-size: 0;
+  @include fields.field;
 }
 
 .label {
-  // Aligned with the input text, inside the pill's rounded end
-  padding-inline-start: map.get($size, padding);
-  color: var(--rv-color-text);
-  font-family: var(--rv-font-family);
-  font-size: var(--rv-font-size-sm);
-  font-weight: var(--rv-font-weight-medium);
-  line-height: 1.2;
-  transition: color 150ms ease;
-
-  &[data-focused] {
-    color: var(--rv-color-primary-text);
-  }
-
-  // After data-focused: an invalid field stays red while focused
-  &[data-invalid] {
-    color: var(--rv-color-danger-text);
-  }
-
-  &[data-disabled] {
-    opacity: 0.6;
-  }
-
-  &[data-hidden] {
-    @include a11y.visually-hidden;
-  }
+  @include fields.label;
 }
 
 .helperText {
-  margin: 0;
-  // Aligned with the label and the input text
-  padding-inline-start: map.get($size, padding);
-  color: var(--rv-color-text-muted);
-  font-family: var(--rv-font-family);
-  font-size: var(--rv-font-size-sm);
-  line-height: 1.3;
-
-  &[data-invalid] {
-    color: var(--rv-color-danger-text-muted);
-  }
-
-  &[data-disabled] {
-    opacity: 0.6;
-  }
+  @include fields.helper-text;
 }
 
 .control {
@@ -76,42 +30,14 @@ $size: map.get($control-sizes, md);
   // and affixes 1px high. A taller content box at the top lowers them all by a whole pixel
   // (a whole pixel moves the <input> text and the affixes together; half a pixel would not).
   padding-block: 2px 0;
-  border: 1px solid var(--rv-color-border);
   border-radius: var(--rv-radius-full);
-  // Carved in: a field is where a value goes (see the relief rule in AGENTS.md)
-  background-color: var(--rv-color-field);
-  box-shadow: var(--rv-shadow-inset);
   cursor: text;
-  transition: outline-color 150ms ease;
+
+  @include fields.carved('.field');
 
   // With an action, the pill's end hugs the round button
   &[data-action] {
     padding-inline-end: var(--rv-space-1);
-  }
-
-  // Depth at rest: a dark gradient over the bottom of the field, removed while typing
-  &:not(:focus-within) {
-    background-image: var(--rv-field-depth);
-  }
-
-  // Text fields show the ring on any focus, not only keyboard focus: the caret alone is easy to miss.
-  &:focus-within {
-    outline: 2px solid var(--rv-color-focus-ring);
-    outline-offset: -1px;
-  }
-
-  // Same ring as focus, in red. After :focus-within: an invalid field stays red while focused.
-  .field[data-invalid] & {
-    outline: 2px solid var(--rv-color-danger-text);
-    outline-offset: -1px;
-  }
-
-  // Disabled: no value can go here, so the field is flat
-  .field[data-disabled] & {
-    background-image: none;
-    box-shadow: none;
-    opacity: 0.6;
-    cursor: default;
   }
 }
 
@@ -159,9 +85,7 @@ $size: map.get($control-sizes, md);
     appearance: none;
   }
 
-  &::placeholder {
-    color: color-mix(in oklab, var(--rv-color-text), transparent 45%);
-  }
+  @include fields.placeholder;
 }
 
 // The end action: a round, icon-only button, 2rem in the 2.5rem pill. Raised, like a small

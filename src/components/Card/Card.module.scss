@@ -1,0 +1,101 @@
+$tones: primary, info, success, warning, danger;
+
+// A flat panel: information, not something to press (see Relief in AGENTS.md).
+.card {
+  // Tones and variants override these
+  --card-bg: var(--ui-color-surface);
+  --card-border: var(--ui-color-border);
+  --card-separator: var(--ui-color-border);
+  --card-glow: transparent;
+  --card-corner: transparent;
+
+  // A column: when the card is stretched (a grid row), the body takes the extra height
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--card-border);
+  border-radius: var(--ui-radius-lg);
+  // Two light tints of the tone, fading into the surface: a small, stronger one from the top-right
+  // corner at 45°, over a band along the top. Together they reach 32% of the tone in the corner,
+  // the most a tint may reach under text (see tokens.scss).
+  background:
+    linear-gradient(225deg, var(--card-corner), transparent 20%),
+    linear-gradient(var(--card-glow), transparent 6rem),
+    var(--card-bg);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-size: var(--ui-font-size-md);
+
+  @each $tone in $tones {
+    &[data-tone='#{$tone}'] {
+      // Softened like Chip's border: the tint at the top carries the tone
+      --card-border: color-mix(in oklab, var(--ui-color-#{$tone}-text), transparent 65%);
+      --card-separator: color-mix(in oklab, var(--ui-color-#{$tone}-text), transparent 70%);
+      --card-glow: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 85%);
+      --card-corner: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 80%);
+    }
+  }
+
+  // Outline: no fill and no corner, over whatever is behind the card. The border is stronger than
+  // solid's (60% of the tone instead of 35%), and a lighter band along the top (8% of the tone
+  // instead of 15%) keeps a hint of the tone.
+  &[data-variant='outline'] {
+    --card-bg: transparent;
+    --card-corner: transparent;
+
+    @each $tone in $tones {
+      &[data-tone='#{$tone}'] {
+        --card-border: color-mix(in oklab, var(--ui-color-#{$tone}-text), transparent 40%);
+        --card-glow: color-mix(in oklab, var(--ui-color-#{$tone}-tint), transparent 92%);
+      }
+    }
+  }
+}
+
+// Each part is padded
+.header,
+.body,
+.footer {
+  padding: var(--ui-space-5) var(--ui-space-6);
+}
+
+// The body follows the header without a line: the header's padding is the gap between them
+.header + .body {
+  padding-block-start: 0;
+}
+
+// A line sets the footer apart, edge to edge
+:is(.header, .body) + .footer {
+  border-block-start: 1px solid var(--card-separator);
+}
+
+.header {
+  display: grid;
+  gap: var(--ui-space-1);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--ui-font-size-lg);
+  font-weight: var(--ui-font-weight-semibold);
+  line-height: 1.3;
+}
+
+.description {
+  margin: 0;
+  // Muted like Input's helper text: 5.6:1 in light, 6:1+ in dark
+  color: color-mix(in oklab, var(--ui-color-text), transparent 10%);
+  font-size: var(--ui-font-size-sm);
+  line-height: 1.4;
+}
+
+.body {
+  flex-grow: 1;
+  min-inline-size: 0;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ui-space-3);
+}

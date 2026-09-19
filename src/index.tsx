@@ -41,6 +41,7 @@ import {
 } from './client';
 
 export {
+  Box,
   Button,
   ButtonGroup,
   Checkbox,

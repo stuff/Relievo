@@ -1,0 +1,8 @@
+// The spacing scale of layout components (Box padding and margin, Stack gap): xs to lg, on the
+// --rv-space-* tokens.
+$spacing: (
+  xs: var(--rv-space-1),
+  sm: var(--rv-space-2),
+  md: var(--rv-space-4),
+  lg: var(--rv-space-6),
+);

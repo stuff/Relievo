@@ -1,0 +1,22 @@
+@use '../../styles/spacing' as *;
+
+// A generic container: no look of its own beyond spacing and an optional border
+.box {
+  box-sizing: border-box;
+  min-inline-size: 0;
+
+  @each $name, $value in $spacing {
+    &[data-padding='#{$name}'] {
+      padding: $value;
+    }
+
+    &[data-margin='#{$name}'] {
+      margin: $value;
+    }
+  }
+
+  &[data-border] {
+    border: 1px solid var(--rv-color-border);
+    border-radius: var(--rv-radius-lg);
+  }
+}

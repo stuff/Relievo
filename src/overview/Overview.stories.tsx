@@ -14,6 +14,7 @@ import {
   XIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Box } from '../components/Box';
 import { Button } from '../components/Button';
 import { ButtonGroup } from '../components/ButtonGroup';
 import { Card } from '../components/Card';
@@ -216,6 +217,10 @@ function Overview() {
               <Checkbox label="Show in the shop" defaultChecked helperText="Customers can find and buy it." />
               <Checkbox label="Feature on the home page" />
             </div>
+            {/* A plain bordered container: a side note, not a panel of its own */}
+            <Box as="aside" border padding="md">
+              <p style={text}>Photos and videos are managed in the media library.</p>
+            </Box>
           </div>
         </Card.Body>
         <Card.Footer>

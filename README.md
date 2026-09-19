@@ -17,6 +17,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 
 | Component | Purpose |
 | --- | --- |
+| `Box` | Generic container: padding, margin, optional border, element (`as`) |
 | `Button` | Actions; `href` renders it as a link; `startIcon` / `endIcon` |
 | `ButtonGroup` | Related buttons on a single line, with a fixed gap |
 | `Card` | A flat panel grouping related content, with an optional `tone` (and its corner icon) and an `outline` variant: `Card.Header` (`Card.Title`, `Card.Description`), `Card.Body`, `Card.Footer` |

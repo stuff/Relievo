@@ -45,6 +45,18 @@ describe('Card', () => {
     expect(screen.getByRole('heading', { level: 2, name: 'Team' })).toBeInTheDocument();
   });
 
+  it('renders the title as a level 1 heading when the card is the page', () => {
+    render(
+      <Card as="article">
+        <Card.Header>
+          <Card.Title as="h1">Order 1042</Card.Title>
+        </Card.Header>
+      </Card>,
+    );
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Order 1042' })).toBeInTheDocument();
+  });
+
   it('renders a div by default, without a name', () => {
     const { container } = render(<FullCard />);
 

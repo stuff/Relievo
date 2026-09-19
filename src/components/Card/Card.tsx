@@ -14,7 +14,7 @@ import styles from './Card.module.scss';
 export type CardTone = 'neutral' | 'primary' | 'info' | 'success' | 'warning' | 'danger';
 export type CardVariant = 'solid' | 'outline';
 export type CardElement = 'div' | 'article' | 'section';
-export type CardTitleElement = 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+export type CardTitleElement = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 export type CardStatusTone = Exclude<CardTone, 'neutral'>;
 
@@ -80,7 +80,8 @@ export interface CardHeaderProps {
 export interface CardTitleProps {
   /**
    * The heading element, to fit the card in the page outline: `h3` under a section's `h2`, `h2`
-   * for a card directly under the page's `h1`. The look does not change with the element.
+   * for a card directly under the page's `h1`, `h1` when the card is the page itself (a detail
+   * page). The look does not change with the element.
    * @default 'h3'
    */
   as?: CardTitleElement;

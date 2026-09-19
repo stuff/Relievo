@@ -16,7 +16,8 @@ type LockedProps = 'className' | 'style' | 'render' | 'nativeButton';
 export interface ChipProps extends Omit<ComponentProps<typeof Toggle>, LockedProps> {
   /**
    * Meaning of the chip. `neutral` for plain tags, `primary` to highlight without a status,
-   * `info`, `success`, `warning` and `danger` for statuses.
+   * `info`, `success`, `warning` and `danger` for statuses. A selected `neutral` chip turns to
+   * the brand color (`primary`); other tones keep their color when selected.
    * @default 'neutral'
    */
   tone?: ChipTone;

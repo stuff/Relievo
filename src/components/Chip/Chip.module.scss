@@ -97,6 +97,13 @@ $sizes: (
       --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 68%);
     }
 
+    // A neutral chip has no meaning of its own: once selected, it takes the brand color.
+    // Explicit tones keep their color when selected.
+    &[data-tone='neutral'][data-pressed] {
+      --chip-tint: var(--ui-color-primary-tint);
+      --chip-text: var(--ui-color-primary-text);
+    }
+
     &[data-variant='outline']:hover:not([data-disabled]) {
       --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 88%);
     }

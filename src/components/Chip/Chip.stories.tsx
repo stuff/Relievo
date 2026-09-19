@@ -132,30 +132,39 @@ export const GroupSingle: Story = {
   ),
 };
 
-/** Filters: `multiple` allows several selections. Controlled here. */
+const diets = [
+  { value: 'vegan', label: 'Vegan' },
+  { value: 'vegetarian', label: 'Vegetarian' },
+  { value: 'gluten-free', label: 'Gluten free' },
+  { value: 'halal', label: 'Halal' },
+];
+
+/** Filters: `multiple` allows several selections. Controlled here, in both variants. */
 export const GroupMultiple: Story = {
   render: function Render(args) {
-    const [diet, setDiet] = useState<string[]>(['vegan']);
+    const [solid, setSolid] = useState<string[]>(['vegan']);
+    const [outline, setOutline] = useState<string[]>(['vegan']);
+    const groups = [
+      { variant: 'solid', value: solid, onValueChange: setSolid },
+      { variant: 'outline', value: outline, onValueChange: setOutline },
+    ] as const;
 
     return (
       <div style={{ ...stack, fontFamily: 'var(--ui-font-family)' }}>
-        <Chip.Group label="Diet" multiple value={diet} onValueChange={setDiet}>
-          <Chip {...args} value="vegan">
-            Vegan
-          </Chip>
-          <Chip {...args} value="vegetarian">
-            Vegetarian
-          </Chip>
-          <Chip {...args} value="gluten-free">
-            Gluten free
-          </Chip>
-          <Chip {...args} value="halal">
-            Halal
-          </Chip>
-        </Chip.Group>
-        <span>
-          value: <code>{JSON.stringify(diet)}</code>
-        </span>
+        {groups.map(({ variant, value, onValueChange }) => (
+          <div key={variant} style={{ display: 'grid', gap: 'var(--ui-space-2)' }}>
+            <Chip.Group label={`Diet (${variant})`} multiple value={value} onValueChange={onValueChange}>
+              {diets.map((diet) => (
+                <Chip {...args} key={diet.value} value={diet.value} variant={variant}>
+                  {diet.label}
+                </Chip>
+              ))}
+            </Chip.Group>
+            <span>
+              {variant}: <code>{JSON.stringify(value)}</code>
+            </span>
+          </div>
+        ))}
       </div>
     );
   },

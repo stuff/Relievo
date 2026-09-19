@@ -172,6 +172,8 @@ $dark-palette: (
   --rv-radius-sm: 0.25rem;
   --rv-radius-md: 0.375rem;
   --rv-radius-lg: 0.5rem;
+  // A multi-line field: rounder than a card, echoing the pill of a one-line field
+  --rv-radius-xl: 1.25rem;
   --rv-radius-full: 9999px;
 
   // Typography

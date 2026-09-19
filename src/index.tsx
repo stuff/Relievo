@@ -46,6 +46,7 @@ export {
   Checkbox,
   Pagination,
   RelievoProvider,
+  Textarea,
   ThemeProvider,
   useTheme,
 } from './client';

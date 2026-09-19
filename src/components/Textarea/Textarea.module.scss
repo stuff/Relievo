@@ -1,0 +1,40 @@
+@use 'sass:map';
+@use '../../styles/controls' as *;
+@use '../../styles/fields';
+
+$size: map.get($control-sizes, md);
+
+.field {
+  @include fields.field;
+}
+
+.label {
+  @include fields.label;
+}
+
+.helperText {
+  @include fields.helper-text;
+}
+
+// The same carved surface as Input's pill. A pill cannot hold several lines: the corners are
+// rounder than a card's, echoing the pill next to it in a form.
+.textarea {
+  @include fields.carved('.field');
+  @include fields.placeholder;
+
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  // Never shorter than a one-line Input
+  min-block-size: map.get($size, height);
+  margin: 0;
+  padding: var(--rv-space-3) map.get($size, padding);
+  border-radius: var(--rv-radius-xl);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-size: map.get($size, font-size);
+  line-height: 1.5;
+  // Taller only: a wider textarea would break the form's columns
+  resize: vertical;
+}

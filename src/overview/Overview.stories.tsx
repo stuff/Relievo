@@ -24,6 +24,7 @@ import { Menu } from '../components/Menu';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
 import { Select } from '../components/Select';
+import { Textarea } from '../components/Textarea';
 
 // A realistic screen using every component together, to judge the kit's overall coherence:
 // spacing, alignment, sizes, tones and both themes (use the toolbar's Light + Dark mode).
@@ -206,6 +207,11 @@ function Overview() {
                 </div>
               </div>
             </div>
+            <Textarea
+              label="Description"
+              defaultValue="A linen shirt with a relaxed fit, mother-of-pearl buttons and a single chest pocket."
+              helperText="Shown on the product page, under the price."
+            />
             <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
               <Checkbox label="Show in the shop" defaultChecked helperText="Customers can find and buy it." />
               <Checkbox label="Feature on the home page" />

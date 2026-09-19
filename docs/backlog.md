@@ -5,8 +5,6 @@ Nothing here is decided unless stated: check with the maintainer before starting
 
 ## Next steps
 
-- **Rename to Relievo** (name chosen, not done): package name, `UiKitProvider`, README, AGENTS.md,
-  maybe the `--ui-` token prefix. Only when the maintainer asks.
 - **App-chosen colors**: primary and background as seeds, everything else derived with a fixed
   lightness per role. Full plan and inventory in `docs/theming.md`.
 
@@ -46,6 +44,6 @@ Nothing here is decided unless stated: check with the maintainer before starting
 
 - **Global styles in `styles.css`**: `global.scss` (box-sizing reset, `html` font size, `body`
   background and color, smooth scrolling) ships in the main stylesheet, which is intrusive for a
-  library. Consider a separate export (`my-ui-kit/global.css`).
+  library. Consider a separate export (`relievo/global.css`).
 - **`license`** is missing from `package.json` (to set before open-sourcing).
 - **No linter or formatter** yet (ESLint, Prettier or Biome).

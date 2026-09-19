@@ -1,7 +1,7 @@
 {
-  "name": "my-ui-kit",
+  "name": "relievo",
   "version": "0.1.0",
-  "description": "React design system built on Base UI",
+  "description": "Relievo: a React design system built on Base UI",
   "type": "module",
   "packageManager": "pnpm@10.5.2",
   "files": [

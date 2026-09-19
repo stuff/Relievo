@@ -1,8 +1,6 @@
-# my-ui-kit
+# Relievo
 
 A React design system built on [Base UI](https://base-ui.com/), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
-
-> Working name: the kit will be renamed **Relievo**; the code still uses `my-ui-kit` for now.
 
 ## Scripts
 
@@ -59,8 +57,8 @@ Install the kit with its peer dependencies: `react`, `react-dom` and `@phosphor-
 icon set used by the components and recommended for yours).
 
 ```tsx
-import { Button } from 'my-ui-kit';
-import 'my-ui-kit/styles.css';
+import { Button } from 'relievo';
+import 'relievo/styles.css';
 
 <Button variant="primary" size="md">Save</Button>;
 ```
@@ -81,7 +79,7 @@ Components that take an `href` render a native `<a>` by default. To use your rou
 // Next.js (App Router): app/providers.tsx
 'use client';
 import Link from 'next/link';
-import { UiKitProvider } from 'my-ui-kit';
+import { UiKitProvider } from 'relievo';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return <UiKitProvider linkComponent={Link}>{children}</UiKitProvider>;
@@ -101,7 +99,7 @@ The bundle is marked `'use client'`, so the components can be imported from Serv
 Wrap your app in `ThemeProvider`. `defaultMode` is `"system"` (follow the OS preference, the default), `"light"` or `"dark"`:
 
 ```tsx
-import { ThemeProvider } from 'my-ui-kit';
+import { ThemeProvider } from 'relievo';
 
 <ThemeProvider defaultMode="system">
   <App />

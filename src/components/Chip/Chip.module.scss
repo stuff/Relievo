@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '../../styles/icons';
+@use '../../styles/typography';
 
 $tones: neutral, primary, info, success, warning, danger;
 
@@ -109,11 +110,8 @@ $sizes: (
     }
   }
 
-  // Centers the text on its capital letters instead of the full line box, whose extra space
-  // above makes the label look low. Ignored where unsupported (about 15% of browsers in 2026):
-  // the label then renders as before.
   .label {
-    text-box: trim-both cap alphabetic;
+    @include typography.trim-text;
   }
 
   .icon {

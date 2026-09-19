@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use '../../styles/controls' as *;
 @use '../../styles/icons';
+@use '../../styles/typography';
 
 $flat: 0 0 transparent;
 
@@ -98,6 +99,10 @@ $flat: 0 0 transparent;
   }
 
   // Icons: 1.125em follows the size's font size (about 16px sm, 18px md, 20px lg)
+  .label {
+    @include typography.trim-text;
+  }
+
   .icon {
     @include icons.icon-slot;
   }

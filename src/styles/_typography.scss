@@ -1,0 +1,8 @@
+// Trims the line box to the capital letters and the baseline. Text then centers on its visible
+// letters instead of the full line box, whose extra space above (large in Segoe UI) makes labels
+// look low in pills. Needs a block box: a flex item or a block, not text directly inside a flex
+// container. Has no effect on the value of an <input>. Ignored where unsupported (about 15% of
+// browsers in 2026): the text then renders as before.
+@mixin trim-text {
+  text-box: trim-both cap alphabetic;
+}

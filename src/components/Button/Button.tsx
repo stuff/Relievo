@@ -76,7 +76,8 @@ function Content({
   return (
     <>
       <IconSlot icon={startIcon} className={styles.icon} />
-      {children}
+      {/* A flex item, so text-box can trim the label */}
+      {children != null && <span className={styles.label}>{children}</span>}
       <IconSlot icon={endIcon} className={styles.icon} />
     </>
   );

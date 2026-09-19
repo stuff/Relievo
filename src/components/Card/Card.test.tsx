@@ -109,6 +109,22 @@ describe('Card', () => {
     expect(danger).toHaveAttribute('data-tone', 'danger');
   });
 
+  it('renders the aside in the header, after the title, without changing the name', () => {
+    render(
+      <Card as="article">
+        <Card.Header aside={<span>Shipped</span>}>
+          <Card.Title>Order 1042</Card.Title>
+          <Card.Description>3 items</Card.Description>
+        </Card.Header>
+      </Card>,
+    );
+
+    const title = screen.getByRole('heading', { name: 'Order 1042' });
+    const aside = screen.getByText('Shipped');
+    expect(title.compareDocumentPosition(aside) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByRole('article', { name: 'Order 1042' })).toBeInTheDocument();
+  });
+
   it('renders the description as a paragraph', () => {
     render(<FullCard />);
 

@@ -63,7 +63,8 @@ interface CardToneProps extends CardBaseProps {
   /**
    * Decorative icon in the top-right corner, in the tone's color, behind the text. Only with a
    * tone other than `neutral`. Defaults to the tone's icon (a warning triangle for `warning`…);
-   * pass another element to replace it, such as `<LockIcon />`, or `false` to remove it.
+   * pass another element to replace it, such as `<LockIcon />`, or `false` to remove it. Hidden
+   * when `Card.Header` has an `aside`, which takes its corner.
    */
   icon?: ReactElement | false;
 }
@@ -75,6 +76,13 @@ export interface CardHeaderProps {
    * `Card.Title`, optionally followed by `Card.Description`.
    */
   children?: ReactNode;
+  /**
+   * Content at the end of the header, beside the title: a status or a score as a `Chip`, a
+   * `Menu` of actions. It is centered on the title's first line and never wraps under it; the
+   * title and description take the remaining width. It takes the place of the tone's corner
+   * icon, which is hidden.
+   */
+  aside?: ReactNode;
 }
 
 export interface CardTitleProps {
@@ -163,8 +171,17 @@ export function Card({ as: Element = 'div', tone = 'neutral', variant = 'solid',
   );
 }
 
-function CardHeader({ children }: CardHeaderProps) {
-  return <div className={styles.header}>{children}</div>;
+function CardHeader({ aside, children }: CardHeaderProps) {
+  if (aside === undefined || aside === null || aside === false) {
+    return <div className={styles.header}>{children}</div>;
+  }
+
+  return (
+    <div className={styles.header} data-aside="">
+      <div className={styles.heading}>{children}</div>
+      <div className={styles.aside}>{aside}</div>
+    </div>
+  );
 }
 
 function CardTitle({ as: Heading = 'h3', children }: CardTitleProps) {

@@ -79,6 +79,12 @@ $tones: primary, info, success, warning, danger;
   pointer-events: none;
 }
 
+// An aside sits in the icon's corner: it usually carries the status already, so the icon gives
+// way to it. The tone's tint stays on the card.
+.card:has(> .header[data-aside]) > .icon {
+  display: none;
+}
+
 // The body follows the header without a line: the header's padding is the gap between them
 .header + .body {
   padding-block-start: 0;
@@ -89,9 +95,31 @@ $tones: primary, info, success, warning, danger;
   border-block-start: 1px solid var(--card-separator);
 }
 
-.header {
+.header,
+.heading {
   display: grid;
   gap: var(--rv-space-1);
+}
+
+// With an aside: the title and description on the left, the aside on the right
+.header[data-aside] {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--rv-space-3);
+}
+
+.heading {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+// As tall as the title's first line, so its content is centered on it
+.aside {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--rv-space-2);
+  min-block-size: calc(var(--rv-font-size-lg) * 1.3);
 }
 
 .title {

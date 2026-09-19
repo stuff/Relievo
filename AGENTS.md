@@ -33,6 +33,7 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
   - `variant`: how the component is drawn, independently of its tone. The default rendering is `solid`; other values (`outline`, …) are added per component when needed. Button's `primary` / `secondary` / `link` predate this rule.
   - `size`: the scale `xs`, `sm`, `md`, `lg`, default `md`. A component may support a subset (Button: `sm`–`lg`), or a single size and no prop (Input).
 - **Tone, variant and size are `data-tone` / `data-variant` / `data-size` attributes**, styled in the component's `*.module.scss`. State selectors use Base UI's data attributes (`[data-disabled]`, `[data-pressed]`, …).
+- **Groups use the semantics of their choice**: a single choice is a radio group (`role="radiogroup"`, a single `string` value, arrow keys select, a `name` for forms), a multiple choice is a group of toggle buttons (a `string[]` value). The props type is a union on `multiple`, so TypeScript enforces the value type.
 - **Compound components** are exposed as properties of the main one (`Chip.Group`), and list the subcomponent in the story's `subcomponents` so its API table shows up.
 - **Every public prop has a JSDoc comment** (what it does, when to use which value) and a `@default` tag when it has a default. The Storybook docs API table is generated from these comments with react-docgen-typescript. Do not duplicate them as `argTypes` in stories.
 - Inherited props (Base UI, HTML) are hidden from the API table, except those listed in `inheritedPropsToDocument` in `.storybook/main.ts`. Add a prop there when it matters to users of the component.
@@ -53,6 +54,8 @@ Relief tells what can be pressed. Use the relief tokens (defined per theme in th
 - **Pressed: pushed or selected.** A button while active (`--ui-shadow-pressed`), a selected chip (`--ui-shadow-pressed-sm`).
 - **Carved: a value goes here.** Text fields: `--ui-color-field` background (near white in light, the page background in dark), `--ui-shadow-inset`, and `--ui-field-depth` (a dark gradient at the bottom) while not focused.
 - **Flat: everything else**, including static chips, which are information. Disabled controls lose their relief.
+- **Exception, single-choice tracks** (`Chip.Group` without `multiple`, and any future segmented control): the group is carved (it holds one value), unselected options are flat inside it, and the chosen option comes out raised, like a thumb on a rail. Outside a track, a selected chip is pressed in.
+- **Selection never relies on color alone** (WCAG 1.4.1): a selected chip also gets a full-strength ring. Check new selectable components in grayscale.
 
 In dark theme, black shadows vanish on the dark background: the relief comes from a stronger highlight and a thin lit top edge instead. Check both themes when changing a relief value.
 

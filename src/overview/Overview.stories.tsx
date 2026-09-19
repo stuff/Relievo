@@ -67,7 +67,7 @@ function Overview() {
             <Chip value="shoes">Shoes</Chip>
             <Chip value="bags">Bags</Chip>
           </Chip.Group>
-          <Chip.Group label="Sort by" defaultValue={['recent']}>
+          <Chip.Group label="Sort by" defaultValue="recent">
             <Chip value="recent" variant="outline" size="sm">
               Most recent
             </Chip>

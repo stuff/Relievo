@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   BellIcon,
   CheckCircleIcon,
@@ -123,17 +123,17 @@ export const Controlled: Story = {
   },
 };
 
-/** A single choice: selecting a chip deselects the others. Arrow keys move between chips. */
+/** A single choice: a carved track holding one value. Arrow keys move and select. */
 export const GroupSingle: Story = {
   render: (args) => (
-    <Chip.Group label="Sort by" defaultValue={['recent']}>
-      <Chip {...args} value="recent" tone="primary" variant="outline">
+    <Chip.Group label="Sort by" defaultValue="recent">
+      <Chip {...args} value="recent">
         Most recent
       </Chip>
-      <Chip {...args} value="popular" tone="primary" variant="outline">
+      <Chip {...args} value="popular">
         Most popular
       </Chip>
-      <Chip {...args} value="price" tone="primary" variant="outline">
+      <Chip {...args} value="price">
         Lowest price
       </Chip>
     </Chip.Group>
@@ -201,4 +201,56 @@ export const GroupWithIcons: Story = {
       </Chip>
     </Chip.Group>
   ),
+};
+
+const periods = [
+  { value: 'day', label: 'Day' },
+  { value: 'week', label: 'Week' },
+  { value: 'month', label: 'Month' },
+  { value: 'year', label: 'Year' },
+];
+
+function Column({ title, note, children }: { title: string; note: string; children: ReactNode }) {
+  return (
+    <div style={{ display: 'grid', gap: 'var(--ui-space-3)', alignContent: 'start', justifyItems: 'start', fontFamily: 'var(--ui-font-family)' }}>
+      <strong>{title}</strong>
+      <span style={{ fontSize: 'var(--ui-font-size-sm)', opacity: 0.75 }}>{note}</span>
+      {children}
+    </div>
+  );
+}
+
+/** Single choice reads as a track holding one value; multiple choice as independent switches. */
+export const SingleVsMultiple: Story = {
+  render: function Render(args) {
+    const [period, setPeriod] = useState('week');
+    const [diet, setDiet] = useState<string[]>(['vegan', 'halal']);
+
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, max-content)', gap: 'var(--ui-space-7)' }}>
+        <Column title="Single choice" note={`value: "${period}"`}>
+          {sizes.map((size) => (
+            <Chip.Group key={size} label={`Period (${size})`} value={period} onValueChange={setPeriod}>
+              {periods.map((item) => (
+                <Chip {...args} key={item.value} value={item.value} size={size}>
+                  {item.label}
+                </Chip>
+              ))}
+            </Chip.Group>
+          ))}
+        </Column>
+        <Column title="Multiple choice" note={`value: ${JSON.stringify(diet)}`}>
+          {sizes.map((size) => (
+            <Chip.Group key={size} label={`Diet (${size})`} multiple value={diet} onValueChange={setDiet}>
+              {diets.map((item) => (
+                <Chip {...args} key={item.value} value={item.value} size={size}>
+                  {item.label}
+                </Chip>
+              ))}
+            </Chip.Group>
+          ))}
+        </Column>
+      </div>
+    );
+  },
 };

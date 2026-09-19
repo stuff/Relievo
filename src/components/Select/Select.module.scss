@@ -131,7 +131,7 @@ $size: map.get($control-sizes, md);
 }
 
 .positioner {
-  z-index: 1;
+  z-index: var(--rv-z-floating);
   outline: none;
 }
 

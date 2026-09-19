@@ -164,6 +164,10 @@ $dark-palette: (
   --rv-easing-pop: cubic-bezier(0.3, 1.6, 0.5, 1);
   --rv-press-offset: 1px;
 
+  // Layers. A floating layer (a select's list, a menu) is portalled to the end of the page and must
+  // cover the page's own raised elements, such as a sticky toolbar: keep the app's z-indexes below.
+  --rv-z-floating: 1000;
+
   // Radius
   --rv-radius-sm: 0.25rem;
   --rv-radius-md: 0.375rem;

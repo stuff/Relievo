@@ -90,6 +90,7 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 ## Tokens and theming
 
 - Tokens are CSS custom properties prefixed `--rv-`, defined in `src/styles/tokens.scss`.
+- Floating layers (Select, Menu, later dialogs) take their `z-index` from a layer token (`--rv-z-floating`), never a literal: they are portalled to the end of the page and must cover the app's raised elements (sticky bars…).
 - Colors live in the `$light-palette` / `$dark-palette` Sass maps, which must have the same keys (a Sass `@error` enforces it).
 - Tokens derived with `var()` (for example `color-mix(..., var(--rv-color-primary), ...)`) must be redeclared in every theme block, through the `palette` mixin. If they are declared only on `:root`, `data-theme` subtrees would not pick them up.
 - Do not use `light-dark()`: CSS minifiers downlevel it in a way that breaks subtree theme overrides.

@@ -147,30 +147,38 @@ const diets = [
   { value: 'halal', label: 'Halal' },
 ];
 
-/** Filters: `multiple` allows several selections. Controlled here, in both variants. */
+/** Filters: `multiple` allows several selections. Controlled here, in both variants and every size. */
 export const GroupMultiple: Story = {
   render: function Render(args) {
-    const [solid, setSolid] = useState<string[]>(['vegan']);
-    const [outline, setOutline] = useState<string[]>(['vegan']);
-    const groups = [
-      { variant: 'solid', value: solid, onValueChange: setSolid },
-      { variant: 'outline', value: outline, onValueChange: setOutline },
-    ] as const;
+    const [selection, setSelection] = useState<Record<string, string[]>>({});
 
     return (
       <div style={{ ...stack, fontFamily: 'var(--ui-font-family)' }}>
-        {groups.map(({ variant, value, onValueChange }) => (
-          <div key={variant} style={{ display: 'grid', gap: 'var(--ui-space-2)' }}>
-            <Chip.Group label={`Diet (${variant})`} multiple value={value} onValueChange={onValueChange}>
-              {diets.map((diet) => (
-                <Chip {...args} key={diet.value} value={diet.value} variant={variant}>
-                  {diet.label}
-                </Chip>
-              ))}
-            </Chip.Group>
-            <span>
-              {variant}: <code>{JSON.stringify(value)}</code>
-            </span>
+        {variants.map((variant) => (
+          <div key={variant} style={{ display: 'grid', gap: 'var(--ui-space-3)' }}>
+            <strong>{variant}</strong>
+            {sizes.map((size) => {
+              const key = `${variant}-${size}`;
+              const value = selection[key] ?? ['vegan'];
+
+              return (
+                <div key={size} style={row}>
+                  <Chip.Group
+                    label={`Diet (${variant}, ${size})`}
+                    multiple
+                    value={value}
+                    onValueChange={(next) => setSelection((current) => ({ ...current, [key]: next }))}
+                  >
+                    {diets.map((diet) => (
+                      <Chip {...args} key={diet.value} value={diet.value} variant={variant} size={size}>
+                        {diet.label}
+                      </Chip>
+                    ))}
+                  </Chip.Group>
+                  <code>{JSON.stringify(value)}</code>
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>

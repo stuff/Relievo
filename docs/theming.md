@@ -69,9 +69,10 @@ Components contain no color literal: they only use `--ui-*` tokens. Everything b
 
 - Derived from seeds: `border` (light), `shadow` (light), `highlight` (dark), `field`, `sheen-*`,
   the relief shadows, `field-depth`.
-- Neutral constants: `text`, `surface-hover`, `border` (dark), `highlight` (light, white), `shadow`
-  (dark, black), the lit edge.
-- Status tones: `info`, `success`, `warning`, `danger` (`-tint` and `-text`). Their contrast was
+- Neutral constants: `text`, `text-muted` (`text`, 15% more transparent), `surface-hover`,
+  `border` (dark), `highlight` (light, white), `shadow` (dark, black), the lit edge.
+- Status tones: `info`, `success`, `warning`, `danger` (`-tint` and `-text`, plus
+  `danger-text-muted`, 20% more transparent, for error messages). Their contrast was
   checked against our backgrounds: re-check against the clamped background lightness range.
 
 ## Tests to add with the feature

@@ -82,8 +82,7 @@ $tones: primary, info, success, warning, danger;
 
 .description {
   margin: 0;
-  // Muted like Input's helper text: 5.6:1 in light, 6:1+ in dark
-  color: color-mix(in oklab, var(--ui-color-text), transparent 10%);
+  color: var(--ui-color-text-muted);
   font-size: var(--ui-font-size-sm);
   line-height: 1.4;
 }

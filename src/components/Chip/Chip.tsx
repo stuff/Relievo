@@ -189,3 +189,7 @@ function ChipGroup({ label, ...props }: ChipGroupProps) {
 }
 
 Chip.Group = ChipGroup;
+
+// The parts as named exports too: the package entry (src/index.tsx) rebuilds `Chip.*` from them,
+// so that the dot notation also works in Server Components.
+export { ChipGroup };

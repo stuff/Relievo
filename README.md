@@ -35,7 +35,8 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 
 ```
 src/
-  index.ts              # public entry
+  index.tsx             # package entry: re-exports client.ts, rebuilds compound components
+  client.ts             # the kit (built as a 'use client' module)
   components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, tests, index
   theme/                # ThemeProvider and useTheme
   provider/             # RelievoProvider (router link)
@@ -92,7 +93,7 @@ For routers whose link takes another prop than `href` (React Router's `to`), pas
 const RouterLink = ({ href, ...props }: LinkComponentProps) => <Link to={href} {...props} />;
 ```
 
-The bundle is marked `'use client'`, so the components can be imported from Server Components.
+The components are client components, and can be imported from Server Components, dot notation included (`<Card.Body>`).
 
 ## Theming (light / dark)
 

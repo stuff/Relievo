@@ -107,3 +107,7 @@ function SegmentedItem({ value, disabled, startIcon, endIcon, children }: Segmen
 }
 
 Segmented.Item = SegmentedItem;
+
+// The parts as named exports too: the package entry (src/index.tsx) rebuilds `Segmented.*` from them,
+// so that the dot notation also works in Server Components.
+export { SegmentedItem };

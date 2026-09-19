@@ -38,17 +38,17 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
   - a single choice among a few short options is a `Segmented`: a radio group (`role="radiogroup"`, a `string` value, arrow keys select, `name` for forms), on the control size scale;
   - several choices are a `Chip.Group`: filter chips, toggle buttons, a `string[]` value, wrapping on several lines;
   - a long single-choice list is a `Select`: a carved field (like Input) that opens a floating list of `Select.Item` options. Do not bend Chip.Group or Segmented into it.
-- **Compound components** are exposed as properties of the main one (`Chip.Group`), and list the subcomponent in the story's `subcomponents` so its API table shows up.
+- **Compound components** are exposed as properties of the main one (`Chip.Group`), and list the subcomponent in the story's `subcomponents` so its API table shows up. The dot notation must work in Server Components too, where a property attached to a client component is lost: each part is also a named export of the component module (`export { ChipGroup }`), and `src/index.tsx` rebuilds the compound from those exports (see Build). A new compound component, or a new part, goes there too; `src/index.test.tsx` checks it.
 - **Stories that open a popup by default** (`defaultOpen`: a select's list, later menus and dialogs) take the focus, which scrolls the Docs page to them: tag them `tags: ['!autodocs']` so they stay in the sidebar but not on the Docs page.
 - **Every public prop has a JSDoc comment** (what it does, when to use which value) and a `@default` tag when it has a default. The Storybook docs API table is generated from these comments with react-docgen-typescript. Do not duplicate them as `argTypes` in stories.
 - Inherited props (Base UI, HTML) are hidden from the API table, except those listed in `inheritedPropsToDocument` in `.storybook/main.ts`. Add a prop there when it matters to users of the component.
 - **Icons**: the kit uses Phosphor (`@phosphor-icons/react`) in the `bold` weight. It is a peerDependency, external to the bundle. Render icons through `IconSlot` (`src/internal`), which provides Phosphor's `IconContext` with the bold weight: do not pass `weight` in stories or components. Phosphor's `/ssr` icons (Server Components) ignore the context: document `weight="bold"` for them. Components take icons as elements (`startIcon={<PlusIcon />}`), never as component references, because a Server Component cannot pass a function to a Client Component. Icons are wrapped in a slot using the `icon-slot` mixin (`src/styles/_icons.scss`), which forces their size and color from CSS, and marked `aria-hidden`: they are decorative. Anything clickable next to a value (clear, show password) is a separate, interactive prop, not an icon prop.
-- Each component lives in `src/components/<Name>/` with `<Name>.tsx`, `<Name>.module.scss`, `<Name>.stories.tsx`, `<Name>.test.tsx` and an `index.ts`, and is re-exported from `src/index.ts`.
+- Each component lives in `src/components/<Name>/` with `<Name>.tsx`, `<Name>.module.scss`, `<Name>.stories.tsx`, `<Name>.test.tsx` and an `index.ts`, and is re-exported from `src/client.ts`, then from `src/index.tsx`.
 - **Every component appears in the Overview story** (`src/overview/Overview.stories.tsx`, "All components"), used where it would be on a real screen: add it there when you create one.
 
 ## Typography
 
-- The kit's typeface is Geist (`@fontsource-variable/geist`, OFL, variable: one file for every weight). `src/index.ts` imports it and it stays external to the bundle, so the app's bundler serves the font files. Storybook imports it in `.storybook/preview.tsx`.
+- The kit's typeface is Geist (`@fontsource-variable/geist`, OFL, variable: one file for every weight). `src/client.ts` imports it and it stays external to the bundle, so the app's bundler serves the font files. Storybook imports it in `.storybook/preview.tsx`.
 - Every metric-sensitive choice (heights, `text-box` trimming, optical offsets) is measured with Geist. Do not tune centering for system fonts: they only show while Geist loads.
 - Labels in pills (Button, Chip, Segmented items) are trimmed to their capitals with the `trim-text` mixin (`src/styles/_typography.scss`), on a wrapper element: `text-box` does not reach text placed directly in a flex container. An `<input>` value cannot be trimmed: the Input pill offsets its content by whole pixels instead (half pixels move the affixes but not the value).
 
@@ -98,7 +98,8 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 ## Build
 
 - `react`, `react-dom`, `@base-ui/react`, `@phosphor-icons/react` and `@fontsource-variable/geist` are external to the bundle (`vite.config.ts`). React and Phosphor are peerDependencies; Base UI and Geist are dependencies.
-- The bundle starts with `'use client'` (a Rolldown banner in `vite.config.ts`). Do not add the directive to source files.
+- Two entries. `src/client.ts` is the kit; `src/index.tsx` is the package entry, which re-exports it and rebuilds compound components (`Card.Body`…) as thin wrappers whose parts are client references, so the dot notation works in Server Components. `index.tsx` runs on the server: no hooks, state or context in it.
+- Every built file but `index.js` starts with `'use client'` (a Rolldown banner in `vite.config.ts`): Rolldown moves the shared code into a hashed chunk that `index.js` imports directly, so the directive cannot be limited to `client.js`. Do not add the directive to source files.
 
 ## Naming and repository
 

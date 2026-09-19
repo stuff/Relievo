@@ -7,9 +7,12 @@ export default defineConfig({
   plugins: [react(), dts({ tsconfigPath: './tsconfig.build.json' })],
   build: {
     lib: {
-      entry: 'src/index.ts',
+      // Two files: client.js holds the kit and is marked 'use client'; index.js, the package entry,
+      // has no directive so that compound components keep their dot notation in Server
+      // Components (see src/index.tsx).
+      entry: { index: 'src/index.tsx', client: 'src/client.ts' },
       formats: ['es'],
-      fileName: 'index',
+      fileName: (_format, entryName) => `${entryName}.js`,
       cssFileName: 'styles',
     },
     rolldownOptions: {
@@ -20,8 +23,10 @@ export default defineConfig({
         /^@phosphor-icons\/react($|\/)/,
         /^@fontsource-variable\//,
       ],
-      // The kit relies on context and hooks: mark the bundle as a client module for RSC frameworks.
-      output: { banner: "'use client';" },
+      // The kit relies on context and hooks: every file but index.js is a client module for RSC
+      // frameworks. Rolldown moves the shared code into a hashed chunk that index.js imports
+      // directly, so the directive goes on every chunk, not only on client.js.
+      output: { banner: (chunk) => (chunk.fileName === 'index.js' ? '' : "'use client';") },
     },
     sourcemap: true,
   },

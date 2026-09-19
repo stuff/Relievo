@@ -1,3 +1,6 @@
+// The kit's implementation, built as `client.js` with a 'use client' banner (see vite.config.ts).
+// Apps import the package entry, src/index.tsx, which re-exports this module.
+
 // The kit's typeface. External to the bundle: the app's bundler serves the font files.
 import '@fontsource-variable/geist';
 import './styles/tokens.scss';

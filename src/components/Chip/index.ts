@@ -1,4 +1,4 @@
-export { Chip } from './Chip';
+export { Chip, ChipGroup } from './Chip';
 export type {
   ChipGroupProps,
   ChipProps,

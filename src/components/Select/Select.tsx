@@ -251,3 +251,7 @@ function SelectGroup({ label, children }: SelectGroupProps) {
 
 Select.Item = SelectItem;
 Select.Group = SelectGroup;
+
+// The parts as named exports too: the package entry (src/index.tsx) rebuilds `Select.*` from them,
+// so that the dot notation also works in Server Components.
+export { SelectItem, SelectGroup };

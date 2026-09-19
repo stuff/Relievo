@@ -97,10 +97,16 @@ $sizes: (
       --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 74%);
     }
 
+    // Selected: pressed in, and a thicker, full-strength ring. The ring carries the selection
+    // without relying on color (WCAG 1.4.1): 1px border + 1px inset ring, so the size does not
+    // change. It reaches 4.5:1 on the background (non-text needs 3:1).
     &[data-pressed] {
       --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 68%);
+      --chip-border: var(--chip-text);
 
-      box-shadow: var(--ui-shadow-pressed-sm);
+      box-shadow:
+        inset 0 0 0 1px var(--chip-text),
+        var(--ui-shadow-pressed-sm);
     }
 
     // A neutral chip has no meaning of its own: once selected, it takes the brand color.
@@ -121,6 +127,11 @@ $sizes: (
     &[data-disabled] {
       box-shadow: none;
       cursor: default;
+    }
+
+    // Disabled chips lose their relief, but a selected one keeps its ring: the state stays visible
+    &[data-disabled][data-pressed] {
+      box-shadow: inset 0 0 0 1px var(--chip-text);
     }
   }
 

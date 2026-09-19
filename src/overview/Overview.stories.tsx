@@ -16,6 +16,7 @@ import { Card } from '../components/Card';
 import { Checkbox } from '../components/Checkbox';
 import { Chip } from '../components/Chip';
 import { Input } from '../components/Input';
+import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
 
 // A realistic screen using every component together, to judge the kit's overall coherence:
@@ -130,6 +131,7 @@ function Overview() {
                 </div>
               ))}
             </div>
+            <Pagination label="Products pages" pageCount={8} defaultPage={1} />
           </div>
         </Card.Body>
       </Card>

@@ -24,6 +24,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `Card` | A flat panel grouping related content, with an optional `tone` (and its corner icon) and an `outline` variant: `Card.Header` (`Card.Title`, `Card.Description`), `Card.Body`, `Card.Footer` |
 | `Checkbox` | A single yes / no choice, with a mixed state |
 | `Input` | Single-line text field with label, helper text, error, icons, prefix / suffix |
+| `Pagination` | Previous / next and page numbers, as buttons or links |
 | `Chip` | Tags and statuses (static), or selectable toggles |
 | `Chip.Group` | Filters: several choices among chips |
 | `Segmented` | A single choice among a few short options (radio group) |

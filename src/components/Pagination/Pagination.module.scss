@@ -1,0 +1,142 @@
+@use 'sass:map';
+@use '../../styles/controls' as *;
+@use '../../styles/icons';
+@use '../../styles/typography';
+
+// One size: md on the control scale, like Input
+$size: map.get($control-sizes, md);
+$gap: 0.25rem;
+// Most controls a row can hold: two arrows and 2 × siblingCount + 5 items, up to siblingCount 4
+$max-items: 15;
+
+// A container, so the row can switch to its compact form when it does not fit. An inline-size
+// container ignores its content when sized: contain-intrinsic-inline-size (below) gives it the
+// width of the full row instead, so a parent sized by its content (flex, fit-content) makes room
+// for the full row, and min-inline-size: 0 lets it shrink, into the compact row, when room lacks.
+.pagination {
+  container: pagination / inline-size;
+  min-inline-size: 0;
+
+  // Pages are round, at the md control height: as wide as they are high, wider for long numbers
+  --item-size: #{map.get($size, height)};
+
+  font-size: map.get($size, font-size);
+}
+
+// The width of the full row is known from the number of controls (data-items), plus some margin
+// for pages wider than they are high (long numbers). It is the pagination's natural width, and
+// below it, the row switches to the compact form.
+@for $items from 3 through $max-items {
+  $width: $items * map.get($size, height) + ($items - 1) * $gap + 1rem;
+
+  .pagination[data-items='#{$items}'] {
+    contain-intrinsic-inline-size: $width;
+  }
+
+  @container pagination (width < #{$width}) {
+    .pagination[data-items='#{$items}'] {
+      .page {
+        display: none;
+      }
+
+      .status {
+        display: inline-flex;
+      }
+    }
+  }
+}
+
+.list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: $gap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Pages are flat, like a link button, so the row stays light. The current page is not an action
+// but a landmark (you are here): a flat primary disc, without relief, so it does not invite a
+// click. The filled shape tells it apart without relying on color.
+.item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--item-size);
+  block-size: var(--item-size);
+  padding-inline: var(--ui-space-2);
+  border: none;
+  border-radius: var(--ui-radius-full);
+  background: none;
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-size: inherit;
+  font-weight: var(--ui-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color var(--ui-duration-state) ease,
+    box-shadow var(--ui-duration-press) ease;
+
+  &:hover:not([data-disabled], [data-current]) {
+    background-color: var(--ui-color-surface-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ui-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  &[data-current] {
+    background-color: var(--ui-color-primary);
+    color: var(--ui-color-on-primary);
+    cursor: default;
+  }
+
+  &[data-disabled] {
+    opacity: 0.4;
+    cursor: default;
+  }
+}
+
+.label {
+  @include typography.trim-text;
+}
+
+.icon {
+  @include icons.icon-slot(1.125em);
+}
+
+.page {
+  display: inline-flex;
+}
+
+.ellipsis {
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--item-size);
+  color: var(--ui-color-text-muted);
+  font-family: var(--ui-font-family);
+  user-select: none;
+}
+
+.status {
+  display: none;
+  align-items: center;
+  padding-inline: var(--ui-space-2);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-weight: var(--ui-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    transition: none;
+  }
+}

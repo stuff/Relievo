@@ -6,5 +6,6 @@ import './styles/global.scss';
 export * from './components/Button';
 export * from './components/Chip';
 export * from './components/Input';
+export * from './components/Segmented';
 export * from './provider';
 export * from './theme';

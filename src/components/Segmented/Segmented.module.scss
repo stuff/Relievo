@@ -1,0 +1,165 @@
+@use 'sass:map';
+@use '../../styles/controls' as *;
+@use '../../styles/icons';
+@use '../../styles/typography';
+
+// Horizontal padding of the items, per control size
+$item-padding: (
+  sm: 0.625rem,
+  md: 0.875rem,
+  lg: 1.125rem,
+);
+
+$thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
+
+// A carved track holding one value, like an input (see the relief rule in AGENTS.md). Unselected
+// items are flat inside it; the chosen one stands out, raised, like a thumb on a rail.
+.track {
+  // The chosen item is in the brand color: a choice among options carries no status, so there
+  // is no tone
+  --segment-tint: var(--ui-color-primary-tint);
+  --segment-text: var(--ui-color-primary-text);
+
+  position: relative;
+  // Each control anchors its own thumb, even with several controls on the page
+  anchor-scope: --segment-thumb;
+  display: inline-flex;
+  flex-wrap: nowrap;
+  // Sized by its items, even in a grid or flex parent that would stretch it
+  justify-self: start;
+  align-self: start;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--ui-color-border);
+  border-radius: var(--ui-radius-full);
+  background-color: var(--ui-color-field);
+  background-image: var(--ui-field-depth);
+  box-shadow: var(--ui-shadow-inset);
+
+  // Heights and font sizes of the control scale: lines up with Button and Input
+  @each $size, $values in $control-sizes {
+    &[data-size='#{$size}'] {
+      --segment-padding: #{map.get($item-padding, $size)};
+
+      height: map.get($values, height);
+      font-size: map.get($values, font-size);
+    }
+  }
+
+  // Disabled: no value can be chosen, so the track is flat
+  &[data-disabled] {
+    background-image: none;
+    box-shadow: none;
+    opacity: 0.6;
+  }
+}
+
+.item {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35em;
+  padding-inline: var(--segment-padding);
+  border-radius: var(--ui-radius-full);
+  color: var(--ui-color-text);
+  font-family: var(--ui-font-family);
+  font-weight: var(--ui-font-weight-medium);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color 250ms ease,
+    background-color 150ms ease;
+
+  &:hover:not([data-disabled], [data-checked]) {
+    background-color: color-mix(in oklab, var(--segment-tint), transparent 88%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ui-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  // The chosen item, as a static highlight: the rendering where anchor positioning is not
+  // supported. The ring carries the selection without relying on color (WCAG 1.4.1).
+  &[data-checked] {
+    background-color: color-mix(in oklab, var(--segment-tint), transparent 68%);
+    box-shadow:
+      inset 0 0 0 2px var(--segment-text),
+      var(--ui-shadow-raised-sm);
+    color: var(--segment-text);
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .track[data-disabled] &[data-checked] {
+    box-shadow: inset 0 0 0 2px var(--segment-text);
+  }
+
+  .icon {
+    @include icons.icon-slot(1.15em);
+  }
+
+  .label {
+    @include typography.trim-text;
+  }
+}
+
+// Sliding thumb: the track draws the highlight with a pseudo-element anchored to the chosen item,
+// so it slides from one item to the next. No JavaScript, no extra element.
+@supports (anchor-name: --a) {
+  .item[data-checked] {
+    anchor-name: --segment-thumb;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .track[data-disabled] .item[data-checked] {
+    box-shadow: none;
+  }
+
+  // ::after, not ::before: an anchor must come earlier in the tree than the element positioned
+  // against it
+  .track::after {
+    content: '';
+    position: absolute;
+    position-anchor: --segment-thumb;
+    inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
+    border-radius: var(--ui-radius-full);
+    background-color: color-mix(in oklab, var(--segment-tint), transparent 68%);
+    box-shadow:
+      inset 0 0 0 2px var(--segment-text),
+      var(--ui-shadow-raised-sm);
+    transition:
+      inset 250ms $thumb-easing,
+      opacity 150ms ease;
+  }
+
+  // Fades in on the first choice instead of popping in
+  @starting-style {
+    .track::after {
+      opacity: 0;
+    }
+  }
+
+  // No choice yet: no anchor, so no thumb (it would show as a shadow smudge in the corner)
+  .track:not(:has([data-checked]))::after {
+    display: none;
+  }
+
+  .track[data-disabled]::after {
+    box-shadow: inset 0 0 0 2px var(--segment-text);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .track::after {
+      transition: none;
+    }
+  }
+}

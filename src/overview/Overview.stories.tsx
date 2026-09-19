@@ -13,6 +13,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../components/Button';
 import { Chip } from '../components/Chip';
 import { Input } from '../components/Input';
+import { Segmented } from '../components/Segmented';
 
 // A realistic screen using every component together, to judge the kit's overall coherence:
 // spacing, alignment, sizes, tones and both themes (use the toolbar's Light + Dark mode).
@@ -67,17 +68,11 @@ function Overview() {
             <Chip value="shoes">Shoes</Chip>
             <Chip value="bags">Bags</Chip>
           </Chip.Group>
-          <Chip.Group label="Sort by" defaultValue="recent">
-            <Chip value="recent" variant="outline" size="sm">
-              Most recent
-            </Chip>
-            <Chip value="price" variant="outline" size="sm">
-              Price
-            </Chip>
-            <Chip value="stock" variant="outline" size="sm">
-              Stock
-            </Chip>
-          </Chip.Group>
+          <Segmented label="Sort by" defaultValue="recent" size="sm">
+            <Segmented.Item value="recent">Most recent</Segmented.Item>
+            <Segmented.Item value="price">Price</Segmented.Item>
+            <Segmented.Item value="stock">Stock</Segmented.Item>
+          </Segmented>
         </div>
 
         {/* List: status chips next to text and a link button */}
@@ -140,6 +135,10 @@ function Overview() {
             <Button size={size} variant="secondary">
               Secondary
             </Button>
+            <Segmented label={`View (${size})`} size={size} defaultValue="grid">
+              <Segmented.Item value="list">List</Segmented.Item>
+              <Segmented.Item value="grid">Grid</Segmented.Item>
+            </Segmented>
             <Chip size={size} tone="primary">
               Chip {size}
             </Chip>

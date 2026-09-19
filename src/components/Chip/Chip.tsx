@@ -1,5 +1,4 @@
 import { createContext, use, type ComponentProps, type ReactElement, type ReactNode } from 'react';
-import { CheckIcon } from '@phosphor-icons/react';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { IconSlot } from '../../internal/IconSlot';
@@ -33,7 +32,8 @@ export interface ChipProps extends Omit<ComponentProps<typeof Toggle>, LockedPro
   size?: ChipSize;
   /**
    * Icon before the label, such as `<StarIcon />` from `@phosphor-icons/react`. The chip sets its
-   * size and color; the icon is decorative. A selected chip shows a check mark in its place.
+   * size and color; the icon is decorative. On selectable chips, the icon can tell what each
+   * chip turns on.
    */
   startIcon?: ReactElement;
   /**
@@ -128,9 +128,7 @@ export function Chip({
 
   return (
     <Toggle {...props} disabled={disabled} data-selectable="" {...sharedProps}>
-      {/* Shown instead of startIcon while selected, so selection does not rely on color alone */}
-      <IconSlot icon={<CheckIcon />} className={`${styles.icon} ${styles.check}`} />
-      <IconSlot icon={startIcon} className={`${styles.icon} ${styles.startIcon}`} />
+      <IconSlot icon={startIcon} className={styles.icon} />
       <Label>{children}</Label>
       <IconSlot icon={endIcon} className={styles.icon} />
     </Toggle>

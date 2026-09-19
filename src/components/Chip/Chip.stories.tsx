@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { CheckCircleIcon, InfoIcon, StarIcon, WarningIcon, XCircleIcon } from '@phosphor-icons/react';
+import {
+  BellIcon,
+  CheckCircleIcon,
+  EnvelopeIcon,
+  InfoIcon,
+  StarIcon,
+  WarningIcon,
+  XCircleIcon,
+} from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Chip, type ChipSize, type ChipTone, type ChipVariant } from './Chip';
 
@@ -168,4 +176,21 @@ export const GroupMultiple: Story = {
       </div>
     );
   },
+};
+
+/** Each chip can carry its own icon, telling what it turns on. Selection shows through color and relief. */
+export const GroupWithIcons: Story = {
+  render: (args) => (
+    <Chip.Group label="Notifications" multiple defaultValue={['email']}>
+      <Chip {...args} value="email" startIcon={<EnvelopeIcon />}>
+        Email
+      </Chip>
+      <Chip {...args} value="push" startIcon={<BellIcon />}>
+        Push
+      </Chip>
+      <Chip {...args} value="digest" startIcon={<StarIcon />}>
+        Weekly digest
+      </Chip>
+    </Chip.Group>
+  ),
 };

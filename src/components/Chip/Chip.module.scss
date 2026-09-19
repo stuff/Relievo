@@ -131,21 +131,6 @@ $sizes: (
   .icon {
     @include icons.icon-slot(1.15em);
   }
-
-  // The check mark replaces the start icon while selected
-  .check {
-    display: none;
-  }
-
-  &[data-pressed] {
-    .check {
-      display: inline-flex;
-    }
-
-    .startIcon {
-      display: none;
-    }
-  }
 }
 
 .group {

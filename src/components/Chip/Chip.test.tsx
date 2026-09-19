@@ -112,10 +112,15 @@ describe('Chip', () => {
       expect(onPressedChange).not.toHaveBeenCalled();
     });
 
-    it('keeps the check mark out of the accessible name', () => {
-      render(<Chip defaultPressed>Vegan</Chip>);
+    it('renders its icon, hidden from assistive technologies', () => {
+      render(
+        <Chip defaultPressed startIcon={<StarIcon data-testid="icon" />}>
+          Favorites
+        </Chip>,
+      );
 
-      expect(screen.getByRole('button', { name: 'Vegan' })).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Favorites' })).toContainElement(screen.getByTestId('icon'));
+      expect(screen.getByTestId('icon').closest('[aria-hidden]')).toBeInTheDocument();
     });
   });
 

@@ -101,19 +101,26 @@ describe('Pagination', () => {
         label="Products pages"
         previousLabel="Page précédente"
         nextLabel="Page suivante"
-        getPageLabel={(page) => `Aller à la page ${page}`}
       />,
     );
 
     expect(screen.getByRole('navigation', { name: 'Products pages' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Page précédente' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Page suivante' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Aller à la page 2' })).toBeInTheDocument();
   });
 
-  describe('with getPageHref', () => {
+  describe('with pageHref', () => {
+    it('puts the page number wherever {page} appears', () => {
+      render(<Pagination pageCount={3} defaultPage={1} pageHref="/p/{page}?from={page}&sort=price" />);
+
+      expect(screen.getByRole('link', { name: 'Page 2' })).toHaveAttribute(
+        'href',
+        '/p/2?from=2&sort=price',
+      );
+    });
+
     it('renders links, the current one marked, previous disabled on the first page', () => {
-      render(<Pagination pageCount={3} defaultPage={1} getPageHref={(page) => `?page=${page}`} />);
+      render(<Pagination pageCount={3} defaultPage={1} pageHref="?page={page}" />);
 
       expect(screen.getByRole('link', { name: 'Page 2' })).toHaveAttribute('href', '?page=2');
       expect(screen.getByRole('link', { name: 'Page 1' })).toHaveAttribute('aria-current', 'page');
@@ -137,7 +144,7 @@ describe('Pagination', () => {
       ));
       render(
         <RelievoProvider linkComponent={RouterLink}>
-          <Pagination pageCount={3} onPageChange={onPageChange} getPageHref={(page) => `/p/${page}`} />
+          <Pagination pageCount={3} onPageChange={onPageChange} pageHref="/p/{page}" />
         </RelievoProvider>,
       );
 
@@ -150,7 +157,7 @@ describe('Pagination', () => {
 
     it('does not change page for a click that opens a new tab', async () => {
       const onPageChange = vi.fn();
-      render(<Pagination pageCount={3} onPageChange={onPageChange} getPageHref={(page) => `?page=${page}`} />);
+      render(<Pagination pageCount={3} onPageChange={onPageChange} pageHref="?page={page}" />);
 
       // One user session, so Control stays held during the click
       const user = userEvent.setup();

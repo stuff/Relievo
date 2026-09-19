@@ -64,8 +64,9 @@ export const Controlled: Story = {
 };
 
 /**
- * `getPageHref` turns the pages into links, for a page number kept in the URL. Here a stand-in
- * client-side router navigates without reloading, and the page comes from the URL (controlled).
+ * `pageHref` turns the pages into links, for a page number kept in the URL: the address, with
+ * `{page}` where the number goes. Here a stand-in client-side router navigates without reloading,
+ * and the page comes from the URL (controlled).
  */
 export const AsLinks: Story = {
   render: function Render(args) {
@@ -100,7 +101,7 @@ export const AsLinks: Story = {
             {...args}
             defaultPage={undefined}
             page={page}
-            getPageHref={(target) => `/products?page=${target}`}
+            pageHref="/products?page={page}"
           />
           <span style={text}>URL: {url}</span>
         </div>

@@ -22,18 +22,19 @@ export interface PaginationProps {
   defaultPage?: number;
   /**
    * Called with the requested page when the user picks one, in both controlled and uncontrolled
-   * use. With `getPageHref`, it is called before the link navigates, and not for a click that
-   * opens the page in a new tab or window.
+   * use. With `pageHref`, it is called before the link navigates, and not for a click that opens
+   * the page in a new tab or window.
    */
   onPageChange?: (page: number) => void;
   /**
-   * Turns the pages into links, for a page number kept in the URL: returns the address of a page,
-   * such as `(page) => \`?page=${page}\``. Links use the router link configured in
-   * `RelievoProvider`, so a client-side router navigates without reloading. Control the component
-   * from the URL (`page={pageFromUrl}`): the browser's back and forward buttons then update it
-   * too. Without `getPageHref`, the pages are buttons.
+   * Turns the pages into links, for a page number kept in the URL: the address of a page, with
+   * `{page}` where its number goes, such as `?page={page}` or `/products?page={page}&sort=price`.
+   * A string rather than a function, so that a Server Component can pass it. Links use the router
+   * link configured in `RelievoProvider`, so a client-side router navigates without reloading.
+   * Control the component from the URL (`page={pageFromUrl}`): the browser's back and forward
+   * buttons then update it too. Without `pageHref`, the pages are buttons.
    */
-  getPageHref?: (page: number) => string;
+  pageHref?: string;
   /**
    * Pages shown on each side of the current page. The first and last pages are always shown;
    * gaps become an ellipsis.
@@ -56,11 +57,6 @@ export interface PaginationProps {
    * @default 'Next page'
    */
   nextLabel?: string;
-  /**
-   * Accessible name of a page, for screen readers (the page number is displayed).
-   * @default (page) => `Page ${page}`
-   */
-  getPageLabel?: (page: number) => string;
 }
 
 interface ItemProps {
@@ -133,19 +129,18 @@ function Item({ page, href, current = false, disabled = false, label, onSelect, 
  * - **Uncontrolled**: `<Pagination pageCount={12} defaultPage={1} onPageChange={loadPage} />`.
  * - **Controlled**: `<Pagination pageCount={12} page={page} onPageChange={setPage} />`.
  *
- * With `getPageHref`, the pages are links, for a page number kept in the URL.
+ * With `pageHref`, the pages are links, for a page number kept in the URL.
  */
 export function Pagination({
   pageCount,
   page: pageProp,
   defaultPage = 1,
   onPageChange,
-  getPageHref,
+  pageHref,
   siblingCount = 1,
   label = 'Pagination',
   previousLabel = 'Previous page',
   nextLabel = 'Next page',
-  getPageLabel = (page) => `Page ${page}`,
 }: PaginationProps) {
   const [rawPage, setPage] = useControllableState({
     value: pageProp,
@@ -156,7 +151,7 @@ export function Pagination({
   const count = Math.max(1, Math.floor(pageCount));
   const page = Math.min(Math.max(1, rawPage), count);
   const items = getPageItems(page, count, siblingCount);
-  const href = (target: number) => getPageHref?.(target);
+  const href = (target: number) => pageHref?.replaceAll('{page}', String(target));
 
   return (
     // data-items: how many controls the full row holds, for the container query that switches to
@@ -181,7 +176,7 @@ export function Pagination({
                 page={item}
                 href={href(item)}
                 current={item === page}
-                label={getPageLabel(item)}
+                label={`Page ${item}`}
                 onSelect={setPage}
               >
                 {/* A flex item, so text-box can trim the number */}

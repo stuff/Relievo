@@ -1,0 +1,16 @@
+// A line of buttons with a fixed gap. Single line by default (buttons never shrink);
+// `data-wrap` lets them move to the next line, with the same gap between lines.
+.group {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--ui-space-3);
+
+  > * {
+    flex-shrink: 0;
+  }
+
+  &[data-wrap] {
+    flex-wrap: wrap;
+  }
+}

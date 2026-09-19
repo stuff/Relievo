@@ -20,6 +20,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | Component | Purpose |
 | --- | --- |
 | `Button` | Actions; `href` renders it as a link; `startIcon` / `endIcon` |
+| `ButtonGroup` | Related buttons on a single line, with a fixed gap |
 | `Input` | Single-line text field with label, helper text, error, icons, prefix / suffix |
 | `Chip` | Tags and statuses (static), or selectable toggles |
 | `Chip.Group` | Filters: several choices among chips |

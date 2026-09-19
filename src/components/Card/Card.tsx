@@ -201,7 +201,3 @@ Card.Title = CardTitle;
 Card.Description = CardDescription;
 Card.Body = CardBody;
 Card.Footer = CardFooter;
-
-// The parts as named exports too: the package entry (src/index.tsx) rebuilds `Card.*` from them,
-// so that the dot notation also works in Server Components.
-export { CardHeader, CardTitle, CardDescription, CardBody, CardFooter };

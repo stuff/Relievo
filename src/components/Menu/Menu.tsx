@@ -357,7 +357,3 @@ Menu.Submenu = MenuSubmenu;
 Menu.CheckboxItem = MenuCheckboxItem;
 Menu.RadioGroup = MenuRadioGroup;
 Menu.RadioItem = MenuRadioItem;
-
-// The parts as named exports too: the package entry (src/index.tsx) rebuilds `Menu.*` from them,
-// so that the dot notation also works in Server Components.
-export { MenuItem, MenuGroup, MenuSeparator, MenuSubmenu, MenuCheckboxItem, MenuRadioGroup, MenuRadioItem };

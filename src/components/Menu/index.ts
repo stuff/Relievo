@@ -1,4 +1,4 @@
-export { Menu, MenuItem, MenuGroup, MenuSeparator, MenuSubmenu, MenuCheckboxItem, MenuRadioGroup, MenuRadioItem } from './Menu';
+export { Menu } from './Menu';
 export type {
   MenuCheckboxItemProps,
   MenuGroupProps,

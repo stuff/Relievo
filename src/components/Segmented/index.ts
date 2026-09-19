@@ -1,4 +1,4 @@
-export { Segmented, SegmentedItem } from './Segmented';
+export { Segmented } from './Segmented';
 export type {
   SegmentedItemProps,
   SegmentedProps,

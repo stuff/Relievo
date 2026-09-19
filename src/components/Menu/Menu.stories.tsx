@@ -14,7 +14,7 @@ import {
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { RelievoProvider, type LinkComponentProps } from '../../provider';
-import { Menu } from './Menu';
+import { Menu, type MenuProps } from './Menu';
 
 const text = { fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' } as const;
 // Room for the open list below the button
@@ -185,6 +185,20 @@ export const Checkable: Story = {
 
 export const Disabled: Story = {
   args: { disabled: true },
+};
+
+/** `size` matches the buttons next to the menu, on the control scale shared with `Button`. */
+export const Sizes: Story = {
+  render: (args: MenuProps) => (
+    <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <Menu key={size} {...args} size={size} label={`Size ${size}`}>
+          <Menu.Item>Edit</Menu.Item>
+          <Menu.Item>Duplicate</Menu.Item>
+        </Menu>
+      ))}
+    </div>
+  ),
 };
 
 /** The menu opens and closes on its own. */

@@ -47,6 +47,22 @@ describe('Menu', () => {
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
   });
 
+  it('sizes the button, md by default', () => {
+    render(
+      <>
+        <Menu label="Actions">
+          <Menu.Item>Edit</Menu.Item>
+        </Menu>
+        <Menu label="More" size="sm">
+          <Menu.Item>Edit</Menu.Item>
+        </Menu>
+      </>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Actions' })).toHaveAttribute('data-size', 'md');
+    expect(screen.getByRole('button', { name: 'More' })).toHaveAttribute('data-size', 'sm');
+  });
+
   it('chooses an item with the keyboard', async () => {
     const onSelect = vi.fn();
     render(

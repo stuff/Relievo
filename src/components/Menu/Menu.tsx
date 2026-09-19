@@ -3,7 +3,7 @@ import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { CaretDownIcon, CaretRightIcon, CheckIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
 import { useLinkComponent } from '../../provider/RelievoProvider';
-import { Button } from '../Button';
+import { Button, type ButtonSize } from '../Button';
 import styles from './Menu.module.scss';
 
 export type MenuItemTone = 'neutral' | 'danger';
@@ -17,6 +17,11 @@ export interface MenuProps {
    * Icon before the label of the button, such as `<DotsThreeIcon />`. Decorative.
    */
   startIcon?: ReactElement;
+  /**
+   * Height of the button, on the control scale shared with `Button`: match the buttons next to it.
+   * @default 'md'
+   */
+  size?: ButtonSize;
   /**
    * Whether the menu is open, when controlled. Update it from `onOpenChange`.
    */
@@ -215,7 +220,14 @@ function Popup({ submenu = false, children }: { submenu?: boolean; children?: Re
  * Works uncontrolled (it opens and closes on its own) or controlled with `open` and
  * `onOpenChange`.
  */
-export function Menu({ label, startIcon, disabled = false, children, ...rootProps }: MenuProps) {
+export function Menu({
+  label,
+  startIcon,
+  size = 'md',
+  disabled = false,
+  children,
+  ...rootProps
+}: MenuProps) {
   return (
     <BaseMenu.Root {...rootProps}>
       <BaseMenu.Trigger
@@ -223,6 +235,7 @@ export function Menu({ label, startIcon, disabled = false, children, ...rootProp
         render={
           <Button
             variant="secondary"
+            size={size}
             startIcon={startIcon}
             endIcon={<CaretDownIcon />}
             disabled={disabled}

@@ -62,6 +62,17 @@ Relief tells what can be pressed. Use the relief tokens (defined per theme in th
 
 In dark theme, black shadows vanish on the dark background: the relief comes from a stronger highlight and a thin lit top edge instead. Check both themes when changing a relief value.
 
+## Colors
+
+Apps will be able to choose some colors (the primary, the background): see `docs/theming.md`. Until then, every new color must fit one of these categories, never be a one-off literal:
+
+- **Seed**: primary or background, chosen by the app (today still hardcoded per theme in `tokens.scss`).
+- **Derived**: computed from a seed (`color-mix()`, or OKLCH relative colors where contrast matters: the kit fixes the lightness, the seed gives the hue).
+- **Status tone**: `info`, `success`, `warning`, `danger`, fixed by the kit.
+- **Neutral constant**: black or white, usually with alpha, valid on any background of its theme.
+
+Components never contain a color literal: only `--ui-*` tokens. Adding a hardcoded color to `tokens.scss` means adding a line to the inventory in `docs/theming.md`.
+
 ## Tokens and theming
 
 - Tokens are CSS custom properties prefixed `--ui-`, defined in `src/styles/tokens.scss`.

@@ -35,7 +35,9 @@ $flat: 0 0 transparent;
     outline-offset: 3px;
   }
 
-  &:active:not([data-disabled]) {
+  // Pressed while held, and while the menu it opens is open (a Menu trigger)
+  &:active:not([data-disabled]),
+  &[data-popup-open] {
     --button-elevation: var(--ui-shadow-pressed);
   }
 
@@ -108,5 +110,18 @@ $flat: 0 0 transparent;
 
   .icon {
     @include icons.icon-slot;
+
+    transition: rotate var(--ui-duration-state) ease;
+  }
+
+  // The end icon (a Menu trigger's chevron) turns over while the menu it opens is open
+  &[data-popup-open] .icon:last-child {
+    rotate: 180deg;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .icon {
+      transition: none;
+    }
   }
 }

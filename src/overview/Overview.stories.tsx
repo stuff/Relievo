@@ -1,11 +1,14 @@
 import { useState, type CSSProperties } from 'react';
 import {
+  ArchiveIcon,
   CheckCircleIcon,
+  FolderIcon,
   FunnelIcon,
   InfoIcon,
   MagnifyingGlassIcon,
   PencilSimpleIcon,
   PlusIcon,
+  TrashIcon,
   WarningIcon,
   XCircleIcon,
 } from '@phosphor-icons/react';
@@ -16,6 +19,7 @@ import { Card } from '../components/Card';
 import { Checkbox } from '../components/Checkbox';
 import { Chip } from '../components/Chip';
 import { Input } from '../components/Input';
+import { Menu } from '../components/Menu';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
 import { Select } from '../components/Select';
@@ -98,13 +102,27 @@ function Overview() {
 
             {/* List: a checkbox per row, status chips next to text and a link button */}
             <div style={{ display: 'grid' }}>
-              <div style={{ ...row, paddingBlock: 'var(--ui-space-3)' }}>
+              {/* Selection: select all, and a menu of actions on the selected products */}
+              <div style={{ ...row, justifyContent: 'space-between', paddingBlock: 'var(--ui-space-3)' }}>
                 <Checkbox
                   label={`${selected.length} selected`}
                   checked={allSelected}
                   indeterminate={selected.length > 0 && !allSelected}
                   onCheckedChange={(checked) => setSelected(checked ? products.map((product) => product.name) : [])}
                 />
+                <Menu label="Actions" disabled={selected.length === 0}>
+                  <Menu.Item startIcon={<CheckCircleIcon />}>Publish</Menu.Item>
+                  <Menu.Item startIcon={<ArchiveIcon />}>Archive</Menu.Item>
+                  <Menu.Submenu label="Move to" startIcon={<FolderIcon />}>
+                    <Menu.Item>Clothing</Menu.Item>
+                    <Menu.Item>Accessories</Menu.Item>
+                    <Menu.Item>Shoes</Menu.Item>
+                  </Menu.Submenu>
+                  <Menu.Separator />
+                  <Menu.Item tone="danger" startIcon={<TrashIcon />}>
+                    Delete
+                  </Menu.Item>
+                </Menu>
               </div>
               {products.map((product) => (
                 <div

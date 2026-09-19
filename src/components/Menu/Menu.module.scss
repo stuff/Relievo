@@ -1,0 +1,102 @@
+@use '../../styles/floating';
+@use '../../styles/icons';
+
+.positioner {
+  z-index: 1;
+  outline: none;
+}
+
+// The list floats above the page (see floating.scss)
+.popup {
+  @include floating.floating-popup;
+
+  min-inline-size: 12rem;
+}
+
+// Items: flat rows with an optional icon on each side
+.item {
+  --item-color: var(--ui-color-text);
+  --item-highlight: var(--ui-color-surface-hover);
+
+  @include floating.list-item;
+
+  color: var(--item-color);
+  text-decoration: none;
+
+  &[data-highlighted] {
+    background-color: var(--item-highlight);
+  }
+
+  // A destructive action: the danger text, and its tint when highlighted (the text keeps 4.5:1
+  // over the tint up to 32%, see tokens.scss)
+  &[data-tone='danger'] {
+    --item-color: var(--ui-color-danger-text);
+    --item-highlight: color-mix(in oklab, var(--ui-color-danger-tint), transparent 80%);
+  }
+
+  // A submenu trigger stays highlighted while its submenu is open
+  &[data-popup-open] {
+    background-color: var(--item-highlight);
+  }
+}
+
+.label {
+  flex: 1;
+  white-space: nowrap;
+}
+
+// Once an item of a list has a start icon, the labels of the others (and the group titles) line
+// up with its label: they start after the room of an icon. Each submenu is a list of its own.
+$icon-size: 1.125em;
+
+.popup:has(.startIcon) {
+  .item:not(:has(> .startIcon)),
+  .groupLabel {
+    padding-inline-start: calc(var(--ui-space-3) + #{$icon-size} + var(--ui-space-2));
+  }
+}
+
+.icon {
+  @include icons.icon-slot($icon-size);
+}
+
+// Icons are muted, except on a toned item, where they take the tone like the label
+.item:not([data-tone='danger']) > .icon {
+  color: color-mix(in oklab, var(--ui-color-text), transparent 10%);
+}
+
+// Ticked checkbox and chosen radio: a check or a dot at the end, in the brand color, so the state
+// does not rely on color alone
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.125em;
+  color: var(--ui-color-primary-text);
+}
+
+.dot {
+  inline-size: 0.5em;
+  block-size: 0.5em;
+  border-radius: var(--ui-radius-full);
+  background-color: currentColor;
+}
+
+.group + .group,
+.separator + .group {
+  padding-block-start: var(--ui-space-1);
+}
+
+.group + .group {
+  @include floating.list-separator;
+
+  margin-block-end: 0;
+}
+
+.groupLabel {
+  @include floating.group-label;
+}
+
+.separator {
+  @include floating.list-separator;
+}

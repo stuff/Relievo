@@ -54,14 +54,24 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
 
 Relief tells what can be pressed. Use the relief tokens (defined per theme in the `palette` mixin of `src/styles/tokens.scss`), never ad hoc shadows:
 
-- **Raised: it can be pressed.** Buttons (`--ui-shadow-raised`, with the primary / sheen gradients) and selectable chips (`--ui-shadow-raised-sm`).
+- **Raised: it can be pressed.** Buttons (`--ui-shadow-raised`, with the primary / sheen gradients) selectable chips (`--ui-shadow-raised-sm`) and the Checkbox cube.
 - **Pressed: pushed or selected.** A button while active (`--ui-shadow-pressed`), a selected chip (`--ui-shadow-pressed-sm`).
 - **Carved: a value goes here.** Text fields: `--ui-color-field` background (near white in light, the page background in dark), `--ui-shadow-inset`, and `--ui-field-depth` (a dark gradient at the bottom) while not focused.
 - **Flat: everything else**, including static chips, which are information. Disabled controls lose their relief.
 - **Exception, `Segmented`**: the track is carved (it holds one value), unselected items are flat inside it, and the chosen item comes out raised, like a thumb on a rail. Its highlight is a pseudo-element of the track anchored to the chosen item (CSS anchor positioning, `anchor-scope` per control), so it slides between items without JavaScript; browsers without anchor positioning get a static highlight. Everywhere else, a selected control is pressed in.
+- **Exception, `Checkbox`**: the box is a raised cube in the secondary button colors; ticked, it turns primary and **stays raised**, and the check mark carries the selection. Pressed, it goes down physically (`--ui-press-offset`, `--ui-shadow-contact`) instead of taking an inset shadow, which would eat most of so small a box and push the check off-center.
 - **Selection never relies on color alone** (WCAG 1.4.1): a selected chip also gets a full-strength ring. Check new selectable components in grayscale.
 
 In dark theme, black shadows vanish on the dark background: the relief comes from a stronger highlight and a thin lit top edge instead. Check both themes when changing a relief value.
+
+## Motion
+
+Micro animations make state changes readable; the plan is to add them across the kit over time (see `docs/backlog.md`).
+
+- Use the motion tokens of `tokens.scss`: `--ui-duration-press` (pressing), `--ui-duration-state` (a state change), `--ui-easing-pop` (an element popping in).
+- Turn transitions off under `@media (prefers-reduced-motion: reduce)`.
+- Gradients cannot be transitioned: put the new gradient on a layer (a pseudo-element) and transition its opacity (Checkbox's primary fill).
+- Elements Base UI mounts and unmounts (indicators, popups) animate with `[data-starting-style]` / `[data-ending-style]`: Base UI waits for the transition before removing them.
 
 ## Colors
 
@@ -96,6 +106,6 @@ Components never contain a color literal: only `--ui-*` tokens. Adding a hardcod
 
 - The maintainer talks in French; code, comments, docs and commit messages are in English. Answer in French and use *tu* with the maintainer, not *vous*.
 - Propose before building when a choice is a design decision: give options with a recommendation, then wait. The maintainer makes the visual calls.
-- Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup.
+- Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup. **Animations** are validated by the maintainer in a temporary story in Storybook: no need to capture them (frames, GIF).
 - **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Recipe: `pnpm build-storybook -o <dir>`, serve it (`python3 -m http.server 6199 -d <dir>`), then `google-chrome --headless=new --no-sandbox --hide-scrollbars --force-device-scale-factor=2 --window-size=W,H --virtual-time-budget=10000 --screenshot=out.png "http://localhost:6199/iframe.html?id=<story-id>&viewMode=story&globals=theme:light"` (`theme:dark` for dark; use a window of at least 300px high or the capture is cut). Check selection states in grayscale too. Save the captures you send in `storybook-static/captures/` (gitignored): the desktop app does not display images from `/tmp`. Combining the light and dark captures into one image (ImageMagick `convert`, `+append` / `-append`) makes them easier to compare.
 - **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, tests and build before committing.

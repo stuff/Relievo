@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { EnvelopeIcon, GlobeIcon, MagnifyingGlassIcon, ScalesIcon } from '@phosphor-icons/react';
+import {
+  EnvelopeIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  GlobeIcon,
+  MagnifyingGlassIcon,
+  ScalesIcon,
+  XIcon,
+} from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../Button';
 import { Input } from './Input';
@@ -7,6 +15,7 @@ import { Input } from './Input';
 const meta = {
   title: 'Components/Input',
   component: Input,
+  subcomponents: { 'Input.Action': Input.Action },
   tags: ['autodocs'],
   args: {
     label: 'Name',
@@ -77,6 +86,49 @@ export const WithButton: Story = {
       <Button variant="secondary">Search</Button>
     </div>
   ),
+};
+
+/**
+ * `endAction` puts a button at the end of the field, acting on its value: an `Input.Action`, round
+ * and icon-only, named by its `label`. Here, clearing a search and showing a password.
+ */
+export const WithAction: Story = {
+  render: function Render(args) {
+    const [search, setSearch] = useState('react nantes');
+    const [visible, setVisible] = useState(false);
+    return (
+      <div style={{ display: 'grid', gap: 'var(--rv-space-5)', maxWidth: '20rem' }}>
+        <Input
+          {...args}
+          label="Search"
+          placeholder="Search…"
+          type="search"
+          startIcon={<MagnifyingGlassIcon />}
+          value={search}
+          onValueChange={setSearch}
+          endAction={
+            search ? (
+              <Input.Action label="Clear the search" icon={<XIcon />} onClick={() => setSearch('')} />
+            ) : undefined
+          }
+        />
+        <Input
+          {...args}
+          label="Password"
+          placeholder=""
+          type={visible ? 'text' : 'password'}
+          defaultValue="correct horse battery"
+          endAction={
+            <Input.Action
+              label={visible ? 'Hide the password' : 'Show the password'}
+              icon={visible ? <EyeSlashIcon /> : <EyeIcon />}
+              onClick={() => setVisible((v) => !v)}
+            />
+          }
+        />
+      </div>
+    );
+  },
 };
 
 export const WithHelperText: Story = {

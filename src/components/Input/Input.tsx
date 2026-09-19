@@ -1,4 +1,4 @@
-import type { ComponentProps, MouseEvent, ReactElement, ReactNode } from 'react';
+import { createContext, use, type ComponentProps, type MouseEvent, type ReactElement, type ReactNode } from 'react';
 import { Field } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { IconSlot } from '../../internal/IconSlot';
@@ -49,9 +49,14 @@ export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, Omitt
   startIcon?: ReactElement;
   /**
    * Icon at the end of the field. Sized and colored like `startIcon`. Decorative only: not
-   * a button.
+   * a button (use `endAction` for that).
    */
   endIcon?: ReactElement;
+  /**
+   * A button at the end of the field, acting on its value: an `Input.Action`, such as a clear or
+   * a show-password button. Last in the field, after `endIcon`. Disabled with the field.
+   */
+  endAction?: ReactElement<InputActionProps>;
   /**
    * Text before the value, such as a currency (`$`) or a protocol (`https://`). Announced to
    * screen readers as part of the input description.
@@ -86,6 +91,27 @@ export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, Omitt
   disabled?: boolean;
 }
 
+export interface InputActionProps {
+  /**
+   * What the button does, such as "Clear the search". Required: the button only shows an icon,
+   * so this is its accessible name.
+   */
+  label: string;
+  /**
+   * The icon, such as `<XIcon />` from `@phosphor-icons/react`. Sized and colored by the button.
+   */
+  icon: ReactElement;
+  /**
+   * Called when the button is pressed. Focus stays in the field.
+   */
+  onClick?: () => void;
+  /**
+   * Whether the button ignores user interaction. It is also disabled with its field.
+   * @default false
+   */
+  disabled?: boolean;
+}
+
 /**
  * A single-line text field with its label and an optional helper text. Set `error` to show the
  * error state. Other props (`name`, `placeholder`, `ref`, …) go to the `<input>`.
@@ -104,6 +130,7 @@ export function Input({
   hideLabel = false,
   startIcon,
   endIcon,
+  endAction,
   prefix,
   suffix,
   helperText,
@@ -120,7 +147,11 @@ export function Input({
         {label}
       </Field.Label>
       {/* The pill: icons and affixes sit inside it, around the borderless <input>. */}
-      <div className={styles.control} onMouseDown={focusInput}>
+      <div
+        className={styles.control}
+        data-action={endAction ? '' : undefined}
+        onMouseDown={focusInput}
+      >
         <IconSlot icon={startIcon} className={styles.icon} />
         {prefix != null && <Affix>{prefix}</Affix>}
         <BaseInput
@@ -132,6 +163,7 @@ export function Input({
         />
         {suffix != null && <Affix>{suffix}</Affix>}
         <IconSlot icon={endIcon} className={styles.icon} />
+        <InputDisabledContext value={disabled}>{endAction}</InputDisabledContext>
       </div>
       {helperText != null && (
         <Field.Description className={styles.helperText}>{helperText}</Field.Description>
@@ -139,6 +171,30 @@ export function Input({
     </Field.Root>
   );
 }
+
+// Whether the enclosing Input is disabled: its action is disabled with it
+const InputDisabledContext = createContext(false);
+
+/**
+ * A round, icon-only button at the end of an `Input`, acting on its value: clear it, show a
+ * password, copy it. Pass it as the input's `endAction`. Raised, since it can be pressed.
+ */
+function InputAction({ label, icon, onClick, disabled = false }: InputActionProps) {
+  const fieldDisabled = use(InputDisabledContext);
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      disabled={disabled || fieldDisabled}
+      onClick={onClick}
+      className={styles.action}
+    >
+      <IconSlot icon={icon} className={styles.actionIcon} />
+    </button>
+  );
+}
+
+Input.Action = InputAction;
 
 // A Field description: Base UI adds it to the input's aria-describedby, next to helperText.
 function Affix({ children }: { children: string }) {

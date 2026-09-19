@@ -56,7 +56,7 @@ Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
 
 Relief tells what can be pressed. Use the relief tokens (defined per theme in the `palette` mixin of `src/styles/tokens.scss`), never ad hoc shadows:
 
-- **Raised: it can be pressed.** Buttons (`--rv-shadow-raised`, with the primary / sheen gradients) selectable chips (`--rv-shadow-raised-sm`) and the Checkbox cube.
+- **Raised: it can be pressed.** Buttons (`--rv-shadow-raised`, with the primary / sheen gradients) selectable chips (`--rv-shadow-raised-sm`), an Input's end action (`Input.Action`, a small secondary button in the carved field) and the Checkbox cube.
 - **Pressed: pushed or selected.** A button while active (`--rv-shadow-pressed`), a selected chip (`--rv-shadow-pressed-sm`).
 - **Carved: a value goes here.** Text fields: `--rv-color-field` background (near white in light, the page background in dark), `--rv-shadow-inset`, and `--rv-field-depth` (a dark gradient at the bottom) while not focused.
 - **Floating: a layer above the page.** A select's list, a menu (`--rv-shadow-floating`, surface background, border; the `floating` mixins in `src/styles/_floating.scss`). Its content is flat: the options are rows, not buttons.

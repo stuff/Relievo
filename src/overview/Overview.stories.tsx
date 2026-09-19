@@ -11,6 +11,7 @@ import {
   TrashIcon,
   WarningIcon,
   XCircleIcon,
+  XIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from '../components/Button';
@@ -49,6 +50,7 @@ const products = [
 function Overview() {
   const [categories, setCategories] = useState<string[]>(['clothing']);
   const [selected, setSelected] = useState<string[]>(['Canvas tote', 'Leather boots']);
+  const [search, setSearch] = useState('linen');
   const allSelected = selected.length === products.length;
 
   return (
@@ -79,7 +81,20 @@ function Overview() {
           <div style={stack}>
             {/* Toolbar: search next to buttons, all at the md control height */}
             <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'end' }}>
-              <Input label="Search products" hideLabel placeholder="Search…" type="search" startIcon={<MagnifyingGlassIcon />} />
+              <Input
+                label="Search products"
+                hideLabel
+                placeholder="Search…"
+                type="search"
+                startIcon={<MagnifyingGlassIcon />}
+                value={search}
+                onValueChange={setSearch}
+                endAction={
+                  search ? (
+                    <Input.Action label="Clear the search" icon={<XIcon />} onClick={() => setSearch('')} />
+                  ) : undefined
+                }
+              />
               <Button variant="secondary" startIcon={<FunnelIcon />}>
                 Filters
               </Button>

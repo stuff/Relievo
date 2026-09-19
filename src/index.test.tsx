@@ -13,6 +13,7 @@ const parts: Record<string, Record<string, unknown>> = {
     Footer: client.CardFooter,
   },
   Chip: { Group: client.ChipGroup },
+  Input: { Action: client.InputAction },
   Menu: {
     Item: client.MenuItem,
     Group: client.MenuGroup,

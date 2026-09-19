@@ -17,6 +17,8 @@ import {
   CardTitle,
   Chip as ChipRoot,
   ChipGroup,
+  Input as InputRoot,
+  InputAction,
   Menu as MenuRoot,
   MenuCheckboxItem,
   MenuGroup,
@@ -32,6 +34,7 @@ import {
   SelectItem,
   type CardProps,
   type ChipProps,
+  type InputProps,
   type MenuProps,
   type SegmentedProps,
   type SelectProps,
@@ -41,7 +44,6 @@ export {
   Button,
   ButtonGroup,
   Checkbox,
-  Input,
   Pagination,
   RelievoProvider,
   ThemeProvider,
@@ -62,6 +64,11 @@ export function Chip(props: ChipProps) {
   return <ChipRoot {...props} />;
 }
 Chip.Group = ChipGroup;
+
+export function Input(props: InputProps) {
+  return <InputRoot {...props} />;
+}
+Input.Action = InputAction;
 
 export function Menu(props: MenuProps) {
   return <MenuRoot {...props} />;

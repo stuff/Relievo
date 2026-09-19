@@ -84,6 +84,11 @@ $size: map.get($control-sizes, md);
   cursor: text;
   transition: outline-color 150ms ease;
 
+  // With an action, the pill's end hugs the round button
+  &[data-action] {
+    padding-inline-end: var(--rv-space-1);
+  }
+
   // Depth at rest: a dark gradient over the bottom of the field, removed while typing
   &:not(:focus-within) {
     background-image: var(--rv-field-depth);
@@ -157,4 +162,55 @@ $size: map.get($control-sizes, md);
   &::placeholder {
     color: color-mix(in oklab, var(--rv-color-text), transparent 45%);
   }
+}
+
+// The end action: a round, icon-only button, 2rem in the 2.5rem pill. Raised, like a small
+// secondary button: it can be pressed (see the relief rule in AGENTS.md).
+.action {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  inline-size: 2rem;
+  block-size: 2rem;
+  // Cancels the pill's 2px optical offset, so the button is centered on the pill itself
+  margin-block-start: -2px;
+  padding: 0;
+  border: none;
+  border-radius: var(--rv-radius-full);
+  background: linear-gradient(var(--rv-color-sheen-top) 0% 25%, var(--rv-color-sheen-bottom) 95% 100%);
+  box-shadow: var(--rv-shadow-raised-sm);
+  color: color-mix(in oklab, var(--rv-color-text), transparent 10%);
+  cursor: pointer;
+  transition: box-shadow var(--rv-duration-press) ease;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(
+      var(--rv-color-sheen-top-hover) 0% 25%,
+      var(--rv-color-sheen-bottom-hover) 95% 100%
+    );
+  }
+
+  &:active:not(:disabled) {
+    box-shadow: var(--rv-shadow-pressed-sm);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  // Disabled: it cannot be pressed, so it loses its relief (the field is already dimmed)
+  &:disabled {
+    box-shadow: none;
+    cursor: default;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.actionIcon {
+  @include icons.icon-slot(1.1rem);
 }

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
-import { EnvelopeIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { EnvelopeIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
 import { Input, type InputProps } from './Input';
 
@@ -134,6 +134,61 @@ describe('Input', () => {
 
     expect(container.querySelector('p')).toBeNull();
     expect(screen.getByRole('textbox')).not.toHaveAttribute('aria-describedby');
+  });
+
+  describe('end action', () => {
+    it('renders a button named by its label, after the input', () => {
+      const onClick = vi.fn();
+      render(
+        <Input
+          label="Search"
+          endAction={<Input.Action label="Clear the search" icon={<XIcon />} onClick={onClick} />}
+        />,
+      );
+
+      const input = screen.getByRole('textbox', { name: 'Search' });
+      const action = screen.getByRole('button', { name: 'Clear the search' });
+      expect(input.compareDocumentPosition(action) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+      expect(action).toHaveAttribute('type', 'button');
+    });
+
+    it('calls onClick and keeps the focus in the field', async () => {
+      const onClick = vi.fn();
+      render(
+        <Input
+          label="Search"
+          endAction={<Input.Action label="Clear the search" icon={<XIcon />} onClick={onClick} />}
+        />,
+      );
+
+      const input = screen.getByRole('textbox', { name: 'Search' });
+      await userEvent.click(input);
+      await userEvent.click(screen.getByRole('button', { name: 'Clear the search' }));
+
+      expect(onClick).toHaveBeenCalledOnce();
+      expect(input).toHaveFocus();
+    });
+
+    it('hides its icon from assistive technologies', () => {
+      render(
+        <Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon data-testid="x" />} />} />,
+      );
+
+      expect(screen.getByTestId('x').parentElement).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('is disabled with its field, or on its own', () => {
+      const { rerender } = render(
+        <Input label="Search" disabled endAction={<Input.Action label="Clear" icon={<XIcon />} />} />,
+      );
+      expect(screen.getByRole('button', { name: 'Clear' })).toBeDisabled();
+
+      rerender(<Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon />} disabled />} />);
+      expect(screen.getByRole('button', { name: 'Clear' })).toBeDisabled();
+
+      rerender(<Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon />} />} />);
+      expect(screen.getByRole('button', { name: 'Clear' })).toBeEnabled();
+    });
   });
 
   describe('icons and affixes', () => {

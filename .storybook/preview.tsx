@@ -1,5 +1,6 @@
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { ThemeProvider, type ThemeMode } from '../src/theme';
+import '@fontsource-variable/geist';
 import '../src/styles/tokens.scss';
 import '../src/styles/global.scss';
 import './preview.css';

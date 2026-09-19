@@ -124,7 +124,9 @@ $dark-palette: (
   --ui-radius-full: 9999px;
 
   // Typography
-  --ui-font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  // Geist everywhere, so text metrics (and centering) are the same on every OS. The system
+  // fonts only show while Geist loads, or if the app does not load it.
+  --ui-font-family: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --ui-font-size-root: 100%;
   --ui-font-size-sm: 0.875rem;
   --ui-font-size-md: 1rem;

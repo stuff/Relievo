@@ -70,6 +70,10 @@ $size: map.get($control-sizes, md);
   min-inline-size: 0;
   height: map.get($size, height);
   padding-inline: map.get($size, padding);
+  // Optical centering for Geist, measured at 16px in the 40px pill: its line box puts the value
+  // and affixes 1px high. A taller content box at the top lowers them all by a whole pixel
+  // (a whole pixel moves the <input> text and the affixes together; half a pixel would not).
+  padding-block: 2px 0;
   border: 1px solid var(--ui-color-border);
   border-radius: var(--ui-radius-full);
   // background: var(--ui-color-surface);

@@ -38,6 +38,10 @@ import 'my-ui-kit/styles.css';
 
 Components do not accept `className`, `style` or Base UI's `render` prop: their look is owned by the design system and changed through variants, sizes and tokens only. Use `href` to render a `Button` as a link.
 
+## Typeface
+
+The kit uses [Geist](https://vercel.com/font) through `@fontsource-variable/geist`, a dependency imported by the package entry. Your bundler emits the font files (about 30 KB for Latin, all weights in one variable file); nothing to configure. Until the font loads, text falls back to the system font.
+
 ## Router links
 
 Components that take an `href` render a native `<a>` by default. To use your router's link, pass it once to `UiKitProvider` at the app root. It must forward its props, including `className`, to the rendered `<a>`.

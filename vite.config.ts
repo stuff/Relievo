@@ -18,6 +18,7 @@ export default defineConfig({
         /^react-dom($|\/)/,
         /^@base-ui\/react($|\/)/,
         /^@phosphor-icons\/react($|\/)/,
+        /^@fontsource-variable\//,
       ],
       // The kit relies on context and hooks: mark the bundle as a client module for RSC frameworks.
       output: { banner: "'use client';" },

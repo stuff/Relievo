@@ -29,7 +29,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `Segmented` | A single choice among a few short options (radio group) |
 | `Select` | A single choice among a long list (`Select.Item` children or an `options` array) |
 | `ThemeProvider`, `useTheme` | Light / dark / system mode |
-| `UiKitProvider` | App-level configuration (router link component) |
+| `RelievoProvider` | App-level configuration (router link component) |
 
 ## Structure
 
@@ -38,7 +38,7 @@ src/
   index.ts              # public entry
   components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, tests, index
   theme/                # ThemeProvider and useTheme
-  provider/             # UiKitProvider (router link)
+  provider/             # RelievoProvider (router link)
   internal/             # shared internals (IconSlot)
   utils/                # useControllableState
   styles/tokens.scss    # design tokens (--ui-*), light/dark palettes, relief tokens
@@ -73,16 +73,16 @@ The kit uses [Geist](https://vercel.com/font) through `@fontsource-variable/geis
 
 ## Router links
 
-Components that take an `href` render a native `<a>` by default. To use your router's link, pass it once to `UiKitProvider` at the app root. It must forward its props, including `className`, to the rendered `<a>`.
+Components that take an `href` render a native `<a>` by default. To use your router's link, pass it once to `RelievoProvider` at the app root. It must forward its props, including `className`, to the rendered `<a>`.
 
 ```tsx
 // Next.js (App Router): app/providers.tsx
 'use client';
 import Link from 'next/link';
-import { UiKitProvider } from 'relievo';
+import { RelievoProvider } from 'relievo';
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <UiKitProvider linkComponent={Link}>{children}</UiKitProvider>;
+  return <RelievoProvider linkComponent={Link}>{children}</RelievoProvider>;
 }
 ```
 

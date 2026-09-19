@@ -20,7 +20,7 @@ role and per theme, with CSS relative color syntax in OKLCH:
 Contrast then depends on lightness only, which the kit controls, so it holds for any seed hue.
 Very saturated seeds may need their chroma clamped at the extreme lightnesses (out of gamut).
 
-Planned API: `UiKitProvider` gets `theme={{ primary, background }}`, which sets `--ui-seed-*`
+Planned API: `RelievoProvider` gets `theme={{ primary, background }}`, which sets `--ui-seed-*`
 custom properties; CSS users can set those properties directly.
 
 ## Color categories

@@ -2,7 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { CaretDownIcon, CaretRightIcon, CheckIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
-import { useLinkComponent } from '../../provider/UiKitProvider';
+import { useLinkComponent } from '../../provider/RelievoProvider';
 import { Button } from '../Button';
 import styles from './Menu.module.scss';
 
@@ -63,7 +63,7 @@ export interface MenuItemProps extends MenuItemContentProps {
    */
   onSelect?: () => void;
   /**
-   * Turns the item into a link, using the router link configured in `UiKitProvider`.
+   * Turns the item into a link, using the router link configured in `RelievoProvider`.
    */
   href?: string;
   /**

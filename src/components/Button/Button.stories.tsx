@@ -1,7 +1,7 @@
 import { ArrowRightIcon, CaretDownIcon, DownloadSimpleIcon, PlusIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { LinkComponentProps } from '../../provider';
-import { UiKitProvider } from '../../provider';
+import { RelievoProvider } from '../../provider';
 import { Button } from './Button';
 
 const meta = {
@@ -152,8 +152,8 @@ function RouterLink({ href, onClick, ...props }: LinkComponentProps) {
 export const WithRouterLink: Story = {
   args: { href: '/settings', children: 'Settings' },
   render: (args) => (
-    <UiKitProvider linkComponent={RouterLink}>
+    <RelievoProvider linkComponent={RouterLink}>
       <Button {...args} />
-    </UiKitProvider>
+    </RelievoProvider>
   ),
 };

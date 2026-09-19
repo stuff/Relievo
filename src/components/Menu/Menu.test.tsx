@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PencilSimpleIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
-import { UiKitProvider, type LinkComponentProps } from '../../provider';
+import { RelievoProvider, type LinkComponentProps } from '../../provider';
 import { Menu, type MenuProps } from './Menu';
 
 async function open(name = 'Actions') {
@@ -110,11 +110,11 @@ describe('Menu', () => {
   it('renders a link item through the router link', async () => {
     const RouterLink = vi.fn((props: LinkComponentProps) => <a {...props} data-router="" />);
     render(
-      <UiKitProvider linkComponent={RouterLink}>
+      <RelievoProvider linkComponent={RouterLink}>
         <Menu label="Account">
           <Menu.Item href="/settings">Settings</Menu.Item>
         </Menu>
-      </UiKitProvider>,
+      </RelievoProvider>,
     );
 
     await open('Account');

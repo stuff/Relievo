@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ArrowRightIcon, PlusIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
-import { UiKitProvider, type LinkComponentProps } from '../../provider';
+import { RelievoProvider, type LinkComponentProps } from '../../provider';
 import { Button, type ButtonProps } from './Button';
 
 describe('Button', () => {
@@ -143,14 +143,14 @@ describe('Button', () => {
       expect(link).toHaveAttribute('data-disabled');
     });
 
-    it('renders the link component configured in UiKitProvider', () => {
+    it('renders the link component configured in RelievoProvider', () => {
       const RouterLink = vi.fn((props: LinkComponentProps) => <a {...props} data-router="" />);
       render(
-        <UiKitProvider linkComponent={RouterLink}>
+        <RelievoProvider linkComponent={RouterLink}>
           <Button href="/settings" target="_blank">
             Settings
           </Button>
-        </UiKitProvider>,
+        </RelievoProvider>,
       );
 
       const link = screen.getByRole('link', { name: 'Settings' });
@@ -163,11 +163,11 @@ describe('Button', () => {
     it('does not use the configured link component when disabled', () => {
       const RouterLink = vi.fn((props: LinkComponentProps) => <a {...props} />);
       render(
-        <UiKitProvider linkComponent={RouterLink}>
+        <RelievoProvider linkComponent={RouterLink}>
           <Button href="/settings" disabled>
             Settings
           </Button>
-        </UiKitProvider>,
+        </RelievoProvider>,
       );
 
       expect(RouterLink).not.toHaveBeenCalled();

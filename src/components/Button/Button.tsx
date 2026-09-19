@@ -1,7 +1,7 @@
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { IconSlot } from '../../internal/IconSlot';
-import { useLinkComponent } from '../../provider/UiKitProvider';
+import { useLinkComponent } from '../../provider/RelievoProvider';
 import styles from './Button.module.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'link';
@@ -56,7 +56,7 @@ export interface ButtonAsLinkProps
   extends ButtonOwnProps,
     Omit<ComponentProps<'a'>, LockedProps | 'type'> {
   /**
-   * Renders the button as a link, using the link component configured in `UiKitProvider`
+   * Renders the button as a link, using the link component configured in `RelievoProvider`
    * (a native `<a>` by default).
    */
   href: string;

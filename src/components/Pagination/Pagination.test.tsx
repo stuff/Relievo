@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { UiKitProvider, type LinkComponentProps } from '../../provider';
+import { RelievoProvider, type LinkComponentProps } from '../../provider';
 import { Pagination, type PaginationProps } from './Pagination';
 
 describe('Pagination', () => {
@@ -123,7 +123,7 @@ describe('Pagination', () => {
       expect(screen.queryByRole('button')).not.toBeInTheDocument();
     });
 
-    it('uses the router link from UiKitProvider and reports the page', async () => {
+    it('uses the router link from RelievoProvider and reports the page', async () => {
       const onPageChange = vi.fn();
       const RouterLink = vi.fn(({ onClick, ...props }: LinkComponentProps) => (
         <a
@@ -136,9 +136,9 @@ describe('Pagination', () => {
         />
       ));
       render(
-        <UiKitProvider linkComponent={RouterLink}>
+        <RelievoProvider linkComponent={RouterLink}>
           <Pagination pageCount={3} onPageChange={onPageChange} getPageHref={(page) => `/p/${page}`} />
-        </UiKitProvider>,
+        </RelievoProvider>,
       );
 
       const link = screen.getByRole('link', { name: 'Page 3' });

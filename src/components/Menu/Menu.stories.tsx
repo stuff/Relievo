@@ -13,7 +13,7 @@ import {
   UserIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { UiKitProvider, type LinkComponentProps } from '../../provider';
+import { RelievoProvider, type LinkComponentProps } from '../../provider';
 import { Menu } from './Menu';
 
 const text = { fontFamily: 'var(--ui-font-family)', color: 'var(--ui-color-text)' } as const;
@@ -126,11 +126,11 @@ function RouterLink({ href, onClick, ...props }: LinkComponentProps) {
   );
 }
 
-/** `href` turns an item into a link, through the router link configured in `UiKitProvider`. */
+/** `href` turns an item into a link, through the router link configured in `RelievoProvider`. */
 export const WithLinks: Story = {
   args: { label: 'Account', startIcon: <UserIcon /> },
   render: (args) => (
-    <UiKitProvider linkComponent={RouterLink}>
+    <RelievoProvider linkComponent={RouterLink}>
       <div style={tall}>
         <Menu {...args}>
           <Menu.Item href="/profile" startIcon={<UserIcon />}>
@@ -145,7 +145,7 @@ export const WithLinks: Story = {
           </Menu.Item>
         </Menu>
       </div>
-    </UiKitProvider>
+    </RelievoProvider>
   ),
 };
 

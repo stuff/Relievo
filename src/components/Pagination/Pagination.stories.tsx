@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { UiKitProvider, type LinkComponentProps } from '../../provider';
+import { RelievoProvider, type LinkComponentProps } from '../../provider';
 import { Pagination } from './Pagination';
 
 // Grid items stretch, so each pagination gets the width of the story and can switch to its
@@ -94,7 +94,7 @@ export const AsLinks: Story = {
     const page = Number(new URL(url, 'https://example.com').searchParams.get('page') ?? 1);
 
     return (
-      <UiKitProvider linkComponent={RouterLink}>
+      <RelievoProvider linkComponent={RouterLink}>
         <div style={stack}>
           <Pagination
             {...args}
@@ -104,7 +104,7 @@ export const AsLinks: Story = {
           />
           <span style={text}>URL: {url}</span>
         </div>
-      </UiKitProvider>
+      </RelievoProvider>
     );
   },
 };

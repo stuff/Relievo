@@ -1,7 +1,7 @@
 import type { MouseEvent, ReactNode } from 'react';
 import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
-import { useLinkComponent } from '../../provider/UiKitProvider';
+import { useLinkComponent } from '../../provider/RelievoProvider';
 import { useControllableState } from '../../utils/useControllableState';
 import { getPageItems } from './pages';
 import styles from './Pagination.module.scss';
@@ -29,7 +29,7 @@ export interface PaginationProps {
   /**
    * Turns the pages into links, for a page number kept in the URL: returns the address of a page,
    * such as `(page) => \`?page=${page}\``. Links use the router link configured in
-   * `UiKitProvider`, so a client-side router navigates without reloading. Control the component
+   * `RelievoProvider`, so a client-side router navigates without reloading. Control the component
    * from the URL (`page={pageFromUrl}`): the browser's back and forward buttons then update it
    * too. Without `getPageHref`, the pages are buttons.
    */

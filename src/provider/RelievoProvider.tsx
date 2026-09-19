@@ -8,32 +8,32 @@ export interface LinkComponentProps extends Omit<ComponentProps<'a'>, 'href'> {
 /** A router link, such as `next/link`. It must forward its props to the rendered `<a>`. */
 export type LinkComponent = ComponentType<LinkComponentProps>;
 
-export interface UiKitProviderProps {
+export interface RelievoProviderProps {
   /** Rendered by components that take an `href`. Defaults to a native `<a>`. */
   linkComponent?: LinkComponent;
   children?: ReactNode;
 }
 
-interface UiKitContextValue {
+interface RelievoContextValue {
   linkComponent: LinkComponent | 'a';
 }
 
-const UiKitContext = createContext<UiKitContextValue>({ linkComponent: 'a' });
+const RelievoContext = createContext<RelievoContextValue>({ linkComponent: 'a' });
 
 /**
  * App-level configuration for the design system. Render it once at the app root.
  * Optional: without it, links render as a native `<a>`.
  */
-export function UiKitProvider({ linkComponent, children }: UiKitProviderProps) {
-  const value = useMemo<UiKitContextValue>(
+export function RelievoProvider({ linkComponent, children }: RelievoProviderProps) {
+  const value = useMemo<RelievoContextValue>(
     () => ({ linkComponent: linkComponent ?? 'a' }),
     [linkComponent],
   );
 
-  return <UiKitContext value={value}>{children}</UiKitContext>;
+  return <RelievoContext value={value}>{children}</RelievoContext>;
 }
 
 /** @internal */
 export function useLinkComponent(): LinkComponent | 'a' {
-  return use(UiKitContext).linkComponent;
+  return use(RelievoContext).linkComponent;
 }

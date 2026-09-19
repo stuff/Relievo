@@ -10,6 +10,9 @@ $size: map.get($control-sizes, md);
   // Positioning context for the visually hidden label
   position: relative;
   display: grid;
+  // Keep label, pill and helper text packed at the top when the field is stretched (a form grid
+  // row made taller by a neighbour's helper text): the rows must not share the extra height.
+  align-content: start;
   gap: var(--ui-space-2);
   inline-size: 100%;
   min-inline-size: 0;

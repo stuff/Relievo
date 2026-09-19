@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use '../../styles/a11y';
 @use '../../styles/controls' as *;
+@use '../../styles/floating';
 @use '../../styles/icons';
 
 // Single size: the medium control size, so the select lines up with a default Button and Input.
@@ -134,82 +135,37 @@ $size: map.get($control-sizes, md);
   outline: none;
 }
 
-// The list floats above the page: not something to press, so its content is flat
+// The list floats above the page, at least as wide as the field
 .popup {
-  box-sizing: border-box;
-  min-inline-size: var(--anchor-width);
-  max-block-size: min(20rem, var(--available-height));
-  overflow-y: auto;
-  // A thin native scrollbar in the text color, on a transparent track
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--ui-color-text), transparent 60%) transparent;
-  padding: var(--ui-space-1);
-  border: 1px solid var(--ui-color-border);
-  border-radius: var(--ui-radius-lg);
-  background-color: var(--ui-color-surface);
-  box-shadow: var(--ui-shadow-floating);
-  color: var(--ui-color-text);
-  font-family: var(--ui-font-family);
-  font-size: map.get($size, font-size);
-  outline: none;
-  transform-origin: var(--transform-origin);
-  transition:
-    opacity var(--ui-duration-state) ease,
-    scale var(--ui-duration-state) ease;
+  @include floating.floating-popup;
 
-  &[data-starting-style],
-  &[data-ending-style] {
-    opacity: 0;
-    scale: 0.96;
-  }
+  min-inline-size: var(--anchor-width);
 }
 
 .list {
   outline: none;
 }
 
-// Options: flat rows. The highlighted one (pointer or arrow keys) gets the hover tint; the chosen
-// one a check and a medium weight, so the choice does not rely on color.
+// Options: flat rows; the chosen one has a check and a medium weight, so the choice does not rely
+// on color
 .item {
-  display: flex;
-  align-items: center;
-  gap: var(--ui-space-2);
-  min-block-size: 2.25rem;
-  padding-inline: var(--ui-space-3) var(--ui-space-2);
-  border-radius: var(--ui-radius-md);
-  line-height: 1.3;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-
-  &[data-highlighted] {
-    background-color: var(--ui-color-surface-hover);
-  }
+  @include floating.list-item;
 
   &[data-selected] {
     font-weight: var(--ui-font-weight-medium);
-  }
-
-  &[data-disabled] {
-    opacity: 0.5;
-    cursor: default;
   }
 }
 
 // Groups: a muted title above their options, and a line between two groups
 .group + .group {
-  margin-block-start: var(--ui-space-1);
+  @include floating.list-separator;
+
+  margin-block-end: 0;
   padding-block-start: var(--ui-space-1);
-  border-block-start: 1px solid var(--ui-color-border);
 }
 
 .groupLabel {
-  padding: var(--ui-space-2) var(--ui-space-3) var(--ui-space-1);
-  color: var(--ui-color-text-muted);
-  font-size: var(--ui-font-size-sm);
-  font-weight: var(--ui-font-weight-medium);
-  line-height: 1.3;
-  user-select: none;
+  @include floating.group-label;
 }
 
 .itemText {
@@ -222,8 +178,7 @@ $size: map.get($control-sizes, md);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .caret,
-  .popup {
+  .caret {
     transition: none;
   }
 }

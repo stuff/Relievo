@@ -46,6 +46,12 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
     }
   }
 
+  // The control is what the keyboard is in, so it takes the focus ring, as a Button does
+  &:has(:focus-visible) {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 3px;
+  }
+
   // Disabled: no value can be chosen, so the track is flat
   &[data-disabled] {
     background-image: none;
@@ -78,9 +84,17 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
     background-color: color-mix(in oklab, var(--segment-tint), transparent 88%);
   }
 
+  // No ring on the item: the whole control takes it (see .track). Arrow keys select as they move,
+  // so the focused item is the chosen one, and the chosen one is already visible.
   &:focus-visible {
-    outline: 2px solid var(--rv-color-focus-ring);
-    outline-offset: 1px;
+    outline: none;
+  }
+
+  // Except before anything is chosen: focus then lands on the first item without selecting it, and
+  // nothing else would say where the keyboard is. A dotted hairline, as on a Tabs item.
+  .track:not(:has([data-checked])) &:focus-visible {
+    outline: 1px dotted color-mix(in oklab, var(--rv-color-text), transparent 35%);
+    outline-offset: -1px;
   }
 
   // The chosen item, as a static highlight: the rendering where anchor positioning is not

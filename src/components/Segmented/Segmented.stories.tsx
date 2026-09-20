@@ -83,7 +83,13 @@ export const WithIcons: Story = {
   ),
 };
 
-/** Without a default value, nothing is chosen until the first click; the highlight then fades in. */
+/**
+ * Without a default value, nothing is chosen until the first click; the highlight then fades in.
+ *
+ * This is also the only state where an item shows a focus mark. Press Tab: the focus lands on the
+ * first item without choosing it, and a dotted hairline says where the keyboard is. Press an arrow
+ * and a value is chosen, the hairline goes, and the control's own ring is all that is left.
+ */
 export const NoInitialChoice: Story = {
   args: { defaultValue: undefined },
 };

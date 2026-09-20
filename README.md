@@ -31,7 +31,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `Chip` | Tags and statuses (static), or selectable toggles |
 | `Chip.Group` | Filters: several choices among chips |
 | `Segmented` | A single choice among a few short options (radio group) |
-| `Tabs` | A bar of tabs over the content they show: `Tabs.List`, `Tabs.Item` (icon, count), `Tabs.Panel` (`plain` or `framed`) |
+| `Tabs` | A bar of tabs over the content they show: `Tabs.List`, `Tabs.Item` (icon), `Tabs.Panel` (`plain` or `framed`) |
 | `Select` | A single choice among a long list (`Select.Item` children or an `options` array) |
 | `ThemeProvider`, `useTheme` | Light / dark / system mode |
 | `RelievoProvider` | App-level configuration (router link component) |

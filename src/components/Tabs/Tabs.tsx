@@ -54,18 +54,13 @@ export interface TabsItemProps {
    */
   value: string;
   /**
-   * The label of the tab.
+   * The label of the tab. A count goes in it, as text: `To review 216`.
    */
   children?: ReactNode;
   /**
    * Decorative icon before the label, as an element: `startIcon={<StarIcon />}`.
    */
   startIcon?: ReactElement;
-  /**
-   * A number after the label, such as how many items the tab holds. It is styled by the kit and
-   * takes the selected tab's color; leave it out and nothing is drawn.
-   */
-  count?: number;
   /**
    * Whether the tab cannot be selected.
    * @default false
@@ -101,8 +96,8 @@ const TabsContext = createContext<TabsContextValue>({ size: 'md', label: '' });
  * ```tsx
  * <Tabs label="Offers" defaultValue="new">
  *   <Tabs.List>
- *     <Tabs.Item value="new" count={12}>New</Tabs.Item>
- *     <Tabs.Item value="kept" count={3}>Kept</Tabs.Item>
+ *     <Tabs.Item value="new">New 12</Tabs.Item>
+ *     <Tabs.Item value="kept">Kept 3</Tabs.Item>
  *   </Tabs.List>
  *   <Tabs.Panel value="new">…</Tabs.Panel>
  *   <Tabs.Panel value="kept">…</Tabs.Panel>
@@ -152,15 +147,11 @@ function TabsList({ children }: TabsListProps) {
   );
 }
 
-function TabsItem({ value, children, startIcon, count, disabled = false }: TabsItemProps) {
+function TabsItem({ value, children, startIcon, disabled = false }: TabsItemProps) {
   return (
     <BaseTabs.Tab value={value} disabled={disabled} className={styles.tab} style={undefined}>
       <IconSlot icon={startIcon} className={styles.icon} />
       <span className={styles.label}>{children}</span>
-      {/* A space, so a screen reader reads "Published 216" and not "Published216": the
-          accessible name is built from the text, and a flex gap is not text. Whitespace
-          between flex items is not rendered, so nothing moves. */}
-      {count !== undefined && <>{' '}<span className={styles.count}>{count}</span></>}
     </BaseTabs.Tab>
   );
 }

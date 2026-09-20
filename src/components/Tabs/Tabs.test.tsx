@@ -147,28 +147,16 @@ describe('Tabs', () => {
     expect(screen.queryByRole('tabpanel')).toBeNull();
   });
 
-  it('shows the count after the label, as part of the tab name', () => {
+  it('names the tab after its label, count included', () => {
     render(
       <Tabs label="Products" defaultValue="published">
         <Tabs.List>
-          <Tabs.Item value="published" count={216}>Published</Tabs.Item>
+          <Tabs.Item value="published">Published 216</Tabs.Item>
         </Tabs.List>
       </Tabs>,
     );
 
     expect(screen.getByRole('tab', { name: 'Published 216' })).toBeInTheDocument();
-  });
-
-  it('draws no count when there is none', () => {
-    render(
-      <Tabs label="Products" defaultValue="published">
-        <Tabs.List>
-          <Tabs.Item value="published">Published</Tabs.Item>
-        </Tabs.List>
-      </Tabs>,
-    );
-
-    expect(screen.getByRole('tab', { name: 'Published' })).toBeInTheDocument();
   });
 
   it('hides the icon from screen readers', () => {

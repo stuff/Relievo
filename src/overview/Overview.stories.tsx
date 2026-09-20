@@ -88,9 +88,9 @@ function Overview() {
           primary fill. Its panel holds the card below. */}
       <Tabs label="Products" defaultValue="all">
         <Tabs.List>
-          <Tabs.Item value="all" count={4} startIcon={<ListIcon />}>All</Tabs.Item>
-          <Tabs.Item value="low" count={1} startIcon={<WarningIcon />}>Low stock</Tabs.Item>
-          <Tabs.Item value="archived" count={0} startIcon={<ArchiveIcon />}>Archived</Tabs.Item>
+          <Tabs.Item value="all" startIcon={<ListIcon />}>All 4</Tabs.Item>
+          <Tabs.Item value="low" startIcon={<WarningIcon />}>Low stock 1</Tabs.Item>
+          <Tabs.Item value="archived" startIcon={<ArchiveIcon />}>Archived 0</Tabs.Item>
         </Tabs.List>
         <Tabs.Panel value="all">
       <Card as="section">

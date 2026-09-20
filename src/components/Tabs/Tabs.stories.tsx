@@ -41,14 +41,14 @@ export const Default: Story = {
   ),
 };
 
-/** `count` puts a number after the label, and `startIcon` an icon before it. */
+/** A count is part of the label, as text; `startIcon` puts an icon before it. */
 export const WithIconsAndCounts: Story = {
   render: (args) => (
     <Tabs {...args} defaultValue="review">
       <Tabs.List>
-        <Tabs.Item value="new" count={12} startIcon={<SparkleIcon />}>New</Tabs.Item>
-        <Tabs.Item value="kept" count={3} startIcon={<StarIcon />}>Kept</Tabs.Item>
-        <Tabs.Item value="review" count={216} startIcon={<ScalesIcon />}>To review</Tabs.Item>
+        <Tabs.Item value="new" startIcon={<SparkleIcon />}>New 12</Tabs.Item>
+        <Tabs.Item value="kept" startIcon={<StarIcon />}>Kept 3</Tabs.Item>
+        <Tabs.Item value="review" startIcon={<ScalesIcon />}>To review 216</Tabs.Item>
       </Tabs.List>
       <Tabs.Panel value="new">The 12 products added since your last visit.</Tabs.Panel>
       <Tabs.Panel value="kept">The 3 products you kept.</Tabs.Panel>
@@ -124,9 +124,9 @@ export const Sizes: Story = {
       {(['sm', 'md'] as const).map((size) => (
         <Tabs {...args} key={size} size={size} defaultValue="review">
           <Tabs.List>
-            <Tabs.Item value="new" count={12} startIcon={<SparkleIcon />}>New</Tabs.Item>
-            <Tabs.Item value="kept" count={3} startIcon={<StarIcon />}>Kept</Tabs.Item>
-            <Tabs.Item value="review" count={216} startIcon={<ScalesIcon />}>To review</Tabs.Item>
+            <Tabs.Item value="new" startIcon={<SparkleIcon />}>New 12</Tabs.Item>
+            <Tabs.Item value="kept" startIcon={<StarIcon />}>Kept 3</Tabs.Item>
+            <Tabs.Item value="review" startIcon={<ScalesIcon />}>To review 216</Tabs.Item>
           </Tabs.List>
         </Tabs>
       ))}
@@ -140,13 +140,13 @@ export const Scrolling: Story = {
     <div style={{ maxWidth: '26rem' }}>
       <Tabs {...args} defaultValue="review">
         <Tabs.List>
-          <Tabs.Item value="new" count={12} startIcon={<SparkleIcon />}>New</Tabs.Item>
-          <Tabs.Item value="kept" count={3} startIcon={<StarIcon />}>Kept</Tabs.Item>
-          <Tabs.Item value="review" count={216} startIcon={<ScalesIcon />}>To review</Tabs.Item>
-          <Tabs.Item value="conflicts" count={0} startIcon={<WarningIcon />}>Conflicts</Tabs.Item>
-          <Tabs.Item value="mine" count={201} startIcon={<GavelIcon />}>My calls</Tabs.Item>
-          <Tabs.Item value="dropped" count={1938} startIcon={<ArchiveIcon />}>Dropped</Tabs.Item>
-          <Tabs.Item value="all" count={2186} startIcon={<ListIcon />}>All</Tabs.Item>
+          <Tabs.Item value="new" startIcon={<SparkleIcon />}>New 12</Tabs.Item>
+          <Tabs.Item value="kept" startIcon={<StarIcon />}>Kept 3</Tabs.Item>
+          <Tabs.Item value="review" startIcon={<ScalesIcon />}>To review 216</Tabs.Item>
+          <Tabs.Item value="conflicts" startIcon={<WarningIcon />}>Conflicts 0</Tabs.Item>
+          <Tabs.Item value="mine" startIcon={<GavelIcon />}>My calls 201</Tabs.Item>
+          <Tabs.Item value="dropped" startIcon={<ArchiveIcon />}>Dropped 1938</Tabs.Item>
+          <Tabs.Item value="all" startIcon={<ListIcon />}>All 2186</Tabs.Item>
         </Tabs.List>
       </Tabs>
     </div>

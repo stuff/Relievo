@@ -127,10 +127,6 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
   @include typography.trim-text;
 }
 
-.count {
-  font-weight: var(--rv-font-weight-semibold);
-}
-
 // The selected tab, painted on the tab itself: the rendering where anchor positioning is not
 // supported, and the base the sliding thumb takes over from below.
 .tab[aria-selected='true'] {

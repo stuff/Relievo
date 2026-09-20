@@ -29,8 +29,10 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
 // AGENTS.md). Segmented's track is carved instead, since it holds a value; tabs are navigation.
 .rail {
   box-sizing: border-box;
-  // Sized by its content, even in a grid or flex parent that would stretch it
-  justify-self: start;
+  // The rail takes the width it is given and keeps the tabs their own size: the room left over
+  // stays rail, at the end of the bar. A bar heads the content below it, so it spans it.
+  display: block;
+  inline-size: 100%;
   padding: $rail-padding;
   border-radius: var(--rv-radius-full);
   background: linear-gradient(var(--rv-color-sheen-top) 0% 25%, var(--rv-color-sheen-bottom) 95% 100%);

@@ -120,7 +120,7 @@ export const FramedPanel: Story = {
 /** `sm` and `md` line up with a `Button` of the same size. There is no `lg`. */
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: 'grid', gap: 'var(--rv-space-5)', justifyItems: 'start' }}>
+    <div style={{ display: 'grid', gap: 'var(--rv-space-5)' }}>
       {(['sm', 'md'] as const).map((size) => (
         <Tabs {...args} key={size} size={size} defaultValue="review">
           <Tabs.List>

@@ -79,16 +79,19 @@ $field-inset: map.get(map.get($control-sizes, md), padding);
     background-image: var(--rv-field-depth);
   }
 
-  // Text fields show the ring on any focus, not only keyboard focus: the caret alone is easy to miss.
+  // Text fields show the ring on any focus, not only keyboard focus: the caret alone is easy to
+  // miss. Outside the field, like a Button's, so the kit has one focus ring everywhere.
   &:focus-within {
     outline: 2px solid var(--rv-color-focus-ring);
-    outline-offset: -1px;
+    outline-offset: 3px;
   }
 
-  // Same ring as focus, in red. After :focus-within: an invalid field stays red while focused.
+  // Invalid: a red ring hugging the field. Drawn as an inset shadow rather than an outline, so a
+  // field that is both invalid and focused shows both — an outline would replace the other.
   #{$field}[data-invalid] & {
-    outline: 2px solid var(--rv-color-danger-text);
-    outline-offset: -1px;
+    box-shadow:
+      inset 0 0 0 2px var(--rv-color-danger-text),
+      var(--rv-shadow-inset);
   }
 
   // Disabled: no value can go here, so the field is flat

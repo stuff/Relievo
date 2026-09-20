@@ -77,16 +77,19 @@ $size: map.get($control-sizes, md);
   text-align: start;
   cursor: pointer;
 
+  // Outside the field, like a Button's: one focus ring across the kit
   &:focus-visible,
   &[data-popup-open] {
     outline: 2px solid var(--rv-color-focus-ring);
-    outline-offset: -1px;
+    outline-offset: 3px;
   }
 
-  // Same ring as focus, in red
+  // Invalid: a red ring hugging the field, as an inset shadow rather than an outline, so a field
+  // that is both invalid and focused shows both
   &[data-invalid] {
-    outline: 2px solid var(--rv-color-danger-text);
-    outline-offset: -1px;
+    box-shadow:
+      inset 0 0 0 2px var(--rv-color-danger-text),
+      var(--rv-shadow-inset);
   }
 
   // Disabled: no value can go here, so the field is flat

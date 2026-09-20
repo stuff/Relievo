@@ -32,12 +32,17 @@ import {
   Select as SelectRoot,
   SelectGroup,
   SelectItem,
+  Tabs as TabsRoot,
+  TabsItem,
+  TabsList,
+  TabsPanel,
   type CardProps,
   type ChipProps,
   type InputProps,
   type MenuProps,
   type SegmentedProps,
   type SelectProps,
+  type TabsProps,
 } from './client';
 
 export {
@@ -95,3 +100,10 @@ export function Select(props: SelectProps) {
 }
 Select.Item = SelectItem;
 Select.Group = SelectGroup;
+
+export function Tabs(props: TabsProps) {
+  return <TabsRoot {...props} />;
+}
+Tabs.List = TabsList;
+Tabs.Item = TabsItem;
+Tabs.Panel = TabsPanel;

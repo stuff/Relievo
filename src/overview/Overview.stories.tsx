@@ -5,6 +5,7 @@ import {
   FolderIcon,
   FunnelIcon,
   InfoIcon,
+  ListIcon,
   MagnifyingGlassIcon,
   PencilSimpleIcon,
   PlusIcon,
@@ -27,6 +28,7 @@ import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
 import { Select } from '../components/Select';
 import { Stack } from '../components/Stack';
+import { Tabs } from '../components/Tabs';
 import { Textarea } from '../components/Textarea';
 
 // A realistic screen using every component together, to judge the kit's overall coherence:
@@ -82,6 +84,15 @@ function Overview() {
         </Card.Footer>
       </Card>
 
+      {/* Tabs over the list: the rail is a wide secondary button, the current tab the
+          primary fill. Its panel holds the card below. */}
+      <Tabs label="Products" defaultValue="all">
+        <Tabs.List>
+          <Tabs.Item value="all" count={4} startIcon={<ListIcon />}>All</Tabs.Item>
+          <Tabs.Item value="low" count={1} startIcon={<WarningIcon />}>Low stock</Tabs.Item>
+          <Tabs.Item value="archived" count={0} startIcon={<ArchiveIcon />}>Archived</Tabs.Item>
+        </Tabs.List>
+        <Tabs.Panel value="all">
       <Card as="section">
         <Card.Header>
           <Card.Title as="h2">Products</Card.Title>
@@ -180,6 +191,10 @@ function Overview() {
           </div>
         </Card.Body>
       </Card>
+        </Tabs.Panel>
+        <Tabs.Panel value="low" variant="framed">Canvas tote is down to 3 units.</Tabs.Panel>
+        <Tabs.Panel value="archived" variant="framed">Nothing archived yet.</Tabs.Panel>
+      </Tabs>
 
       <Card as="section">
         <Card.Header>

@@ -1,0 +1,210 @@
+@use '../../styles/icons';
+@use '../../styles/typography';
+
+// Heights of the rail, on the control scale ($control-sizes): the rail lines up with a Button of
+// the same size, and the tabs inside are that height less the rail's padding.
+$rail-padding: 3px;
+$sizes: (
+  sm: (
+    tab-height: 1.625rem,
+    font-size: 0.8125rem,
+    padding: var(--rv-space-2),
+    icon: 0.875rem,
+  ),
+  md: (
+    tab-height: 2.125rem,
+    font-size: var(--rv-font-size-sm),
+    padding: var(--rv-space-3),
+    icon: 1rem,
+  ),
+);
+
+$thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
+
+.root {
+  display: block;
+}
+
+// The rail: one wide secondary button. Raised, because it can be pressed (see the relief rule in
+// AGENTS.md). Segmented's track is carved instead, since it holds a value; tabs are navigation.
+.rail {
+  box-sizing: border-box;
+  // Sized by its content, even in a grid or flex parent that would stretch it
+  justify-self: start;
+  padding: $rail-padding;
+  border-radius: var(--rv-radius-full);
+  background: linear-gradient(var(--rv-color-sheen-top) 0% 25%, var(--rv-color-sheen-bottom) 95% 100%);
+  box-shadow: var(--rv-shadow-raised);
+
+  // The rail is what the keyboard is in, so it takes the focus ring, exactly as a Button does.
+  // On the rail rather than on the tab: the scroller clips anything beyond it, and a tab list is
+  // one tab stop anyway.
+  &:has(:focus-visible) {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 3px;
+  }
+}
+
+// More tabs than room: they scroll sideways. The native scrollbar is hidden; the bar scrolls with
+// a trackpad, a wheel, or by focusing a tab with the keyboard, which scrolls it into view.
+.scroller {
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-radius: var(--rv-radius-full);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.list {
+  position: relative;
+  // Each bar anchors its own thumb, even with several bars on the page
+  anchor-scope: --rv-tabs-thumb;
+  display: flex;
+  align-items: center;
+  gap: var(--rv-space-1);
+  // Sized by the tabs, so the scroller has something wider than itself to scroll
+  inline-size: max-content;
+}
+
+.tab {
+  // Above the thumb, which is a pseudo-element of the list
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rv-space-2);
+  box-sizing: border-box;
+  margin: 0;
+  border: none;
+  border-radius: var(--rv-radius-full);
+  background: none;
+  color: var(--rv-color-text-muted);
+  font-family: var(--rv-font-family);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--rv-duration-state) ease;
+
+  &:hover:not([aria-selected='true'], [data-disabled]) {
+    background-color: color-mix(in oklab, var(--rv-color-primary-tint), transparent 88%);
+    color: var(--rv-color-text);
+  }
+
+  // Keyboard focus is shown in two places, because a tab list is one tab stop and the focus moves
+  // inside it: the rail takes the ring (see below), and the tab the focus sits on takes a dotted
+  // hairline. Dotted and in the text color, so it is not mistaken for the hover, which is a tint,
+  // nor for the selection, which is the fill. An outline in, not a border: a border would eat a
+  // pixel of the content box and shift the label.
+  &:focus-visible {
+    outline: 1px dotted color-mix(in oklab, var(--rv-color-text), transparent 35%);
+    outline-offset: -1px;
+  }
+
+  &[data-disabled] {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+@each $size, $values in $sizes {
+  .rail[data-size='#{$size}'] {
+    .tab {
+      block-size: map-get($values, tab-height);
+      padding-inline: map-get($values, padding);
+      font-size: map-get($values, font-size);
+    }
+
+    .icon {
+      @include icons.icon-slot(map-get($values, icon));
+    }
+  }
+}
+
+.label {
+  @include typography.trim-text;
+}
+
+.count {
+  font-weight: var(--rv-font-weight-semibold);
+}
+
+// The selected tab, painted on the tab itself: the rendering where anchor positioning is not
+// supported, and the base the sliding thumb takes over from below.
+.tab[aria-selected='true'] {
+  background: linear-gradient(var(--rv-color-primary-top), var(--rv-color-primary-bottom));
+  box-shadow: var(--rv-shadow-raised-sm);
+  color: var(--rv-color-on-primary);
+  font-weight: var(--rv-font-weight-medium);
+
+  // No focus mark here: entering the bar always lands the focus on the selected tab, so the rail's
+  // ring alone already says where the keyboard is. The hairline is for the tabs you travel to.
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+// Sliding thumb: the list draws the fill with a pseudo-element anchored to the selected tab, so it
+// slides from one tab to the next. No JavaScript, no extra element (as in Segmented).
+@supports (anchor-name: --a) {
+  .tab[aria-selected='true'] {
+    anchor-name: --rv-tabs-thumb;
+    background: none;
+    box-shadow: none;
+  }
+
+  // ::after, not ::before: an anchor must come earlier in the tree than the element positioned
+  // against it
+  .list::after {
+    content: '';
+    position: absolute;
+    position-anchor: --rv-tabs-thumb;
+    inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
+    border-radius: var(--rv-radius-full);
+    background: linear-gradient(var(--rv-color-primary-top), var(--rv-color-primary-bottom));
+    box-shadow: var(--rv-shadow-raised-sm);
+    transition:
+      inset 250ms $thumb-easing,
+      opacity 150ms ease;
+  }
+
+  // On the first paint the inset animates from nothing, which would show the thumb mid-slide:
+  // fade it in instead
+  @starting-style {
+    .list::after {
+      opacity: 0;
+    }
+  }
+
+  // No tab selected: no anchor, so no thumb (it would show as a smudge in the corner)
+  .list:not(:has([aria-selected='true']))::after {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .list::after {
+      transition: none;
+    }
+  }
+}
+
+.panel {
+  margin-block-start: var(--rv-space-3);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-size: var(--rv-font-size-md);
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 2px;
+    border-radius: var(--rv-radius-lg);
+  }
+
+  // Framed: the surface of a Card, so a panel and a card never drift apart
+  &[data-variant='framed'] {
+    border: 1px solid var(--rv-color-border);
+    border-radius: var(--rv-radius-lg);
+    background: var(--rv-color-surface);
+    padding: var(--rv-space-5) var(--rv-space-6);
+  }
+}

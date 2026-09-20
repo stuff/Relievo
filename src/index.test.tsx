@@ -25,6 +25,7 @@ const parts: Record<string, Record<string, unknown>> = {
   },
   Segmented: { Item: client.SegmentedItem },
   Select: { Item: client.SelectItem, Group: client.SelectGroup },
+  Tabs: { List: client.TabsList, Item: client.TabsItem, Panel: client.TabsPanel },
 };
 
 const partNames = Object.values(parts).flatMap((p) =>

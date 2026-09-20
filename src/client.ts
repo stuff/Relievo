@@ -12,6 +12,7 @@ import { Menu } from './components/Menu';
 import { Segmented } from './components/Segmented';
 import { Select } from './components/Select';
 
+export * from './components/Alert';
 export * from './components/Box';
 export * from './components/Button';
 export * from './components/ButtonGroup';

@@ -1,0 +1,96 @@
+@use '../../styles/icons';
+
+$tones: neutral, info, success, warning, danger;
+
+// A message in the flow of the page. Flat: it is information, not something to press (see Relief
+// in AGENTS.md). A light tint of the tone fills it, its text color draws the border and the icon.
+.alert {
+  --alert-tint: var(--rv-color-neutral-tint);
+  --alert-text: var(--rv-color-neutral-text);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--rv-space-3);
+  box-sizing: border-box;
+  padding: var(--rv-space-3) var(--rv-space-4);
+  border: 1px solid color-mix(in oklab, var(--alert-text), transparent 65%);
+  border-radius: var(--rv-radius-lg);
+  // 20% of the tint: the most a tint may sit under text and keep 4.5:1 (see tokens.scss)
+  background: color-mix(in oklab, var(--alert-tint), transparent 80%);
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-size: var(--rv-font-size-sm);
+  line-height: 1.45;
+
+  @each $tone in $tones {
+    &[data-tone='#{$tone}'] {
+      --alert-tint: var(--rv-color-#{$tone}-tint);
+      --alert-text: var(--rv-color-#{$tone}-text);
+    }
+  }
+}
+
+// Centered on the first line of the message
+.icon {
+  @include icons.icon-slot(1.15rem);
+
+  min-block-size: calc(var(--rv-font-size-sm) * 1.45);
+  color: var(--alert-text);
+}
+
+.content {
+  display: grid;
+  flex: 1;
+  gap: var(--rv-space-2);
+  min-inline-size: 0;
+
+  // The message is often written as paragraphs: the gap sets them apart, not their margins
+  > p {
+    margin: 0;
+  }
+}
+
+.title {
+  color: var(--alert-text);
+  font-weight: var(--rv-font-weight-semibold);
+}
+
+// Raised, like Input's end action: it can be pressed (see Relief in AGENTS.md). In the tone's
+// colors rather than the surface's, so it belongs to the alert.
+.close {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  box-sizing: border-box;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--rv-radius-full);
+  background: color-mix(in oklab, var(--alert-tint), transparent 70%);
+  box-shadow: var(--rv-shadow-raised-sm);
+  color: var(--alert-text);
+  cursor: pointer;
+  transition: box-shadow var(--rv-duration-press) ease;
+
+  &:hover {
+    background: color-mix(in oklab, var(--alert-tint), transparent 55%);
+  }
+
+  &:active {
+    box-shadow: var(--rv-shadow-pressed-sm);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.closeIcon {
+  @include icons.icon-slot(0.9rem);
+}

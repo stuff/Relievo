@@ -14,6 +14,7 @@ import {
   XIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Alert } from '../components/Alert';
 import { Box } from '../components/Box';
 import { Button } from '../components/Button';
 import { ButtonGroup } from '../components/ButtonGroup';
@@ -58,6 +59,11 @@ function Overview() {
 
   return (
     <div style={{ display: 'grid', gap: 'var(--rv-space-6)', width: 'min(100%, 44rem)' }}>
+      {/* A message about what just happened, above the page's content */}
+      <Alert tone="success" onClose={() => {}}>
+        Prices updated for 3 products.
+      </Alert>
+
       {/* A toned card: an alert about the list below */}
       <Card as="section" tone="warning">
         <Card.Header>

@@ -41,6 +41,7 @@ import {
 } from './client';
 
 export {
+  Alert,
   Box,
   Button,
   ButtonGroup,

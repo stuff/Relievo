@@ -22,6 +22,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `Button` | Actions; `href` renders it as a link; `startIcon` / `endIcon` |
 | `ButtonGroup` | Related buttons on a single line, with a fixed gap |
 | `Card` | A flat panel grouping related content, with an optional `tone` (and its corner icon) and an `outline` variant: `Card.Header` (`Card.Title`, `Card.Description`), `Card.Body`, `Card.Footer` |
+| `Alert` | A message in the flow of the page (`tone`, `title`, an icon, an optional close button) |
 | `Checkbox` | A single yes / no choice, with a mixed state |
 | `Input` | Single-line text field with label, helper text, error, icons, prefix / suffix, an end action (`Input.Action`: clear, show password) or a button beside it |
 | `Textarea` | Multi-line text field, the same carved field as `Input` |

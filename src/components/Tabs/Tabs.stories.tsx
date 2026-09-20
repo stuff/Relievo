@@ -41,8 +41,8 @@ export const Default: Story = {
   ),
 };
 
-/** A count is part of the label, as text; `startIcon` puts an icon before it. */
-export const WithIconsAndCounts: Story = {
+/** `startIcon` puts an icon before the label. A count is part of that label, as text. */
+export const WithIcons: Story = {
   render: (args) => (
     <Tabs {...args} defaultValue="review">
       <Tabs.List>

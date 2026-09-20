@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../../styles/icons';
 @use '../../styles/typography';
 
@@ -21,8 +22,21 @@ $sizes: (
 
 $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
 
+// The track under the bar, and the indicator that runs on it. Both are placed from one centre
+// line, so they stay centred on each other whichever height changes.
+$track-center: 12.5px;
+$track-height: 1px;
+$track-thumb-height: 3px;
+$track-top: calc(100% + #{$track-center - math.div($track-height, 2)});
+$track-thumb-top: calc(100% + #{$track-center - math.div($track-thumb-height, 2)});
+// How far the bar draws below the rail's own box, which the rail reserves as a margin: the track
+// and its indicator are positioned out there, so without it whatever follows would sit on them.
+$track-reach: $track-center + math.div($track-thumb-height, 2);
+
 .root {
-  display: block;
+  // Grid, not block: adjacent margins do not collapse in a grid, so the room the rail reserves
+  // for its track adds to the panel's own margin instead of being swallowed by it.
+  display: grid;
 }
 
 // The rail: one wide secondary button. Raised, because it can be pressed (see the relief rule in
@@ -31,11 +45,19 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
   box-sizing: border-box;
   // The rail takes the width it is given and keeps the tabs their own size: the room left over
   // stays rail, at the end of the bar. A bar heads the content below it, so it spans it.
+  position: relative;
+  // The scope is on the rail, not on the list: anchor-scope confines the name to the element's
+  // own subtree, and the underline below is a child of the rail, outside the list.
+  anchor-scope: --rv-tabs-thumb;
   display: block;
   inline-size: 100%;
+  margin-block-end: $track-reach;
   padding: $rail-padding;
   border-radius: var(--rv-radius-full);
-  background: linear-gradient(var(--rv-color-sheen-top) 0% 25%, var(--rv-color-sheen-bottom) 95% 100%);
+  background: linear-gradient(
+    var(--rv-color-sheen-top) 0% 25%,
+    var(--rv-color-sheen-bottom) 95% 100%
+  );
   box-shadow: var(--rv-shadow-raised);
 
   // The rail is what the keyboard is in, so it takes the focus ring, exactly as a Button does.
@@ -61,8 +83,6 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
 
 .list {
   position: relative;
-  // Each bar anchors its own thumb, even with several bars on the page
-  anchor-scope: --rv-tabs-thumb;
   display: flex;
   align-items: center;
   gap: var(--rv-space-1);
@@ -179,6 +199,52 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
     display: none;
   }
 
+  // A thin track under the rail, the whole width of the bar, with the indicator running on it
+  .rail::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: $track-top;
+    block-size: $track-height;
+    border-radius: var(--rv-radius-full);
+    background: var(--rv-color-border);
+  }
+
+  // The indicator: as wide as the selected tab, and it travels with it along the track
+  .underline {
+    position: absolute;
+    position-anchor: --rv-tabs-thumb;
+    left: anchor(left);
+    right: anchor(right);
+    top: $track-thumb-top;
+    block-size: $track-thumb-height;
+    border-radius: var(--rv-radius-full);
+    // The primary itself, chosen by the maintainer. Measured against the page: 3.2:1 in light,
+    // 2.3:1 in dark, where the primary is a dull green on a near-black background. The thumb and
+    // the label above already carry the selection, so the mark is not alone in saying it.
+    background: var(--rv-color-primary);
+    transition:
+      left 250ms $thumb-easing,
+      right 250ms $thumb-easing,
+      opacity 150ms ease;
+  }
+
+  @starting-style {
+    .underline {
+      opacity: 0;
+    }
+  }
+
+  .rail:not(:has([aria-selected='true'])) .underline {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .underline {
+      transition: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .list::after {
       transition: none;
@@ -187,7 +253,8 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
 }
 
 .panel {
-  margin-block-start: var(--rv-space-3);
+  // On top of the room the rail reserves for its track
+  margin-block-start: var(--rv-space-5);
   color: var(--rv-color-text);
   font-family: var(--rv-font-family);
   font-size: var(--rv-font-size-md);

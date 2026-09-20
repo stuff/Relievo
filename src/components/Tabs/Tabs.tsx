@@ -143,6 +143,10 @@ function TabsList({ children }: TabsListProps) {
           {children}
         </BaseTabs.List>
       </div>
+      {/* The bar under the rail, anchored to the selected tab, so it slides with it. An element
+          rather than a pseudo: an anchor must come earlier in the tree than what is positioned
+          against it, and the list's ::after is already the thumb. Decorative. */}
+      <span aria-hidden className={styles.underline} />
     </div>
   );
 }

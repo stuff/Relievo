@@ -18,6 +18,19 @@ $size: map.get($control-sizes, md);
   @include fields.helper-text;
 }
 
+// The field and a button beside it: the label and helper text span both
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--rv-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+
+  > .control {
+    flex: 1;
+  }
+}
+
 .control {
   display: flex;
   align-items: center;

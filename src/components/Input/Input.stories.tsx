@@ -79,13 +79,23 @@ export const HiddenLabel: Story = {
   args: { label: 'Search', hideLabel: true, placeholder: 'Search…', type: 'search' },
 };
 
+/**
+ * `endButton` puts a `Button` beside the field, acting on its value. The input lines it up with
+ * its own line, whatever the height of the label and helper text, which span them both.
+ */
 export const WithButton: Story = {
-  render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'end' }}>
-      <Input {...args} label="Search" hideLabel placeholder="Search…" type="search" />
-      <Button variant="secondary">Search</Button>
-    </div>
-  ),
+  args: {
+    label: "Address of the offer",
+    placeholder: 'https://example.com/job/123',
+    helperText:
+      'Required: without an address the offer cannot be found again. Campaign tokens are '
+      + 'removed, the address kept is the offer’s.',
+    endButton: (
+      <Button variant="secondary" startIcon={<GlobeIcon />}>
+        Read the page
+      </Button>
+    ),
+  },
 };
 
 /**

@@ -2,6 +2,7 @@ import { createContext, use, type ComponentProps, type MouseEvent, type ReactEle
 import { Field } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { IconSlot } from '../../internal/IconSlot';
+import { Button, type ButtonProps } from '../Button';
 import styles from './Input.module.scss';
 
 // Styling is owned by the design system: className, style and render are not part of the
@@ -57,6 +58,13 @@ export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, Omitt
    * a show-password button. Last in the field, after `endIcon`. Disabled with the field.
    */
   endAction?: ReactElement<InputActionProps>;
+  /**
+   * A `Button` beside the field, acting on its value, such as "Read the page" or "Apply". The
+   * input lines it up with its own line, whatever the height of the label and helper text, which
+   * span them both. Give it the default `md` size, the field's height; it keeps its own
+   * `disabled` state, so disable it yourself when the value is not ready.
+   */
+  endButton?: ReactElement<ButtonProps>;
   /**
    * Text before the value, such as a currency (`$`) or a protocol (`https://`). Announced to
    * screen readers as part of the input description.
@@ -131,6 +139,7 @@ export function Input({
   startIcon,
   endIcon,
   endAction,
+  endButton,
   prefix,
   suffix,
   helperText,
@@ -139,6 +148,23 @@ export function Input({
   disabled = false,
   ...props
 }: InputProps) {
+  // The end button is aligned with the pill and sized like it: another element would not line up
+  if (process.env.NODE_ENV !== 'production' && endButton && endButton.type !== Button) {
+    console.warn("Input's endButton must be a Relievo Button.");
+  }
+
+  // The pill: icons and affixes sit inside it, around the borderless <input>.
+  const pill = (
+    <div className={styles.control} data-action={endAction ? '' : undefined} onMouseDown={focusInput}>
+      <IconSlot icon={startIcon} className={styles.icon} />
+      {prefix != null && <Affix>{prefix}</Affix>}
+      <BaseInput {...props} type={type} disabled={disabled} className={styles.input} style={undefined} />
+      {suffix != null && <Affix>{suffix}</Affix>}
+      <IconSlot icon={endIcon} className={styles.icon} />
+      <InputDisabledContext value={disabled}>{endAction}</InputDisabledContext>
+    </div>
+  );
+
   return (
     // Field.Root spreads the invalid state to the label, input and description
     // (data-invalid, and aria-invalid on the input).
@@ -146,25 +172,16 @@ export function Input({
       <Field.Label className={styles.label} data-hidden={hideLabel ? '' : undefined}>
         {label}
       </Field.Label>
-      {/* The pill: icons and affixes sit inside it, around the borderless <input>. */}
-      <div
-        className={styles.control}
-        data-action={endAction ? '' : undefined}
-        onMouseDown={focusInput}
-      >
-        <IconSlot icon={startIcon} className={styles.icon} />
-        {prefix != null && <Affix>{prefix}</Affix>}
-        <BaseInput
-          {...props}
-          type={type}
-          disabled={disabled}
-          className={styles.input}
-          style={undefined}
-        />
-        {suffix != null && <Affix>{suffix}</Affix>}
-        <IconSlot icon={endIcon} className={styles.icon} />
-        <InputDisabledContext value={disabled}>{endAction}</InputDisabledContext>
-      </div>
+      {/* A button beside the field: the label and helper text span the row, and the pill, not the
+          whole field, is what the button lines up with. */}
+      {endButton ? (
+        <div className={styles.row}>
+          {pill}
+          {endButton}
+        </div>
+      ) : (
+        pill
+      )}
       {helperText != null && (
         <Field.Description className={styles.helperText}>{helperText}</Field.Description>
       )}

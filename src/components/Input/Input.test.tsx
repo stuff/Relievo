@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { EnvelopeIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
+import { Button } from '../Button';
 import { Input, type InputProps } from './Input';
 
 describe('Input', () => {
@@ -188,6 +189,36 @@ describe('Input', () => {
 
       rerender(<Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon />} />} />);
       expect(screen.getByRole('button', { name: 'Clear' })).toBeEnabled();
+    });
+  });
+
+  describe('end button', () => {
+    it('renders the button after the field, under the same label and helper text', () => {
+      render(
+        <Input
+          label="Address"
+          helperText="Required."
+          endButton={<Button variant="secondary">Read the page</Button>}
+        />,
+      );
+
+      const input = screen.getByRole('textbox', { name: 'Address' });
+      const button = screen.getByRole('button', { name: 'Read the page' });
+      expect(input.compareDocumentPosition(button) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+      expect(input).toHaveAccessibleDescription('Required.');
+    });
+
+    it('warns in development when it is not a Button', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      render(<Input label="Address" endButton={<div>Read the page</div>} />);
+      expect(warn).toHaveBeenCalledWith("Input's endButton must be a Relievo Button.");
+
+      warn.mockClear();
+      render(<Input label="Address" endButton={<Button>Read the page</Button>} />);
+      expect(warn).not.toHaveBeenCalled();
+
+      warn.mockRestore();
     });
   });
 

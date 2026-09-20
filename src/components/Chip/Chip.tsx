@@ -107,7 +107,8 @@ export function Chip({
     'data-tone': tone,
     'data-variant': variant,
     'data-size': size,
-    className: styles.chip,
+    // A selectable chip is a button that can be pressed: it takes the relief, a static one stays flat
+    className: selectable ? `${styles.chip} ${styles.selectable}` : styles.chip,
     style: undefined,
   };
 
@@ -135,7 +136,7 @@ export function Chip({
   );
 
   return (
-    <Toggle {...props} disabled={disabled} data-selectable="" {...sharedProps}>
+    <Toggle {...props} disabled={disabled} {...sharedProps}>
       {content}
     </Toggle>
   );

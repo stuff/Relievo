@@ -83,7 +83,7 @@ $sizes: (
 
   // Selectable chips can be pressed, so they are raised like buttons; once selected, they are
   // pressed in. Static chips are information: they stay flat (see the relief rule in AGENTS.md).
-  &[data-selectable] {
+  &.selectable {
     box-shadow: var(--rv-shadow-raised-sm);
     cursor: pointer;
     user-select: none;

@@ -186,7 +186,7 @@ function CardHeader({ start, end, children }: CardHeaderProps) {
   }
 
   return (
-    <div className={styles.header} data-slots="" data-end={hasEnd ? '' : undefined}>
+    <div className={`${styles.header} ${styles.withSlots}${hasEnd ? ` ${styles.withEnd}` : ''}`}>
       {hasStart && <div className={styles.slot}>{start}</div>}
       <div className={styles.heading}>{children}</div>
       {hasEnd && <div className={styles.slot}>{end}</div>}

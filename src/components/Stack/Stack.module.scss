@@ -28,7 +28,7 @@
   }
 
   // A list lays out its items: no bullets, numbers or indent
-  &[data-list] {
+  &.list {
     margin: 0;
     padding: 0;
     list-style: none;

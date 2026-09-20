@@ -90,8 +90,7 @@ export function Stack({
       data-align={align}
       data-gap={gap}
       data-wrap={wrap ? '' : undefined}
-      data-list={isList ? '' : undefined}
-      className={styles.stack}
+      className={`${styles.stack}${isList ? ` ${styles.list}` : ''}`}
     >
       {separator
         ? Children.toArray(children).map((child, index) => (

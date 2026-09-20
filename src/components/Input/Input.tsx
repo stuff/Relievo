@@ -155,7 +155,10 @@ export function Input({
 
   // The pill: icons and affixes sit inside it, around the borderless <input>.
   const pill = (
-    <div className={styles.control} data-action={endAction ? '' : undefined} onMouseDown={focusInput}>
+    <div
+      className={`${styles.control}${endAction ? ` ${styles.withAction}` : ''}`}
+      onMouseDown={focusInput}
+    >
       <IconSlot icon={startIcon} className={styles.icon} />
       {prefix != null && <Affix>{prefix}</Affix>}
       <BaseInput {...props} type={type} disabled={disabled} className={styles.input} style={undefined} />

@@ -81,7 +81,7 @@ $tones: primary, info, success, warning, danger;
 
 // The end slot sits in the icon's corner: it usually carries the status already, so the icon
 // gives way to it. The tone's tint stays on the card.
-.card:has(> .header[data-end]) > .icon {
+.card:has(> .header.withEnd) > .icon {
   display: none;
 }
 
@@ -102,7 +102,7 @@ $tones: primary, info, success, warning, danger;
 }
 
 // With slots: start, then the title and description, then end
-.header[data-slots] {
+.header.withSlots {
   display: flex;
   align-items: flex-start;
   gap: var(--rv-space-3);

@@ -21,6 +21,7 @@ export * from './components/Card';
 export * from './components/Checkbox';
 export * from './components/Chip';
 export * from './components/Input';
+export * from './components/Link';
 export * from './components/Menu';
 export * from './components/Pagination';
 export * from './components/Segmented';

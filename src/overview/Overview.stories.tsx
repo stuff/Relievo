@@ -23,6 +23,7 @@ import { Card } from '../components/Card';
 import { Checkbox } from '../components/Checkbox';
 import { Chip } from '../components/Chip';
 import { Input } from '../components/Input';
+import { Link } from '../components/Link';
 import { Menu } from '../components/Menu';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
@@ -236,7 +237,11 @@ function Overview() {
             </Stack>
             {/* A plain bordered container: a side note, not a panel of its own */}
             <Box as="aside" border padding="md">
-              <p style={text}>Photos and videos are managed in the media library.</p>
+              <p style={text}>
+                Photos and videos are managed in the <Link href="#media">media library</Link>, and
+                the guidelines live on{' '}
+                <Link href="https://example.com" external>the brand site</Link>.
+              </p>
             </Box>
           </div>
         </Card.Body>

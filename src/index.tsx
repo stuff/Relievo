@@ -51,6 +51,7 @@ export {
   Button,
   ButtonGroup,
   Checkbox,
+  Link,
   Pagination,
   RelievoProvider,
   Stack,

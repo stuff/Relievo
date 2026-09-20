@@ -1,0 +1,58 @@
+@use '../../styles/icons';
+
+// A link in running text. It takes the type of whatever holds it — a sentence, a small meta line,
+// a card title — so it has no size of its own.
+.link {
+  --link-color: var(--rv-color-primary-text);
+
+  color: var(--link-color);
+  font: inherit;
+  // A notch bolder than the text it sits in, which is what makes it stand out in light theme.
+  // Not inside a heading: a title is already semibold, and 500 would make the link lighter than
+  // the words around it.
+  font-weight: var(--rv-font-weight-medium);
+  // The underline is the part that does not depend on color: in a block of text, color alone may
+  // not be what marks a link (WCAG 1.4.1). Thin and offset, so it does not cut the descenders.
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in oklab, var(--link-color), transparent 55%);
+  border-radius: var(--rv-radius-sm);
+  transition:
+    text-decoration-color var(--rv-duration-state) ease,
+    text-decoration-thickness var(--rv-duration-state) ease;
+
+  :is(h1, h2, h3, h4, h5, h6) & {
+    font-weight: inherit;
+  }
+
+  &[data-tone='neutral'] {
+    --link-color: var(--rv-color-text);
+  }
+
+  // Hover and keyboard focus thicken the underline into the full color: the link is already
+  // underlined, so what changes is its weight, not its presence
+  &:hover,
+  &:focus-visible {
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--link-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  // The arrow of an external link: at the size of the text, on its baseline, and never alone on
+  // a line of its own
+  .icon {
+    @include icons.icon-slot(1em);
+
+    margin-inline-start: 0.15em;
+    vertical-align: -0.1em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}

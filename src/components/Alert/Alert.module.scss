@@ -38,15 +38,22 @@ $tones: neutral, info, success, warning, danger;
   color: var(--alert-text);
 }
 
+// Block flow rather than a grid or a flex column: a message is often plain text with a link or
+// a <strong> inside it, and in a grid each of those becomes a row of its own, breaking the
+// sentence in two. Block children (a paragraph, a checkbox, a button) are spaced from each
+// other instead; a vertical margin has no effect on an inline element, so text is left alone.
 .content {
-  display: grid;
   flex: 1;
-  gap: var(--rv-space-2);
   min-inline-size: 0;
 
-  // The message is often written as paragraphs: the gap sets them apart, not their margins
-  > p {
+  // The message is often written as paragraphs: their own margins go, the rule below spaces
+  // them. :where() keeps this at zero specificity, so the spacing rule still wins over it.
+  > :where(p) {
     margin: 0;
+  }
+
+  > * + * {
+    margin-block-start: var(--rv-space-2);
   }
 }
 

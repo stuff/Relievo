@@ -57,6 +57,7 @@ export {
   Stack,
   Textarea,
   ThemeProvider,
+  ThemeScript,
   useTheme,
 } from './client';
 export type * from './client';

@@ -113,10 +113,15 @@ import { ThemeProvider } from 'relievo';
 </ThemeProvider>;
 ```
 
-To own the mode yourself (to persist it, for example), control it with `mode` and `onModeChange`:
+To own the mode yourself (to persist it, for example), control it with `mode` and `onModeChange`. Read the stored value in an effect rather than in the initial state: reading it eagerly would return a different mode on the server (no `localStorage`) and on the client's first render, which React flags as a hydration mismatch wherever the mode reaches the rendered output (a menu label showing the mode, for example):
 
 ```tsx
-const [mode, setMode] = useState<ThemeMode>(() => (localStorage.getItem('theme') as ThemeMode) ?? 'system');
+const [mode, setMode] = useState<ThemeMode>('system');
+
+useEffect(() => {
+  const stored = localStorage.getItem('theme');
+  if (stored === 'light' || stored === 'dark' || stored === 'system') setMode(stored);
+}, []);
 
 <ThemeProvider
   mode={mode}
@@ -128,6 +133,18 @@ const [mode, setMode] = useState<ThemeMode>(() => (localStorage.getItem('theme')
   <App />
 </ThemeProvider>;
 ```
+
+That still flashes the OS default for a moment before the effect runs. To avoid it, render `ThemeScript` in `<head>`, ahead of the app: it is a blocking script, so it sets `data-theme` before the first paint, independently of when React hydrates:
+
+```tsx
+import { ThemeScript } from 'relievo';
+
+<head>
+  <ThemeScript storageKey="theme" />
+</head>;
+```
+
+`storageKey` must match what `onModeChange` writes above (it defaults to `'theme'`). It only ever sets `data-theme`, never removes it: for `system`, or when nothing is stored yet, the server already renders with no `data-theme`, which is already correct.
 
 Read or change the mode anywhere inside it with `useTheme()`:
 

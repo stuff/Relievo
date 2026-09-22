@@ -22,6 +22,7 @@ import { ButtonGroup } from '../components/ButtonGroup';
 import { Card } from '../components/Card';
 import { Checkbox } from '../components/Checkbox';
 import { Chip } from '../components/Chip';
+import { Collapsible } from '../components/Collapsible';
 import { Input } from '../components/Input';
 import { Link } from '../components/Link';
 import { Menu } from '../components/Menu';
@@ -243,6 +244,12 @@ function Overview() {
                 <Link href="https://example.com" external>the brand site</Link>.
               </p>
             </Box>
+            <Collapsible label="Advanced settings">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 'var(--rv-space-5)' }}>
+                <Input label="Barcode" placeholder="Scan or type a barcode" />
+                <Input label="Weight" type="number" suffix="kg" />
+              </div>
+            </Collapsible>
           </div>
         </Card.Body>
         <Card.Footer>

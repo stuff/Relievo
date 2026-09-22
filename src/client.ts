@@ -20,6 +20,7 @@ export * from './components/ButtonGroup';
 export * from './components/Card';
 export * from './components/Checkbox';
 export * from './components/Chip';
+export * from './components/Collapsible';
 export * from './components/Input';
 export * from './components/Link';
 export * from './components/Menu';

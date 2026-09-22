@@ -1,0 +1,80 @@
+@use '../../styles/icons';
+@use '../../styles/typography';
+
+.root {
+  display: block;
+}
+
+// Muted like a helper text, so it reads as a secondary affordance rather than a heading; it takes
+// the primary color on hover and focus, like Link.
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--rv-space-2);
+  width: 100%;
+  border: none;
+  border-radius: var(--rv-radius-sm);
+  background: none;
+  padding: var(--rv-space-1) 0;
+  color: var(--rv-color-text-muted);
+  font-family: var(--rv-font-family);
+  font-size: var(--rv-font-size-sm);
+  font-weight: var(--rv-font-weight-medium);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--rv-duration-state) ease;
+
+  &:hover:not([data-disabled]) {
+    color: var(--rv-color-primary-text);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 3px;
+  }
+
+  &[data-disabled] {
+    opacity: 0.6;
+    cursor: default;
+  }
+}
+
+// Points at the collapsed content (right) and turns to point down, at the revealed content, once
+// open: the same direction the panel expands in.
+.icon {
+  @include icons.icon-slot(1em);
+
+  transition: rotate var(--rv-duration-state) ease;
+}
+
+.trigger[data-panel-open] .icon {
+  rotate: 90deg;
+}
+
+.label {
+  @include typography.trim-text;
+}
+
+// Base UI measures the content and exposes it as --collapsible-panel-height; starting and ending
+// the transition at 0 is what makes the height change animate instead of jumping.
+.content {
+  height: var(--collapsible-panel-height);
+  overflow: hidden;
+  transition: height var(--rv-duration-state) ease;
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    height: 0;
+  }
+}
+
+.inner {
+  padding-top: var(--rv-space-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon,
+  .content {
+    transition: none;
+  }
+}

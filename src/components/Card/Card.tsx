@@ -13,6 +13,7 @@ import styles from './Card.module.scss';
 
 export type CardTone = 'neutral' | 'primary' | 'info' | 'success' | 'warning' | 'danger';
 export type CardVariant = 'solid' | 'outline';
+export type CardPadding = 'sm' | 'md' | 'lg';
 export type CardElement = 'div' | 'article' | 'section';
 export type CardTitleElement = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
@@ -32,6 +33,12 @@ interface CardBaseProps {
    * @default 'solid'
    */
   variant?: CardVariant;
+  /**
+   * Space inside each part (`Card.Header`, `Card.Body`, `Card.Footer`), on the kit's spacing
+   * scale: `sm` for a compact card (a key figure), `lg` for a roomier one.
+   * @default 'md'
+   */
+  padding?: CardPadding;
   /**
    * The parts of the card, in order: `Card.Header`, `Card.Body`, `Card.Footer`. Each one is
    * optional; a line sets the footer apart.
@@ -152,7 +159,14 @@ const toneIcons: Record<CardStatusTone, ReactElement> = {
  * </Card>
  * ```
  */
-export function Card({ as: Element = 'div', tone = 'neutral', variant = 'solid', icon, children }: CardProps) {
+export function Card({
+  as: Element = 'div',
+  tone = 'neutral',
+  variant = 'solid',
+  padding = 'md',
+  icon,
+  children,
+}: CardProps) {
   const titleId = useId();
   // The tone's icon by default; false removes it. A neutral card has none.
   const cornerIcon = tone === 'neutral' || icon === false ? undefined : (icon ?? toneIcons[tone]);
@@ -166,6 +180,7 @@ export function Card({ as: Element = 'div', tone = 'neutral', variant = 'solid',
         aria-labelledby={labelledBy}
         data-tone={tone}
         data-variant={variant}
+        data-padding={padding}
         className={styles.card}
       >
         <IconSlot icon={cornerIcon} className={styles.icon} />

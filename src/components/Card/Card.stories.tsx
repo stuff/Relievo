@@ -173,3 +173,16 @@ export const BodyOnly: Story = {
 export const AsArticle: Story = {
   args: { as: 'article' },
 };
+
+/** `padding`: `sm` for a compact card (a key figure), `md` (default), `lg` for a roomier one. */
+export const Paddings: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', alignItems: 'start' }}>
+      {(['sm', 'md', 'lg'] as const).map((padding) => (
+        <Card key={padding} padding={padding}>
+          <Card.Body>{padding}</Card.Body>
+        </Card>
+      ))}
+    </div>
+  ),
+};

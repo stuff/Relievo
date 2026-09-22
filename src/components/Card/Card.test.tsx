@@ -204,6 +204,23 @@ describe('Card', () => {
     expect(outline).toHaveAttribute('data-variant', 'outline');
   });
 
+  it('applies the padding size, md by default', () => {
+    const { container } = render(
+      <>
+        <Card>
+          <Card.Body>Default</Card.Body>
+        </Card>
+        <Card padding="sm">
+          <Card.Body>Compact</Card.Body>
+        </Card>
+      </>,
+    );
+
+    const [defaultCard, compact] = Array.from(container.children);
+    expect(defaultCard).toHaveAttribute('data-padding', 'md');
+    expect(compact).toHaveAttribute('data-padding', 'sm');
+  });
+
   it('ignores className and style passed by untyped callers', () => {
     const locked = { className: 'custom', style: { color: 'red' } };
     const { container } = render(

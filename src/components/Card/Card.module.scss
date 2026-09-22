@@ -4,12 +4,14 @@ $tones: primary, info, success, warning, danger;
 
 // A flat panel: information, not something to press (see Relief in AGENTS.md).
 .card {
-  // Tones and variants override these
+  // Tones and variants override these; padding sizes (below) override --card-padding-*
   --card-bg: var(--rv-color-surface);
   --card-border: var(--rv-color-border);
   --card-separator: var(--rv-color-border);
   --card-glow: transparent;
   --card-corner: transparent;
+  --card-padding-block: var(--rv-space-5);
+  --card-padding-inline: var(--rv-space-6);
 
   // The corner icon sits under the parts
   position: relative;
@@ -41,6 +43,17 @@ $tones: primary, info, success, warning, danger;
     }
   }
 
+  // md keeps the default above; sm suits a compact card (a key figure), lg a roomier one
+  &[data-padding='sm'] {
+    --card-padding-block: var(--rv-space-3);
+    --card-padding-inline: var(--rv-space-4);
+  }
+
+  &[data-padding='lg'] {
+    --card-padding-block: var(--rv-space-6);
+    --card-padding-inline: var(--rv-space-7);
+  }
+
   // Outline: no fill and no corner, over whatever is behind the card. The border is stronger than
   // solid's (60% of the tone instead of 35%), and a lighter band along the top (8% of the tone
   // instead of 15%) keeps a hint of the tone.
@@ -63,7 +76,7 @@ $tones: primary, info, success, warning, danger;
 .footer {
   position: relative;
   z-index: 1;
-  padding: var(--rv-space-5) var(--rv-space-6);
+  padding: var(--card-padding-block) var(--card-padding-inline);
 }
 
 // Decorative tone icon, tucked into the top-right corner (closer than the padding), behind the

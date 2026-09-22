@@ -107,12 +107,6 @@ $dark-palette: (
   --rv-color-primary-top-hover: color-mix(in oklab, var(--rv-color-primary), white 12%);
   --rv-color-primary-bottom-hover: color-mix(in oklab, var(--rv-color-primary), black 14%);
 
-  // Secondary button gradient, over the surface
-  --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 15%);
-  --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 10%);
-  --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 25%);
-  --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 7%);
-
   // Secondary text: helper texts, descriptions. As muted as 4.5:1 allows, with some margin: 5:1 on
   // the light background (the worst case; 4.4:1 at 20%), 5.4:1 on the light surface, 5.6:1+ in dark
   --rv-color-text-muted: color-mix(in oklab, var(--rv-color-text), transparent 15%);
@@ -130,6 +124,14 @@ $dark-palette: (
     // Dark: a strong highlight and a thin lit top edge carry the relief
     $lit-edge: inset 0 1px 0 color-mix(in oklab, white, transparent 88%);
 
+    // Secondary button gradient, over the surface. Milder than in light: the dark surface is
+    // already near black, so the same mix used in light would crush the bottom stop to black and
+    // read as a harsh shadow instead of the gentle sheen the primary button gets.
+    --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 8%);
+    --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 4%);
+    --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 18%);
+    --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 1%);
+
     --rv-shadow-raised: 1px 2px 3px var(--rv-color-shadow), -1px -1px 3px var(--rv-color-highlight),
       #{$lit-edge};
     --rv-shadow-raised-sm: 1px 1px 2px var(--rv-color-shadow),
@@ -141,6 +143,12 @@ $dark-palette: (
     // Floating: a layer above the page (a select's list), a deep shadow and the lit top edge
     --rv-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
   } @else {
+    // Secondary button gradient, over the surface
+    --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 15%);
+    --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 10%);
+    --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 25%);
+    --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 7%);
+
     --rv-shadow-raised: 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 30%),
       -1px -1px 3px var(--rv-color-highlight);
     --rv-shadow-raised-sm: 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),

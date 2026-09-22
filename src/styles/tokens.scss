@@ -31,6 +31,11 @@ $light-palette: (
   success-text: #0f4627,
   warning-text: #573700,
   danger-text: #75140f,
+  // Text highlight (a search match): unlike the tones above, used solid, not as a transparent
+  // tint, and mark-text applies only to the patch it sits on, not as a general text color. Fixed,
+  // same in both themes: it must pop the same way regardless of the page around it.
+  mark-tint: #f2c94c,
+  mark-text: #3a2c00,
   // Relief light source, derived from the background
   shadow: color-mix(in oklab, var(--rv-color-background), black 60%),
   highlight: white,
@@ -64,6 +69,9 @@ $dark-palette: (
   success-text: #8fd6a8,
   warning-text: #f2c261,
   danger-text: #f2b8b5,
+  // Text highlight: same values as the light palette (see there), fixed regardless of theme
+  mark-tint: #f2c94c,
+  mark-text: #3a2c00,
   // Relief light source. Black shadows vanish on the dark background: the relief comes from the
   // highlight instead (see the dark shadows in the palette mixin)
   shadow: black,

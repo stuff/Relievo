@@ -74,6 +74,9 @@ Components contain no color literal: they only use `--rv-*` tokens. Everything b
 - Status tones: `info`, `success`, `warning`, `danger` (`-tint` and `-text`, plus
   `danger-text-muted`, 20% more transparent, for error messages). Their contrast was
   checked against our backgrounds: re-check against the clamped background lightness range.
+- Fixed like a status tone but not one: `mark-tint` / `mark-text` (a search match's highlight).
+  Same value in both themes, used solid (not as a transparent tint) with its own text color on
+  the patch: 8.6:1 internal contrast, does not depend on the seed or the surrounding theme.
 
 ## Tests to add with the feature
 

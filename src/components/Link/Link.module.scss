@@ -3,7 +3,9 @@
 // A link in running text. It takes the type of whatever holds it — a sentence, a small meta line,
 // a card title — so it has no size of its own.
 .link {
-  --link-color: var(--rv-color-primary-text);
+  // Falls back to the primary color; an ancestor such as Alert can set --link-color-context to
+  // make a Link that belongs to it take its tone instead (see Alert.module.scss)
+  --link-color: var(--link-color-context, var(--rv-color-primary-text));
 
   color: var(--link-color);
   font: inherit;

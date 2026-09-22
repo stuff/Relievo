@@ -7,6 +7,10 @@ $tones: neutral, info, success, warning, danger;
 .alert {
   --alert-tint: var(--rv-color-neutral-tint);
   --alert-text: var(--rv-color-neutral-text);
+  // A Link or a Button variant="link" inside the message belongs to this alert, not to the page:
+  // it takes the tone's color instead of its own default (see Link.module.scss, Button.module.scss)
+  --link-color-context: var(--alert-text);
+  --button-fg-context: var(--alert-text);
 
   display: flex;
   align-items: flex-start;

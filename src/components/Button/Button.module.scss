@@ -6,9 +6,11 @@
 $flat: 0 0 transparent;
 
 .button {
-  // Variants and states override these
+  // Variants and states override these. --button-fg falls back to the text color; an ancestor
+  // such as Alert can set --button-fg-context to make a Button variant="link" that belongs to it
+  // take its tone instead (see Alert.module.scss). primary and secondary set --button-fg outright.
   --button-bg: var(--rv-color-surface);
-  --button-fg: var(--rv-color-text);
+  --button-fg: var(--button-fg-context, var(--rv-color-text));
   --button-elevation: var(--rv-shadow-raised);
 
   position: relative;

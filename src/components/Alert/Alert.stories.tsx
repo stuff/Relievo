@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { ClockIcon } from '@phosphor-icons/react';
 import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
+import { Link } from '../Link';
 import { Alert } from './Alert';
 
 const meta = {
@@ -56,7 +57,7 @@ export const WithContent: Story = {
     children: (
       <>
         <p>
-          It was added on 3 September, from <a href="#source">the same address</a>.
+          It was added on 3 September, from <Link href="#source">the same address</Link>.
         </p>
         <Checkbox label="Replace the version on file with this one" />
         <div>
@@ -65,6 +66,20 @@ export const WithContent: Story = {
       </>
     ),
   },
+};
+
+/** A `Link` inside the message takes the alert's tone, not its own default primary color. */
+export const WithLink: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
+      <Alert {...args} tone="info">
+        169 offers for “test”, across every tab. <Link href="#list">Back to the list</Link>
+      </Alert>
+      <Alert {...args} tone="danger">
+        The last scan failed: timeout on the job board. <Link href="#retry">Try again</Link>
+      </Alert>
+    </div>
+  ),
 };
 
 /** `icon` replaces the tone's icon; `icon={false}` removes it. */

@@ -29,6 +29,7 @@ import { Menu } from '../components/Menu';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
 import { Select } from '../components/Select';
+import { Spinner } from '../components/Spinner';
 import { Stack } from '../components/Stack';
 import { Tabs } from '../components/Tabs';
 import { Textarea } from '../components/Textarea';
@@ -59,6 +60,7 @@ function Overview() {
   const [categories, setCategories] = useState<string[]>(['clothing']);
   const [selected, setSelected] = useState<string[]>(['Canvas tote', 'Leather boots']);
   const [search, setSearch] = useState('linen');
+  const [saving, setSaving] = useState(false);
   const allSelected = selected.length === products.length;
 
   return (
@@ -120,7 +122,17 @@ function Overview() {
               <Button variant="secondary" startIcon={<FunnelIcon />}>
                 Filters
               </Button>
-              <Button startIcon={<PlusIcon />}>New product</Button>
+              {/* Spinner replaces the usual icon while the action it starts is running */}
+              <Button
+                startIcon={saving ? <Spinner /> : <PlusIcon />}
+                disabled={saving}
+                onClick={() => {
+                  setSaving(true);
+                  setTimeout(() => setSaving(false), 1200);
+                }}
+              >
+                {saving ? 'Saving…' : 'New product'}
+              </Button>
             </div>
 
             <Stack gap="sm">

@@ -27,6 +27,7 @@ export * from './components/Menu';
 export * from './components/Pagination';
 export * from './components/Segmented';
 export * from './components/Select';
+export * from './components/Spinner';
 export * from './components/Stack';
 export * from './components/Tabs';
 export * from './components/Textarea';

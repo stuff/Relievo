@@ -55,6 +55,7 @@ export {
   Link,
   Pagination,
   RelievoProvider,
+  Spinner,
   Stack,
   Textarea,
   ThemeProvider,

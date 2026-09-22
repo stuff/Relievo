@@ -35,6 +35,7 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `Tabs` | A bar of tabs over the content they show: `Tabs.List`, `Tabs.Item` (icon), `Tabs.Panel` (`plain` or `framed`) |
 | `Select` | A single choice among a long list (`Select.Item` children or an `options` array) |
 | `Collapsible` | A section whose content (`children`) shows or hides on click, under its `label` |
+| `Spinner` | An action in progress, as a spinning ring; drop it anywhere an icon is expected, such as `startIcon` |
 | `ThemeProvider`, `useTheme` | Light / dark / system mode |
 | `RelievoProvider` | App-level configuration (router link component) |
 

@@ -191,7 +191,7 @@ docs/
 
 ## Contributing
 
-Read [`AGENTS.md`](AGENTS.md) for the conventions and [`docs/contributing.md`](docs/contributing.md) for the recipes. Run `pnpm typecheck`, `pnpm test` and `pnpm build` before opening a pull request. For a design decision, open an issue to discuss the options first.
+See [`CONTRIBUTING.md`](CONTRIBUTING.md): how to set up, what a change should come with, and when to open an issue before a pull request. The conventions are in [`AGENTS.md`](AGENTS.md).
 
 ## License
 

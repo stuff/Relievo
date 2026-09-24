@@ -1,10 +1,44 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, type Plugin } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import dts from 'vite-plugin-dts';
 
+// Tests only. Phosphor's barrel (`@phosphor-icons/react`) pulls in about 3000 modules and costs
+// about 2 s to load in every (isolated) test file. Rewrite named imports from it into imports of
+// the one module each icon lives in.
+const phosphorBarrel = /import\s*\{([^}]*)\}\s*from\s*'@phosphor-icons\/react'\s*;?/g;
+
+function phosphorPerIcon(): Plugin {
+  return {
+    name: 'relievo:phosphor-per-icon',
+    enforce: 'pre',
+    transform(code, id) {
+      if (id.includes('node_modules') || !code.includes("'@phosphor-icons/react'")) return null;
+      return code.replace(phosphorBarrel, (_match, names: string) =>
+        names
+          .split(',')
+          .map((name) => name.trim())
+          .filter(Boolean)
+          .map((name) => {
+            if (name.startsWith('type ')) return '';
+            const source =
+              name === 'IconContext'
+                ? '@phosphor-icons/react/dist/lib/context'
+                : `@phosphor-icons/react/dist/csr/${name.replace(/Icon$/, '')}`;
+            return `import { ${name} } from '${source}';`;
+          })
+          .join('\n'),
+      );
+    },
+  };
+}
+
 // Library build and unit tests. Storybook uses its own config in .storybook/vite.config.ts.
-export default defineConfig({
-  plugins: [react(), dts({ tsconfigPath: './tsconfig.build.json' })],
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+    dts({ tsconfigPath: './tsconfig.build.json' }),
+    mode === 'test' ? phosphorPerIcon() : null,
+  ],
   build: {
     lib: {
       // Two files: client.js holds the kit and is marked 'use client'; index.js, the package entry,
@@ -32,7 +66,10 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // Each file still runs isolated, but in a VM context of a reused worker: the default pool
+    // creates a new jsdom for every file, which was half of the run time.
+    pool: 'vmThreads',
     setupFiles: ['src/test/setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
   },
-});
+}));

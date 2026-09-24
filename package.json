@@ -25,6 +25,13 @@
   ],
   "type": "module",
   "packageManager": "pnpm@10.5.2",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=22.22.2",
+      "onFail": "warn"
+    }
+  },
   "files": [
     "dist"
   ],

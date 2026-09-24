@@ -66,6 +66,9 @@ export default defineConfig(({ mode }) => ({
   },
   test: {
     environment: 'jsdom',
+    // Each file still runs isolated, but in a VM context of a reused worker: the default pool
+    // creates a new jsdom for every file, which was half of the run time.
+    pool: 'vmThreads',
     setupFiles: ['src/test/setup.ts'],
     include: ['src/**/*.test.{ts,tsx}'],
   },

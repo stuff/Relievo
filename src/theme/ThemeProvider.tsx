@@ -99,7 +99,7 @@ export function ThemeProvider({
     };
   }, [mode]);
 
-  const value = useMemo(() => ({ mode, resolvedMode, setMode }), [mode, resolvedMode]);
+  const value = useMemo(() => ({ mode, resolvedMode, setMode }), [mode, resolvedMode, setMode]);
 
   return <ThemeContext value={value}>{children}</ThemeContext>;
 }

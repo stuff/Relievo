@@ -53,6 +53,7 @@
     "build-storybook": "storybook build",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
+    "lint": "oxlint --report-unused-disable-directives",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -83,6 +84,7 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.1",
     "jsdom": "^30.1.0",
+    "oxlint": "1.85.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "sass-embedded": "^1.104.1",

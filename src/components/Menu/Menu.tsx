@@ -272,6 +272,7 @@ function MenuItem({
   if (href !== undefined && !disabled) {
     return (
       <BaseMenu.LinkItem
+        // oxlint-disable-next-line react/static-components -- the app's link, stable across renders
         render={<Link href={href} />}
         onClick={select}
         data-tone={tone}
@@ -308,6 +309,8 @@ function MenuGroup({ label, children }: MenuGroupProps) {
 }
 
 function MenuSeparator() {
+  // A styled rule between items: <hr> would bring its own margins and border to undo
+  // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role, jsx-a11y/control-has-associated-label
   return <div role="separator" className={styles.separator} />;
 }
 

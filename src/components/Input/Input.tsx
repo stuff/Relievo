@@ -155,6 +155,9 @@ export function Input({
 
   // The pill: icons and affixes sit inside it, around the borderless <input>.
   const pill = (
+    // A mouse convenience: a click on the pill focuses the input. Keyboard users reach the input
+    // directly, so no role or key handler is needed
+    // oxlint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       className={`${styles.control}${endAction ? ` ${styles.withAction}` : ''}`}
       onMouseDown={focusInput}

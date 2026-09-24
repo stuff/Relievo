@@ -1,5 +1,7 @@
 export type PageItem = number | 'ellipsis-start' | 'ellipsis-end';
 
+const range = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+
 /**
  * The items to show: the first and last pages, the current page with `siblings` pages on each
  * side, and an ellipsis for each gap. The number of items stays the same from page to page, so
@@ -7,7 +9,6 @@ export type PageItem = number | 'ellipsis-start' | 'ellipsis-end';
  * @internal
  */
 export function getPageItems(page: number, pageCount: number, siblings: number): PageItem[] {
-  const range = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
   // First, last, current, siblings and two ellipses
   const slots = siblings * 2 + 5;
 

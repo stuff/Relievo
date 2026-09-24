@@ -5,11 +5,12 @@ Relievo, a React design system built on Base UI. See README.md for usage, the co
 ## Commands
 
 - `pnpm typecheck`: type-check `src`, `.storybook` and configs
+- `pnpm lint`: oxlint (React, accessibility and correctness rules, configured in `.oxlintrc.json`)
 - `pnpm build`: library build to `dist/` (ESM, types, `styles.css`)
 - `pnpm test`: unit tests (Vitest + Testing Library, jsdom); `pnpm test:watch` in watch mode
 - `pnpm storybook`: dev Storybook on port 6006
 
-Run `pnpm typecheck`, `pnpm test` and `pnpm build` after every change.
+Run `pnpm typecheck`, `pnpm lint`, `pnpm test` and `pnpm build` after every change. A lint exception is an `// oxlint-disable-next-line <rule>` comment that says why: do not switch a rule off without a reason.
 
 ## Tests
 
@@ -117,4 +118,4 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 - Propose before building when a choice is a design decision: give options with a recommendation, then wait. The maintainer makes the visual calls.
 - Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup. **Animations** are validated by the maintainer in a temporary story in Storybook: no need to capture them (frames, GIF).
 - **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Check selection states in grayscale too. The recipe is in `docs/contributing.md`.
-- **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, tests and build before committing.
+- **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, lint, tests and build before committing.

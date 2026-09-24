@@ -164,6 +164,7 @@ In Storybook, switch modes from the toolbar.
 | `pnpm build-storybook` | Build a static Storybook to `storybook-static` |
 | `pnpm build`           | Build the library to `dist/` (ESM + types + CSS) |
 | `pnpm typecheck`       | Type-check the project                        |
+| `pnpm lint`            | Lint with oxlint                              |
 | `pnpm test`            | Run the unit tests (Vitest + Testing Library) |
 | `pnpm test:watch`      | Run the unit tests in watch mode              |
 

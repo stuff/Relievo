@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 interface UseControllableStateOptions<T> {
   /** Controlled value. When defined, the component renders it and never updates it itself. */
@@ -23,7 +23,8 @@ export function useControllableState<T>({
   name,
 }: UseControllableStateOptions<T>): [T, (next: T) => void] {
   const [internalValue, setInternalValue] = useState(defaultValue);
-  const isControlled = useRef(value !== undefined).current;
+  // Read once, at mount: the mode does not change afterwards
+  const [isControlled] = useState(value !== undefined);
   const currentValue = isControlled ? (value as T) : internalValue;
 
   useEffect(() => {
@@ -38,7 +39,9 @@ export function useControllableState<T>({
 
   // Kept in a ref so setValue stays stable and consumers' memoized values do not change.
   const latest = useRef({ currentValue, onChange });
-  latest.current = { currentValue, onChange };
+  useLayoutEffect(() => {
+    latest.current = { currentValue, onChange };
+  });
 
   const setValue = useCallback(
     (next: T) => {

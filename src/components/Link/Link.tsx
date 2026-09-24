@@ -50,6 +50,7 @@ export function Link({ href, children, tone = 'primary', external = false, ...re
   const LinkComponent = useLinkComponent();
 
   return (
+    // oxlint-disable-next-line react/static-components -- the app's link, stable across renders
     <LinkComponent
       {...rest}
       href={href}

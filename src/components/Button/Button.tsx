@@ -113,6 +113,8 @@ export function Button(props: ButtonProps) {
     // Router links require an href, so a disabled link is always a native <a>.
     if (disabled) {
       return (
+        // Without href an <a> has no link role: it is stated here
+        // oxlint-disable-next-line jsx-a11y/no-redundant-roles
         <a {...linkProps} role="link" aria-disabled data-disabled="" {...sharedProps}>
           {content}
         </a>
@@ -122,6 +124,7 @@ export function Button(props: ButtonProps) {
     // A link is not a button: render the app's link (a native <a> by default)
     // rather than Base UI's role="button".
     return (
+      // oxlint-disable-next-line react/static-components -- the app's link, stable across renders
       <Link {...linkProps} href={href} {...sharedProps}>
         {content}
       </Link>

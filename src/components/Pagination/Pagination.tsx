@@ -82,12 +82,15 @@ function Item({ page, href, current = false, disabled = false, label, onSelect, 
     // A disabled link has no href, so it leaves navigation and the tab order
     if (disabled) {
       return (
+        // Without href an <a> has no link role: it is stated here
+        // oxlint-disable-next-line jsx-a11y/no-redundant-roles
         <a {...shared} role="link" aria-disabled data-disabled="">
           {children}
         </a>
       );
     }
     return (
+      // oxlint-disable-next-line react/static-components -- the app's link, stable across renders
       <Link
         {...shared}
         href={href}

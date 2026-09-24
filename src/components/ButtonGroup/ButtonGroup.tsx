@@ -27,6 +27,8 @@ export interface ButtonGroupProps {
  */
 export function ButtonGroup({ label, wrap = false, children }: ButtonGroupProps) {
   return (
+    // A fieldset would add a legend and default borders for what is only a row of buttons
+    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
     <div role="group" aria-label={label} data-wrap={wrap || undefined} className={styles.group}>
       {children}
     </div>

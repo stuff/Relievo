@@ -6,7 +6,7 @@ const root = document.documentElement;
 
 function runScript(container: HTMLElement) {
   const script = container.querySelector('script');
-  // eslint-disable-next-line no-new-func -- runs the script produced by the component itself
+  // Runs the script produced by the component itself
   new Function(script?.textContent ?? '')();
 }
 

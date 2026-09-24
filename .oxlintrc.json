@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react", "jsx-a11y", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "env": { "browser": true },
+  "ignorePatterns": ["dist", "storybook-static"],
+  "rules": {
+    // The automatic JSX runtime: React does not need to be in scope
+    "react/react-in-jsx-scope": "off",
+    // toSorted is ES2023, the kit targets ES2022
+    "unicorn/no-array-sort": "off"
+  },
+  "overrides": [
+    {
+      // Tests and stories define small wrappers and stand-in links on purpose
+      "files": ["**/*.test.tsx", "**/*.stories.tsx"],
+      "rules": {
+        "unicorn/consistent-function-scoping": "off",
+        "react/no-unstable-nested-components": "off",
+        "no-shadow": "off",
+        "jsx-a11y/anchor-has-content": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-static-element-interactions": "off"
+      }
+    }
+  ]
+}

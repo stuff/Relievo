@@ -4,7 +4,7 @@
 
 ## How I checked
 
-- [ ] `pnpm typecheck`, `pnpm test` and `pnpm build` pass
+- [ ] `pnpm typecheck`, `pnpm lint`, `pnpm test` and `pnpm build` pass
 - [ ] Tests cover the change, including the accessibility contract (roles, focus, `aria-*`)
 - [ ] Stories added or updated, `Controlled` and `Uncontrolled` for a stateful component
 - [ ] Public props have JSDoc, with `@default` when they have one

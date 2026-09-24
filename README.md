@@ -13,13 +13,23 @@ A React design system with a tactile look: controls stand out in relief, fields 
 
 ## Status
 
-Early stage (0.1.x): the API can still change between versions, and the package is not published to npm yet. The planned work is in [`docs/backlog.md`](docs/backlog.md).
+Early stage (0.1.x): the API can still change between versions, and the package is not published to npm: `package.json` is marked `private` to keep it that way for now. The planned work is in [`docs/backlog.md`](docs/backlog.md).
 
 ## Installation
 
+Relievo is not on npm. Build a tarball from a clone, then install it in your app:
+
 ```bash
-pnpm add relievo @phosphor-icons/react
+# in the Relievo clone
+pnpm install
+pnpm build
+pnpm pack --pack-destination /path/to/your-app/vendor
+
+# in your app
+pnpm add ./vendor/relievo-0.1.0.tgz @phosphor-icons/react
 ```
+
+The tarball is named after the version in `package.json`. Build again and reinstall it to pick up a change.
 
 `react` and `react-dom` (19+) are peer dependencies, like `@phosphor-icons/react`, the icon set used by the components and recommended for yours.
 

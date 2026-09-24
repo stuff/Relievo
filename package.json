@@ -1,6 +1,7 @@
 {
   "name": "relievo",
   "version": "0.1.0",
+  "private": true,
   "description": "Relievo: a React design system built on Base UI",
   "license": "MIT",
   "author": {

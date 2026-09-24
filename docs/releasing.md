@@ -31,6 +31,7 @@ A change in the look of a component (colors, relief, spacing) is not breaking, b
 
 ## Publishing a release
 
+0. Nothing is published yet: `package.json` is `private`, which makes `pnpm publish` refuse. Remove `"private": true` for the first publication.
 1. Check that `main` is green on CI and that **Unreleased** in `CHANGELOG.md` says what the release holds.
 2. In `CHANGELOG.md`, rename **Unreleased** to the new version with its date (`## [0.2.0] - 2026-10-15`) and add an empty **Unreleased** section above it. Once the first tag exists, also add the comparison links at the bottom of the file.
 3. Set the version and commit:

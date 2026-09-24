@@ -1,17 +1,42 @@
 # Relievo
 
-A React design system built on [Base UI](https://base-ui.com/), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
+A React design system with a tactile look: controls stand out in relief, fields are carved into the page, and the state of each control reads from its shape as much as from its color. Built on [Base UI](https://base-ui.com/) (unstyled, accessible primitives), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
 
-## Scripts
+![Relievo components in the light and dark themes](docs/assets/overview.png)
 
-| Command                | Description                                   |
-| ---------------------- | --------------------------------------------- |
-| `pnpm storybook`       | Start Storybook at http://localhost:6006      |
-| `pnpm build-storybook` | Build a static Storybook to `storybook-static` |
-| `pnpm build`           | Build the library to `dist/` (ESM + types + CSS) |
-| `pnpm typecheck`       | Type-check the project                        |
-| `pnpm test`            | Run the unit tests (Vitest + Testing Library) |
-| `pnpm test:watch`      | Run the unit tests in watch mode              |
+- **Accessible by construction.** Behaviour and keyboard handling come from Base UI. Text reaches 4.5:1 contrast in both themes, selection never relies on color alone, and every accessibility contract has a test.
+- **Light and dark**, following the OS or set by the app, with no flash on first paint.
+- **Consistent props everywhere:** `tone`, `variant` and `size` mean the same on every component.
+- **Opinionated on purpose.** Components take no `className`, `style` or `render`: customisation goes through variants, sizes and tokens, so an app cannot drift from the kit.
+- **Controlled or uncontrolled**, for every stateful component.
+- **Server Components friendly**, dot notation included (`<Card.Body>`).
+
+## Status
+
+Early stage (0.1.x): the API can still change between versions, and the package is not published to npm yet. The planned work is in [`docs/backlog.md`](docs/backlog.md).
+
+## Installation
+
+```bash
+pnpm add relievo @phosphor-icons/react
+```
+
+`react` and `react-dom` (19+) are peer dependencies, like `@phosphor-icons/react`, the icon set used by the components and recommended for yours.
+
+## Usage
+
+Import the stylesheet once, at the root of your app:
+
+```tsx
+import { Button } from 'relievo';
+import 'relievo/styles.css';
+
+<Button variant="primary" size="md">Save</Button>;
+```
+
+See [Theming](#theming-light--dark) for light and dark mode and [Router links](#router-links) to use your router's link component.
+
+To browse every component with its props, run Storybook locally (`pnpm storybook`, see [Development](#development)). The "All components" story of the Overview shows them together on a realistic screen.
 
 ## Components
 
@@ -39,42 +64,11 @@ A React design system built on [Base UI](https://base-ui.com/), written in TypeS
 | `ThemeProvider`, `useTheme` | Light / dark / system mode |
 | `RelievoProvider` | App-level configuration (router link component) |
 
-## Structure
-
-```
-src/
-  index.tsx             # package entry: re-exports client.ts, rebuilds compound components
-  client.ts             # the kit (built as a 'use client' module)
-  components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, tests, index
-  theme/                # ThemeProvider and useTheme
-  provider/             # RelievoProvider (router link)
-  internal/             # shared internals (IconSlot)
-  utils/                # useControllableState
-  styles/tokens.scss    # design tokens (--rv-*), light/dark palettes, relief tokens
-  styles/_*.scss        # shared Sass mixins (control sizes, icons, typography, a11y)
-  styles/global.scss    # global element styles (html font size, body colors, scroll behavior)
-  overview/             # a story using every component together
-  test/                 # test setup and mocks
-docs/
-  theming.md            # plan for app-chosen colors
-  backlog.md            # planned work and open points
-```
-
-## Usage
-
-Install the kit with its peer dependencies: `react`, `react-dom` and `@phosphor-icons/react` (the
-icon set used by the components and recommended for yours).
-
-```tsx
-import { Button } from 'relievo';
-import 'relievo/styles.css';
-
-<Button variant="primary" size="md">Save</Button>;
-```
-
-## Styling rules
+## Design rules
 
 Components do not accept `className`, `style` or Base UI's `render` prop: their look is owned by the design system and changed through variants, sizes and tokens only. Use `href` to render a `Button` as a link.
+
+Every component follows the same conventions, listed in [`AGENTS.md`](AGENTS.md) (also the reference for AI coding agents).
 
 ## Typeface
 
@@ -161,3 +155,44 @@ The provider sets `data-theme` on `<html>`, so portalled popups are themed too. 
 ```
 
 In Storybook, switch modes from the toolbar.
+
+## Development
+
+| Command                | Description                                   |
+| ---------------------- | --------------------------------------------- |
+| `pnpm storybook`       | Start Storybook at http://localhost:6006      |
+| `pnpm build-storybook` | Build a static Storybook to `storybook-static` |
+| `pnpm build`           | Build the library to `dist/` (ESM + types + CSS) |
+| `pnpm typecheck`       | Type-check the project                        |
+| `pnpm test`            | Run the unit tests (Vitest + Testing Library) |
+| `pnpm test:watch`      | Run the unit tests in watch mode              |
+
+The project layout:
+
+```
+src/
+  index.tsx             # package entry: re-exports client.ts, rebuilds compound components
+  client.ts             # the kit (built as a 'use client' module)
+  components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, tests, index
+  theme/                # ThemeProvider and useTheme
+  provider/             # RelievoProvider (router link)
+  internal/             # shared internals (IconSlot)
+  utils/                # useControllableState
+  styles/tokens.scss    # design tokens (--rv-*), light/dark palettes, relief tokens
+  styles/_*.scss        # shared Sass mixins (control sizes, icons, typography, a11y)
+  styles/global.scss    # global element styles (html font size, body colors, scroll behavior)
+  overview/             # a story using every component together
+  test/                 # test setup and mocks
+docs/
+  contributing.md       # recipes for contributors (visual captures)
+  theming.md            # plan for app-chosen colors
+  backlog.md            # planned work and open points
+```
+
+## Contributing
+
+Read [`AGENTS.md`](AGENTS.md) for the conventions and [`docs/contributing.md`](docs/contributing.md) for the recipes. Run `pnpm typecheck`, `pnpm test` and `pnpm build` before opening a pull request. For a design decision, open an issue to discuss the options first.
+
+## License
+
+[MIT](LICENSE) © Nicolas Challeil (aka STuFF)

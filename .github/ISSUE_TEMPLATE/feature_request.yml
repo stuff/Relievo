@@ -1,0 +1,27 @@
+name: Proposal
+description: A new component, a new prop, or a change to how something looks or behaves
+labels: [proposal]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The look of the kit is decided by the maintainer, so a proposal is discussed here before any code. See `CONTRIBUTING.md`.
+  - type: textarea
+    id: need
+    attributes:
+      label: What you are trying to do
+      description: The screen or the use case, rather than the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Options you see
+      description: Two or three ways to do it, and the one you would pick and why. A mockup or a sketch is welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you do today
+      description: The workaround, if any, and why it falls short.

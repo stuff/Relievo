@@ -109,12 +109,12 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 ## Naming and repository
 
 - The kit is **Relievo**: package `relievo`, provider `RelievoProvider`, token prefix `--rv-`. Use these names in code, docs and stories.
-- Repository: `git@github.com:stuff/Relievo.git` (remote `origin`, branch `main`). Private for now, to be open-sourced later; the history may be rewritten before going public (undecided). Before any public release, remind the maintainer that commits carry their email and `Co-Authored-By` lines.
+- Repository: `git@github.com:stuff/Relievo.git` (remote `origin`, branch `main`).
 
-## Working with the maintainer
+## Contributing
 
-- The maintainer talks in French; code, comments, docs and commit messages are in English. Answer in French and use *tu* with the maintainer, not *vous*.
+- Code, comments, docs and commit messages are in English.
 - Propose before building when a choice is a design decision: give options with a recommendation, then wait. The maintainer makes the visual calls.
 - Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup. **Animations** are validated by the maintainer in a temporary story in Storybook: no need to capture them (frames, GIF).
-- **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Recipe: `pnpm build-storybook -o <dir>`, serve it (`python3 -m http.server 6199 -d <dir>`), then `google-chrome --headless=new --no-sandbox --hide-scrollbars --force-device-scale-factor=2 --window-size=W,H --virtual-time-budget=10000 --screenshot=out.png "http://localhost:6199/iframe.html?id=<story-id>&viewMode=story&globals=theme:light"` (`theme:dark` for dark; use a window of at least 300px high or the capture is cut). Check selection states in grayscale too. Save the captures you send in `storybook-static/captures/` (gitignored): the desktop app does not display images from `/tmp`. Combining the light and dark captures into one image (ImageMagick `convert`, `+append` / `-append`) makes them easier to compare.
+- **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Check selection states in grayscale too. The recipe is in `docs/contributing.md`.
 - **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, tests and build before committing.

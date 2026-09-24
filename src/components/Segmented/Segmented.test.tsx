@@ -134,7 +134,9 @@ describe('Segmented', () => {
       </Segmented>,
     );
 
-    expect(screen.getByRole('radio', { name: 'Week' })).toContainElement(screen.getByTestId('icon'));
+    expect(screen.getByRole('radio', { name: 'Week' })).toContainElement(
+      screen.getByTestId('icon'),
+    );
     expect(screen.getByTestId('icon').closest('[aria-hidden]')).toBeInTheDocument();
   });
 

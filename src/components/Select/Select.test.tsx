@@ -186,11 +186,21 @@ describe('Select', () => {
 
     it('renders the options of the array', async () => {
       const onValueChange = vi.fn();
-      render(<Select label="Country" options={countries} defaultValue="fr" onValueChange={onValueChange} />);
+      render(
+        <Select
+          label="Country"
+          options={countries}
+          defaultValue="fr"
+          onValueChange={onValueChange}
+        />,
+      );
 
       expect(screen.getByRole('combobox')).toHaveTextContent('France');
       await userEvent.click(screen.getByRole('combobox'));
-      expect(await screen.findByRole('option', { name: 'Italy' })).toHaveAttribute('aria-disabled', 'true');
+      expect(await screen.findByRole('option', { name: 'Italy' })).toHaveAttribute(
+        'aria-disabled',
+        'true',
+      );
       await userEvent.click(screen.getByRole('option', { name: 'Germany' }));
 
       expect(onValueChange).toHaveBeenCalledWith('de', expect.anything());

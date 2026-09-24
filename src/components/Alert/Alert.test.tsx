@@ -24,7 +24,11 @@ describe('Alert', () => {
   });
 
   it('shows the title above the message', () => {
-    render(<Alert tone="danger" title="The scan failed">Timeout on the job board.</Alert>);
+    render(
+      <Alert tone="danger" title="The scan failed">
+        Timeout on the job board.
+      </Alert>,
+    );
 
     expect(screen.getByText('The scan failed')).toBeInTheDocument();
     expect(screen.getByText('Timeout on the job board.')).toBeInTheDocument();
@@ -46,7 +50,9 @@ describe('Alert', () => {
 
   it('replaces the tone icon with the one given', () => {
     const { container } = render(
-      <Alert tone="warning" icon={<ClockIcon data-testid="clock" />}>Overdue.</Alert>,
+      <Alert tone="warning" icon={<ClockIcon data-testid="clock" />}>
+        Overdue.
+      </Alert>,
     );
 
     expect(screen.getByTestId('clock')).toBeInTheDocument();
@@ -54,7 +60,11 @@ describe('Alert', () => {
   });
 
   it('removes the icon with icon={false}', () => {
-    const { container } = render(<Alert tone="warning" icon={false}>Overdue.</Alert>);
+    const { container } = render(
+      <Alert tone="warning" icon={false}>
+        Overdue.
+      </Alert>,
+    );
 
     expect(container.querySelector('svg')).toBeNull();
   });
@@ -76,7 +86,11 @@ describe('Alert', () => {
   });
 
   it('names the close button with closeLabel', () => {
-    render(<Alert onClose={() => {}} closeLabel="Dismiss this message">Something.</Alert>);
+    render(
+      <Alert onClose={() => {}} closeLabel="Dismiss this message">
+        Something.
+      </Alert>,
+    );
 
     expect(screen.getByRole('button', { name: 'Dismiss this message' })).toBeInTheDocument();
   });
@@ -88,13 +102,21 @@ describe('Alert', () => {
   });
 
   it('announces a live problem at once', () => {
-    render(<Alert tone="danger" live>Could not save.</Alert>);
+    render(
+      <Alert tone="danger" live>
+        Could not save.
+      </Alert>,
+    );
 
     expect(screen.getByRole('alert')).toHaveTextContent('Could not save.');
   });
 
   it('announces a live message of another tone politely', () => {
-    render(<Alert tone="success" live>Saved.</Alert>);
+    render(
+      <Alert tone="success" live>
+        Saved.
+      </Alert>,
+    );
 
     expect(screen.getByRole('status')).toHaveTextContent('Saved.');
   });

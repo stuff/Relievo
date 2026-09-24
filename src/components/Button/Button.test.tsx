@@ -72,7 +72,10 @@ describe('Button', () => {
 
   it('renders icons around the label, hidden from assistive technologies', () => {
     render(
-      <Button startIcon={<PlusIcon data-testid="start" />} endIcon={<ArrowRightIcon data-testid="end" />}>
+      <Button
+        startIcon={<PlusIcon data-testid="start" />}
+        endIcon={<ArrowRightIcon data-testid="end" />}
+      >
         Add
       </Button>,
     );

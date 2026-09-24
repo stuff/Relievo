@@ -1,6 +1,7 @@
 export type PageItem = number | 'ellipsis-start' | 'ellipsis-end';
 
-const range = (from: number, to: number) => Array.from({ length: to - from + 1 }, (_, i) => from + i);
+const range = (from: number, to: number) =>
+  Array.from({ length: to - from + 1 }, (_, i) => from + i);
 
 /**
  * The items to show: the first and last pages, the current page with `siblings` pages on each

@@ -103,7 +103,10 @@ export function Checkbox({
           style={undefined}
         >
           <BaseCheckbox.Indicator className={styles.indicator}>
-            <IconSlot icon={indeterminate ? <MinusIcon /> : <CheckIcon />} className={styles.icon} />
+            <IconSlot
+              icon={indeterminate ? <MinusIcon /> : <CheckIcon />}
+              className={styles.icon}
+            />
           </BaseCheckbox.Indicator>
         </BaseCheckbox.Root>
         <span

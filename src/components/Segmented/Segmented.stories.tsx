@@ -49,8 +49,17 @@ export const Sizes: Story = {
     return (
       <div style={stack}>
         {sizes.map((size) => (
-          <div key={size} style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
-            <Segmented {...args} size={size} value={period} onValueChange={setPeriod} defaultValue={undefined}>
+          <div
+            key={size}
+            style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}
+          >
+            <Segmented
+              {...args}
+              size={size}
+              value={period}
+              onValueChange={setPeriod}
+              defaultValue={undefined}
+            >
               {periods.map((item) => (
                 <Segmented.Item key={item.value} value={item.value}>
                   {item.label}

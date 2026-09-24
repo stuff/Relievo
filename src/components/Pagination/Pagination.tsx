@@ -69,7 +69,15 @@ interface ItemProps {
   children: ReactNode;
 }
 
-function Item({ page, href, current = false, disabled = false, label, onSelect, children }: ItemProps) {
+function Item({
+  page,
+  href,
+  current = false,
+  disabled = false,
+  label,
+  onSelect,
+  children,
+}: ItemProps) {
   const Link = useLinkComponent();
   const shared = {
     className: styles.item,
@@ -96,7 +104,13 @@ function Item({ page, href, current = false, disabled = false, label, onSelect, 
         href={href}
         onClick={(event: MouseEvent<HTMLAnchorElement>) => {
           // A modified click opens the page elsewhere (a new tab or window): this one stays put
-          if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+          if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
             return;
           }
           onSelect(page);

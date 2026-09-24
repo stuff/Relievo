@@ -73,7 +73,9 @@ export const Controlled: Story = {
           setMode(next);
         }}
       >
-        <div style={{ display: 'grid', gap: 'var(--rv-space-3)', fontFamily: 'var(--rv-font-family)' }}>
+        <div
+          style={{ display: 'grid', gap: 'var(--rv-space-3)', fontFamily: 'var(--rv-font-family)' }}
+        >
           <ThemeSwitcher />
           <span>
             onModeChange: <code>{log.join(' → ') || '—'}</code>

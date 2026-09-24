@@ -113,7 +113,9 @@ export const WithGroups: Story = {
 
 /** `options` takes the options as an array, such as data from an API, instead of children. */
 export const WithOptions: Story = {
-  render: () => <Select label="Country" placeholder="Choose a country" options={countries} defaultValue="es" />,
+  render: () => (
+    <Select label="Country" placeholder="Choose a country" options={countries} defaultValue="es" />
+  ),
 };
 
 /** The select keeps its own value: `defaultValue` sets the initial one. */

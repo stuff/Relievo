@@ -39,7 +39,9 @@ export const Controlled: Story = {
     const [value, setValue] = useState('JANE');
 
     return (
-      <div style={{ display: 'grid', gap: 'var(--rv-space-3)', fontFamily: 'var(--rv-font-family)' }}>
+      <div
+        style={{ display: 'grid', gap: 'var(--rv-space-3)', fontFamily: 'var(--rv-font-family)' }}
+      >
         <Input {...args} value={value} onValueChange={(next) => setValue(next.toUpperCase())} />
         <span>
           value: <code>{value}</code>
@@ -56,8 +58,20 @@ export const Email: Story = {
 export const WithIcons: Story = {
   render: (args) => (
     <div style={{ display: 'grid', gap: 'var(--rv-space-4)' }}>
-      <Input {...args} label="Search" type="search" placeholder="Search…" startIcon={<MagnifyingGlassIcon />} />
-      <Input {...args} label="Email" type="email" placeholder="jane@example.com" endIcon={<EnvelopeIcon />} />
+      <Input
+        {...args}
+        label="Search"
+        type="search"
+        placeholder="Search…"
+        startIcon={<MagnifyingGlassIcon />}
+      />
+      <Input
+        {...args}
+        label="Email"
+        type="email"
+        placeholder="jane@example.com"
+        endIcon={<EnvelopeIcon />}
+      />
     </div>
   ),
 };
@@ -69,8 +83,23 @@ export const WithPrefixAndSuffix: Story = {
       <Input {...args} label="Price" type="number" placeholder="0.00" suffix="€" />
       <Input {...args} label="Amount" type="number" placeholder="0.00" prefix="$" />
       <Input {...args} label="Website" placeholder="acme" prefix="https://" suffix=".com" />
-      <Input {...args} label="Weight" type="number" placeholder="0" startIcon={<ScalesIcon />} suffix="kg" />
-      <Input {...args} label="Domain" placeholder="acme" startIcon={<GlobeIcon />} suffix=".com" error helperText="This domain is taken." />
+      <Input
+        {...args}
+        label="Weight"
+        type="number"
+        placeholder="0"
+        startIcon={<ScalesIcon />}
+        suffix="kg"
+      />
+      <Input
+        {...args}
+        label="Domain"
+        placeholder="acme"
+        startIcon={<GlobeIcon />}
+        suffix=".com"
+        error
+        helperText="This domain is taken."
+      />
     </div>
   ),
 };
@@ -85,11 +114,11 @@ export const HiddenLabel: Story = {
  */
 export const WithButton: Story = {
   args: {
-    label: "Address of the offer",
+    label: 'Address of the offer',
     placeholder: 'https://example.com/job/123',
     helperText:
-      'Required: without an address the offer cannot be found again. Campaign tokens are '
-      + 'removed, the address kept is the offer’s.',
+      'Required: without an address the offer cannot be found again. Campaign tokens are ' +
+      'removed, the address kept is the offer’s.',
     endButton: (
       <Button variant="secondary" startIcon={<GlobeIcon />}>
         Read the page
@@ -118,7 +147,11 @@ export const WithAction: Story = {
           onValueChange={setSearch}
           endAction={
             search ? (
-              <Input.Action label="Clear the search" icon={<XIcon />} onClick={() => setSearch('')} />
+              <Input.Action
+                label="Clear the search"
+                icon={<XIcon />}
+                onClick={() => setSearch('')}
+              />
             ) : undefined
           }
         />

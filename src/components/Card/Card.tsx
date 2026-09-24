@@ -7,7 +7,13 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react';
-import { CheckCircleIcon, InfoIcon, SparkleIcon, WarningIcon, XCircleIcon } from '@phosphor-icons/react';
+import {
+  CheckCircleIcon,
+  InfoIcon,
+  SparkleIcon,
+  WarningIcon,
+  XCircleIcon,
+} from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
 import styles from './Card.module.scss';
 

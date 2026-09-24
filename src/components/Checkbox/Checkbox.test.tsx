@@ -103,7 +103,9 @@ describe('Checkbox', () => {
   });
 
   it('shows the error state on the checkbox, label and helper text', () => {
-    render(<Checkbox label="I accept the terms" error helperText="Accept the terms to continue." />);
+    render(
+      <Checkbox label="I accept the terms" error helperText="Accept the terms to continue." />,
+    );
 
     const checkbox = screen.getByRole('checkbox', { name: 'I accept the terms' });
     expect(checkbox).toHaveAttribute('aria-invalid', 'true');

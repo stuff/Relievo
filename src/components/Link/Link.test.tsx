@@ -8,14 +8,19 @@ describe('Link', () => {
   it('renders a link to its href, named by its text', () => {
     render(<Link href="/offers">Back to the list</Link>);
 
-    expect(screen.getByRole('link', { name: 'Back to the list' })).toHaveAttribute('href', '/offers');
+    expect(screen.getByRole('link', { name: 'Back to the list' })).toHaveAttribute(
+      'href',
+      '/offers',
+    );
   });
 
   it('is primary by default, and carries its tone as an attribute', () => {
     render(
       <>
         <Link href="/a">One</Link>
-        <Link href="/b" tone="neutral">Two</Link>
+        <Link href="/b" tone="neutral">
+          Two
+        </Link>
       </>,
     );
 
@@ -32,7 +37,11 @@ describe('Link', () => {
   });
 
   it('opens an external link in a new tab, with a rel that cannot reach back', () => {
-    render(<Link href="https://example.com" external>The ad</Link>);
+    render(
+      <Link href="https://example.com" external>
+        The ad
+      </Link>,
+    );
 
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('target', '_blank');
@@ -40,7 +49,11 @@ describe('Link', () => {
   });
 
   it('marks an external link with an icon, hidden from screen readers', () => {
-    const { container } = render(<Link href="https://example.com" external>The ad</Link>);
+    const { container } = render(
+      <Link href="https://example.com" external>
+        The ad
+      </Link>,
+    );
 
     const icon = container.querySelector('svg');
     expect(icon).toBeInTheDocument();
@@ -56,7 +69,11 @@ describe('Link', () => {
 
   it("renders the app's link component when one is configured", () => {
     function RouterLink({ href, children, ...rest }: ComponentProps<'a'> & { href: string }) {
-      return <a {...rest} href={href} data-router="">{children}</a>;
+      return (
+        <a {...rest} href={href} data-router="">
+          {children}
+        </a>
+      );
     }
     render(
       <RelievoProvider linkComponent={RouterLink}>
@@ -68,7 +85,11 @@ describe('Link', () => {
   });
 
   it('passes through the props of an anchor', () => {
-    render(<Link href="/offers" id="back" title="The whole list" download="">Back</Link>);
+    render(
+      <Link href="/offers" id="back" title="The whole list" download="">
+        Back
+      </Link>,
+    );
 
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('id', 'back');
@@ -77,7 +98,11 @@ describe('Link', () => {
 
   it('ignores className and style passed by untyped callers', () => {
     const props = { className: 'custom', style: { color: 'red' } } as unknown as LinkProps;
-    const { container } = render(<Link {...props} href="/offers">Back</Link>);
+    const { container } = render(
+      <Link {...props} href="/offers">
+        Back
+      </Link>,
+    );
 
     expect(container.querySelector('.custom')).toBeNull();
     expect(container.querySelector('[style]')).toBeNull();

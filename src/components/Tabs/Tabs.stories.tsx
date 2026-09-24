@@ -46,9 +46,15 @@ export const WithIcons: Story = {
   render: (args) => (
     <Tabs {...args} defaultValue="review">
       <Tabs.List>
-        <Tabs.Item value="new" startIcon={<SparkleIcon />}>New 12</Tabs.Item>
-        <Tabs.Item value="kept" startIcon={<StarIcon />}>Kept 3</Tabs.Item>
-        <Tabs.Item value="review" startIcon={<ScalesIcon />}>To review 216</Tabs.Item>
+        <Tabs.Item value="new" startIcon={<SparkleIcon />}>
+          New 12
+        </Tabs.Item>
+        <Tabs.Item value="kept" startIcon={<StarIcon />}>
+          Kept 3
+        </Tabs.Item>
+        <Tabs.Item value="review" startIcon={<ScalesIcon />}>
+          To review 216
+        </Tabs.Item>
       </Tabs.List>
       <Tabs.Panel value="new">The 12 products added since your last visit.</Tabs.Panel>
       <Tabs.Panel value="kept">The 3 products you kept.</Tabs.Panel>
@@ -93,7 +99,14 @@ export const Controlled: Story = {
             <Tabs.Item value="archived">Archived</Tabs.Item>
           </Tabs.List>
         </Tabs>
-        <p style={{ margin: 0, fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text-muted)', fontSize: 'var(--rv-font-size-sm)' }}>
+        <p
+          style={{
+            margin: 0,
+            fontFamily: 'var(--rv-font-family)',
+            color: 'var(--rv-color-text-muted)',
+            fontSize: 'var(--rv-font-size-sm)',
+          }}
+        >
           Asked for: {asked.join(' → ') || 'nothing yet'}
         </p>
       </div>
@@ -112,7 +125,9 @@ export const FramedPanel: Story = {
       <Tabs.Panel value="published" variant="framed">
         14 products are on sale. A framed panel carries the surface and border of a Card.
       </Tabs.Panel>
-      <Tabs.Panel value="drafts" variant="framed">3 products are still drafts.</Tabs.Panel>
+      <Tabs.Panel value="drafts" variant="framed">
+        3 products are still drafts.
+      </Tabs.Panel>
     </Tabs>
   ),
 };
@@ -124,9 +139,15 @@ export const Sizes: Story = {
       {(['sm', 'md'] as const).map((size) => (
         <Tabs {...args} key={size} size={size} defaultValue="review">
           <Tabs.List>
-            <Tabs.Item value="new" startIcon={<SparkleIcon />}>New 12</Tabs.Item>
-            <Tabs.Item value="kept" startIcon={<StarIcon />}>Kept 3</Tabs.Item>
-            <Tabs.Item value="review" startIcon={<ScalesIcon />}>To review 216</Tabs.Item>
+            <Tabs.Item value="new" startIcon={<SparkleIcon />}>
+              New 12
+            </Tabs.Item>
+            <Tabs.Item value="kept" startIcon={<StarIcon />}>
+              Kept 3
+            </Tabs.Item>
+            <Tabs.Item value="review" startIcon={<ScalesIcon />}>
+              To review 216
+            </Tabs.Item>
           </Tabs.List>
         </Tabs>
       ))}
@@ -140,13 +161,27 @@ export const Scrolling: Story = {
     <div style={{ maxWidth: '26rem' }}>
       <Tabs {...args} defaultValue="review">
         <Tabs.List>
-          <Tabs.Item value="new" startIcon={<SparkleIcon />}>New 12</Tabs.Item>
-          <Tabs.Item value="kept" startIcon={<StarIcon />}>Kept 3</Tabs.Item>
-          <Tabs.Item value="review" startIcon={<ScalesIcon />}>To review 216</Tabs.Item>
-          <Tabs.Item value="conflicts" startIcon={<WarningIcon />}>Conflicts 0</Tabs.Item>
-          <Tabs.Item value="mine" startIcon={<GavelIcon />}>My calls 201</Tabs.Item>
-          <Tabs.Item value="dropped" startIcon={<ArchiveIcon />}>Dropped 1938</Tabs.Item>
-          <Tabs.Item value="all" startIcon={<ListIcon />}>All 2186</Tabs.Item>
+          <Tabs.Item value="new" startIcon={<SparkleIcon />}>
+            New 12
+          </Tabs.Item>
+          <Tabs.Item value="kept" startIcon={<StarIcon />}>
+            Kept 3
+          </Tabs.Item>
+          <Tabs.Item value="review" startIcon={<ScalesIcon />}>
+            To review 216
+          </Tabs.Item>
+          <Tabs.Item value="conflicts" startIcon={<WarningIcon />}>
+            Conflicts 0
+          </Tabs.Item>
+          <Tabs.Item value="mine" startIcon={<GavelIcon />}>
+            My calls 201
+          </Tabs.Item>
+          <Tabs.Item value="dropped" startIcon={<ArchiveIcon />}>
+            Dropped 1938
+          </Tabs.Item>
+          <Tabs.Item value="all" startIcon={<ListIcon />}>
+            All 2186
+          </Tabs.Item>
         </Tabs.List>
       </Tabs>
     </div>
@@ -159,7 +194,9 @@ export const DisabledTab: Story = {
     <Tabs {...args} defaultValue="published">
       <Tabs.List>
         <Tabs.Item value="published">Published</Tabs.Item>
-        <Tabs.Item value="drafts" disabled>Drafts</Tabs.Item>
+        <Tabs.Item value="drafts" disabled>
+          Drafts
+        </Tabs.Item>
         <Tabs.Item value="archived">Archived</Tabs.Item>
       </Tabs.List>
       <Tabs.Panel value="published">On sale.</Tabs.Panel>
@@ -181,7 +218,9 @@ export const WithoutPanels: Story = {
             <Tabs.Item value="drafts">Drafts</Tabs.Item>
           </Tabs.List>
         </Tabs>
-        <p style={{ margin: 0, fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' }}>
+        <p
+          style={{ margin: 0, fontFamily: 'var(--rv-font-family)', color: 'var(--rv-color-text)' }}
+        >
           The app would now show: {tab}
         </p>
       </div>

@@ -2,7 +2,16 @@ import type { ReactNode } from 'react';
 import styles from './Box.module.scss';
 
 export type BoxSpacing = 'xs' | 'sm' | 'md' | 'lg';
-export type BoxElement = 'div' | 'section' | 'article' | 'aside' | 'main' | 'header' | 'footer' | 'nav' | 'span';
+export type BoxElement =
+  | 'div'
+  | 'section'
+  | 'article'
+  | 'aside'
+  | 'main'
+  | 'header'
+  | 'footer'
+  | 'nav'
+  | 'span';
 
 export interface BoxProps {
   /**

@@ -8,7 +8,10 @@ export type LinkTone = 'primary' | 'neutral';
 
 type LockedProps = 'className' | 'style';
 
-export interface LinkProps extends Omit<ComponentProps<'a'>, LockedProps | 'href' | 'target' | 'rel'> {
+export interface LinkProps extends Omit<
+  ComponentProps<'a'>,
+  LockedProps | 'href' | 'target' | 'rel'
+> {
   /**
    * Where the link goes. It is rendered with the link component configured in `RelievoProvider`
    * (a native `<a>` by default), so navigation stays inside your router.

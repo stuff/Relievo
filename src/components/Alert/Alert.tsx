@@ -102,7 +102,12 @@ export function Alert({
         {children}
       </div>
       {onClose && (
-        <button type="button" aria-label={closeLabel} onClick={() => onClose()} className={styles.close}>
+        <button
+          type="button"
+          aria-label={closeLabel}
+          onClick={() => onClose()}
+          className={styles.close}
+        >
           <IconSlot icon={<XIcon />} className={styles.closeIcon} />
         </button>
       )}

@@ -62,7 +62,10 @@ describe('Collapsible', () => {
     );
 
     expect(screen.getByText('Shown from the start')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Details' })).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: 'Details' })).toHaveAttribute(
+      'aria-expanded',
+      'true',
+    );
   });
 
   describe('controlled', () => {

@@ -86,7 +86,9 @@ describe('Input', () => {
   it('follows the value prop when the parent updates it', async () => {
     function ControlledInput() {
       const [value, setValue] = useState('');
-      return <Input label="Name" value={value} onValueChange={(next) => setValue(next.toUpperCase())} />;
+      return (
+        <Input label="Name" value={value} onValueChange={(next) => setValue(next.toUpperCase())} />
+      );
     }
     render(<ControlledInput />);
 
@@ -172,7 +174,10 @@ describe('Input', () => {
 
     it('hides its icon from assistive technologies', () => {
       render(
-        <Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon data-testid="x" />} />} />,
+        <Input
+          label="Search"
+          endAction={<Input.Action label="Clear" icon={<XIcon data-testid="x" />} />}
+        />,
       );
 
       expect(screen.getByTestId('x').parentElement).toHaveAttribute('aria-hidden', 'true');
@@ -180,14 +185,25 @@ describe('Input', () => {
 
     it('is disabled with its field, or on its own', () => {
       const { rerender } = render(
-        <Input label="Search" disabled endAction={<Input.Action label="Clear" icon={<XIcon />} />} />,
+        <Input
+          label="Search"
+          disabled
+          endAction={<Input.Action label="Clear" icon={<XIcon />} />}
+        />,
       );
       expect(screen.getByRole('button', { name: 'Clear' })).toBeDisabled();
 
-      rerender(<Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon />} disabled />} />);
+      rerender(
+        <Input
+          label="Search"
+          endAction={<Input.Action label="Clear" icon={<XIcon />} disabled />}
+        />,
+      );
       expect(screen.getByRole('button', { name: 'Clear' })).toBeDisabled();
 
-      rerender(<Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon />} />} />);
+      rerender(
+        <Input label="Search" endAction={<Input.Action label="Clear" icon={<XIcon />} />} />,
+      );
       expect(screen.getByRole('button', { name: 'Clear' })).toBeEnabled();
     });
   });
@@ -236,7 +252,9 @@ describe('Input', () => {
 
       const control = container.querySelector('input')!.parentElement!;
       const order = Array.from(control.children).map((child) =>
-        child.tagName === 'INPUT' ? 'input' : child.textContent || child.querySelector('svg')?.dataset.testid,
+        child.tagName === 'INPUT'
+          ? 'input'
+          : child.textContent || child.querySelector('svg')?.dataset.testid,
       );
       expect(order).toEqual(['start', 'to:', 'input', '@acme.com', 'end']);
     });

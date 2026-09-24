@@ -89,7 +89,9 @@ describe('Menu', () => {
 
     await open();
 
-    expect(screen.getByRole('menuitem', { name: 'Edit' })).toContainElement(screen.getByTestId('icon'));
+    expect(screen.getByRole('menuitem', { name: 'Edit' })).toContainElement(
+      screen.getByTestId('icon'),
+    );
     expect(screen.getByTestId('icon').parentElement).toHaveAttribute('aria-hidden', 'true');
   });
 
@@ -213,11 +215,17 @@ describe('Menu', () => {
     );
 
     await open('Sort');
-    expect(screen.getByRole('menuitemradio', { name: 'Name' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('menuitemradio', { name: 'Name' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
     await userEvent.click(screen.getByRole('menuitemradio', { name: 'Date' }));
 
     expect(onValueChange).toHaveBeenCalledWith('date');
-    expect(screen.getByRole('menuitemradio', { name: 'Date' })).toHaveAttribute('aria-checked', 'true');
+    expect(screen.getByRole('menuitemradio', { name: 'Date' })).toHaveAttribute(
+      'aria-checked',
+      'true',
+    );
   });
 
   describe('controlled', () => {

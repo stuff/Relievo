@@ -113,7 +113,12 @@ export function Chip({
   };
 
   if (!selectable) {
-    const { pressed: _pressed, defaultPressed: _defaultPressed, value: _value, ...spanProps } = props;
+    const {
+      pressed: _pressed,
+      defaultPressed: _defaultPressed,
+      value: _value,
+      ...spanProps
+    } = props;
     return (
       <span
         {...(spanProps as ComponentProps<'span'>)}
@@ -144,8 +149,10 @@ export function Chip({
 
 type LockedGroupProps = 'className' | 'style' | 'render' | 'orientation' | 'multiple';
 
-export interface ChipGroupProps
-  extends Omit<ComponentProps<typeof ToggleGroup>, LockedGroupProps | 'value' | 'defaultValue' | 'onValueChange'> {
+export interface ChipGroupProps extends Omit<
+  ComponentProps<typeof ToggleGroup>,
+  LockedGroupProps | 'value' | 'defaultValue' | 'onValueChange'
+> {
   /**
    * Accessible name of the group, read by screen readers (not displayed), such as "Diet".
    */
@@ -184,7 +191,13 @@ export interface ChipGroupProps
 function ChipGroup({ label, ...props }: ChipGroupProps) {
   return (
     <ChipGroupContext value>
-      <ToggleGroup {...props} multiple aria-label={label} className={styles.group} style={undefined} />
+      <ToggleGroup
+        {...props}
+        multiple
+        aria-label={label}
+        className={styles.group}
+        style={undefined}
+      />
     </ChipGroupContext>
   );
 }

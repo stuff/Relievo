@@ -1,4 +1,11 @@
-import { createContext, use, type ComponentProps, type MouseEvent, type ReactElement, type ReactNode } from 'react';
+import {
+  createContext,
+  use,
+  type ComponentProps,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import { Field } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { IconSlot } from '../../internal/IconSlot';
@@ -164,7 +171,13 @@ export function Input({
     >
       <IconSlot icon={startIcon} className={styles.icon} />
       {prefix != null && <Affix>{prefix}</Affix>}
-      <BaseInput {...props} type={type} disabled={disabled} className={styles.input} style={undefined} />
+      <BaseInput
+        {...props}
+        type={type}
+        disabled={disabled}
+        className={styles.input}
+        style={undefined}
+      />
       {suffix != null && <Affix>{suffix}</Affix>}
       <IconSlot icon={endIcon} className={styles.icon} />
       <InputDisabledContext value={disabled}>{endAction}</InputDisabledContext>

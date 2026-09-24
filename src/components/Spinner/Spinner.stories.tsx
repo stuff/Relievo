@@ -23,7 +23,13 @@ export const Default: Story = {};
 /** As `startIcon`, in place of the field's usual icon while it reloads. */
 export const InAnInput: Story = {
   render: () => (
-    <Input label="Search" hideLabel placeholder="Search…" startIcon={<Spinner />} defaultValue="react nantes" />
+    <Input
+      label="Search"
+      hideLabel
+      placeholder="Search…"
+      startIcon={<Spinner />}
+      defaultValue="react nantes"
+    />
   ),
 };
 

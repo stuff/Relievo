@@ -80,7 +80,13 @@ const tones: { tone: CardTone; title: string }[] = [
 export const Tones: Story = {
   parameters: { maxWidth: '50rem' },
   render: (args: CardProps) => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))', gap: 'var(--rv-space-4)' }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(15rem, 1fr))',
+        gap: 'var(--rv-space-4)',
+      }}
+    >
       {tones.map(({ tone, title }) => (
         <Card key={tone} variant={args.variant} {...({ tone } as CardProps)}>
           <Card.Header>
@@ -139,19 +145,29 @@ export const WithSlots: Story = {
       <Card as="article">
         <Card.Header
           start={<Checkbox label="Select order 1042" hideLabel />}
-          end={<Chip tone="info" size="sm">Shipped</Chip>}
+          end={
+            <Chip tone="info" size="sm">
+              Shipped
+            </Chip>
+          }
         >
           <Card.Title>Order 1042</Card.Title>
           <Card.Description>3 items, delivered by Thursday</Card.Description>
         </Card.Header>
         <Card.Footer>
-          <Button variant="secondary" size="sm">Track the parcel</Button>
+          <Button variant="secondary" size="sm">
+            Track the parcel
+          </Button>
         </Card.Footer>
       </Card>
       <Card as="article" tone="warning">
         <Card.Header
           start={<Checkbox label="Select order 1039" hideLabel />}
-          end={<Chip tone="warning" size="sm">Late</Chip>}
+          end={
+            <Chip tone="warning" size="sm">
+              Late
+            </Chip>
+          }
         >
           <Card.Title>Order 1039, a longer title that wraps onto a second line</Card.Title>
           <Card.Description>1 item, expected on Monday</Card.Description>

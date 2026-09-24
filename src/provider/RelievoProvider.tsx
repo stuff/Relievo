@@ -1,4 +1,11 @@
-import { createContext, use, useMemo, type ComponentProps, type ComponentType, type ReactNode } from 'react';
+import {
+  createContext,
+  use,
+  useMemo,
+  type ComponentProps,
+  type ComponentType,
+  type ReactNode,
+} from 'react';
 
 /** Props the design system passes to the link component. */
 export interface LinkComponentProps extends Omit<ComponentProps<'a'>, 'href'> {

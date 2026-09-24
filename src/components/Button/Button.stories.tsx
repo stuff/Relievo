@@ -77,14 +77,21 @@ export const Themes: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
+    <div
+      style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-3)', alignItems: 'center' }}
+    >
       <Button {...args} startIcon={<PlusIcon />}>
         Add
       </Button>
       <Button {...args} variant="secondary" endIcon={<ArrowRightIcon />}>
         Continue
       </Button>
-      <Button {...args} variant="secondary" startIcon={<DownloadSimpleIcon />} endIcon={<CaretDownIcon />}>
+      <Button
+        {...args}
+        variant="secondary"
+        startIcon={<DownloadSimpleIcon />}
+        endIcon={<CaretDownIcon />}
+      >
         Export
       </Button>
     </div>

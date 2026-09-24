@@ -31,11 +31,21 @@ export const Default: Story = {};
 export const Tones: Story = {
   render: (args) => (
     <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
-      <Alert {...args} tone="neutral">A plain remark, with no status.</Alert>
-      <Alert {...args} tone="info">12 offers for “rust”, across every tab.</Alert>
-      <Alert {...args} tone="success">34 offers scored again, 3 verdicts changed.</Alert>
-      <Alert {...args} tone="warning">An answer was expected on 12 September.</Alert>
-      <Alert {...args} tone="danger">The last scan failed: timeout on the job board.</Alert>
+      <Alert {...args} tone="neutral">
+        A plain remark, with no status.
+      </Alert>
+      <Alert {...args} tone="info">
+        12 offers for “rust”, across every tab.
+      </Alert>
+      <Alert {...args} tone="success">
+        34 offers scored again, 3 verdicts changed.
+      </Alert>
+      <Alert {...args} tone="warning">
+        An answer was expected on 12 September.
+      </Alert>
+      <Alert {...args} tone="danger">
+        The last scan failed: timeout on the job board.
+      </Alert>
     </div>
   ),
 };
@@ -61,7 +71,9 @@ export const WithContent: Story = {
         </p>
         <Checkbox label="Replace the version on file with this one" />
         <div>
-          <Button variant="secondary" size="sm">Add anyway</Button>
+          <Button variant="secondary" size="sm">
+            Add anyway
+          </Button>
         </div>
       </>
     ),
@@ -106,7 +118,9 @@ export const Dismissible: Story = {
         34 offers scored again, 3 verdicts changed.
       </Alert>
     ) : (
-      <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>Show it again</Button>
+      <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>
+        Show it again
+      </Button>
     );
   },
 };

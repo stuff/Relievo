@@ -14,7 +14,15 @@ describe('Textarea', () => {
   });
 
   it('takes the number of rows and native props', () => {
-    render(<Textarea label="Notes" rows={10} name="notes" placeholder="Anything else?" maxLength={500} />);
+    render(
+      <Textarea
+        label="Notes"
+        rows={10}
+        name="notes"
+        placeholder="Anything else?"
+        maxLength={500}
+      />,
+    );
 
     const textarea = screen.getByRole('textbox', { name: 'Notes' });
     expect(textarea).toHaveAttribute('rows', '10');
@@ -81,7 +89,11 @@ describe('Textarea', () => {
     function ControlledTextarea() {
       const [value, setValue] = useState('');
       return (
-        <Textarea label="Notes" value={value} onValueChange={(next) => setValue(next.toUpperCase())} />
+        <Textarea
+          label="Notes"
+          value={value}
+          onValueChange={(next) => setValue(next.toUpperCase())}
+        />
       );
     }
     render(<ControlledTextarea />);

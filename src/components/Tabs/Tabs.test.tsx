@@ -39,7 +39,10 @@ describe('Tabs', () => {
     await userEvent.click(screen.getByRole('tab', { name: 'Drafts' }));
 
     expect(screen.getByRole('tab', { name: 'Drafts' })).toHaveAttribute('aria-selected', 'true');
-    expect(screen.getByRole('tab', { name: 'Published' })).toHaveAttribute('aria-selected', 'false');
+    expect(screen.getByRole('tab', { name: 'Published' })).toHaveAttribute(
+      'aria-selected',
+      'false',
+    );
     expect(screen.getByRole('tabpanel')).toHaveTextContent('Not on sale');
   });
 
@@ -92,7 +95,9 @@ describe('Tabs', () => {
       const [value, setValue] = useState('published');
       return (
         <>
-          <button type="button" onClick={() => setValue('drafts')}>Go to drafts</button>
+          <button type="button" onClick={() => setValue('drafts')}>
+            Go to drafts
+          </button>
           <Basic value={value} onValueChange={setValue} />
         </>
       );
@@ -163,7 +168,9 @@ describe('Tabs', () => {
     const { container } = render(
       <Tabs label="Products" defaultValue="published">
         <Tabs.List>
-          <Tabs.Item value="published" startIcon={<StarIcon />}>Published</Tabs.Item>
+          <Tabs.Item value="published" startIcon={<StarIcon />}>
+            Published
+          </Tabs.Item>
         </Tabs.List>
       </Tabs>,
     );
@@ -178,7 +185,9 @@ describe('Tabs', () => {
       <Tabs label="Products" defaultValue="published" onValueChange={onValueChange}>
         <Tabs.List>
           <Tabs.Item value="published">Published</Tabs.Item>
-          <Tabs.Item value="drafts" disabled>Drafts</Tabs.Item>
+          <Tabs.Item value="drafts" disabled>
+            Drafts
+          </Tabs.Item>
         </Tabs.List>
       </Tabs>,
     );
@@ -207,7 +216,9 @@ describe('Tabs', () => {
         <Tabs.List>
           <Tabs.Item value="published">Published</Tabs.Item>
         </Tabs.List>
-        <Tabs.Panel value="published" variant="framed">On sale</Tabs.Panel>
+        <Tabs.Panel value="published" variant="framed">
+          On sale
+        </Tabs.Panel>
       </Tabs>,
     );
 

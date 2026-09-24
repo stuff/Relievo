@@ -119,7 +119,9 @@ describe('Chip', () => {
         </Chip>,
       );
 
-      expect(screen.getByRole('button', { name: 'Favorites' })).toContainElement(screen.getByTestId('icon'));
+      expect(screen.getByRole('button', { name: 'Favorites' })).toContainElement(
+        screen.getByTestId('icon'),
+      );
       expect(screen.getByTestId('icon').closest('[aria-hidden]')).toBeInTheDocument();
     });
   });
@@ -150,11 +152,7 @@ describe('Chip.Group', () => {
   );
 
   it('renders a named group of toggle buttons', () => {
-    render(
-      <Chip.Group label="Diet">
-        {options}
-      </Chip.Group>,
-    );
+    render(<Chip.Group label="Diet">{options}</Chip.Group>);
 
     expect(screen.getByRole('group', { name: 'Diet' })).toBeInTheDocument();
     expect(screen.getAllByRole('button')).toHaveLength(3);
@@ -181,7 +179,10 @@ describe('Chip.Group', () => {
       </Chip.Group>,
     );
 
-    expect(screen.getByRole('button', { name: 'Gluten free' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Gluten free' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
   });
 
   it('renders the value prop when controlled, and only reports changes', async () => {
@@ -215,11 +216,7 @@ describe('Chip.Group', () => {
   });
 
   it('moves focus between chips with the arrow keys', async () => {
-    render(
-      <Chip.Group label="Diet">
-        {options}
-      </Chip.Group>,
-    );
+    render(<Chip.Group label="Diet">{options}</Chip.Group>);
 
     await userEvent.tab();
     expect(screen.getByRole('button', { name: 'Vegan' })).toHaveFocus();

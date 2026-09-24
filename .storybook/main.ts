@@ -2,11 +2,7 @@ import type { StorybookConfig } from '@storybook/react-vite';
 
 // Inherited props (from Base UI or HTML) shown in the docs API table. All other inherited
 // props are hidden: the table documents our API, not the ~300 DOM attributes.
-const inheritedPropsToDocument = new Set([
-  'children',
-  'disabled',
-  'focusableWhenDisabled',
-]);
+const inheritedPropsToDocument = new Set(['children', 'disabled', 'focusableWhenDisabled']);
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)'],

@@ -62,5 +62,8 @@ export const WithoutBorder: Story = {
 
 /** `as` picks the element, such as `section` or `aside`: the look does not change. */
 export const AsAside: Story = {
-  args: { as: 'aside', children: <div style={content}>An aside, for content related to the page</div> },
+  args: {
+    as: 'aside',
+    children: <div style={content}>An aside, for content related to the page</div>,
+  },
 };

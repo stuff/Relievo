@@ -77,12 +77,7 @@ export interface SegmentedItemProps {
  * - **Uncontrolled**: `<Segmented label="Period" defaultValue="week">`.
  * - **Controlled**: `<Segmented label="Period" value={period} onValueChange={setPeriod}>`.
  */
-export function Segmented({
-  label,
-  onValueChange,
-  size = 'md',
-  ...props
-}: SegmentedProps) {
+export function Segmented({ label, onValueChange, size = 'md', ...props }: SegmentedProps) {
   return (
     <RadioGroup<string>
       {...props}

@@ -30,7 +30,11 @@ export const States: Story = {
       <Checkbox label="Disabled, mixed" disabled indeterminate />
       <Checkbox label="Error" error helperText="Explain the error here." />
       <Checkbox label="Error, ticked" error defaultChecked helperText="Explain the error here." />
-      <Checkbox label="Disabled, with helper text" disabled helperText="Not available on your plan." />
+      <Checkbox
+        label="Disabled, with helper text"
+        disabled
+        helperText="Not available on your plan."
+      />
     </div>
   ),
 };

@@ -69,17 +69,28 @@ export const InheritsTheType: Story = {
     <Card as="article">
       <Card.Header>
         <Card.Title as="h2">
-          <Link {...args} href="#offer">Fullstack engineer — two days from home</Link>
+          <Link {...args} href="#offer">
+            Fullstack engineer — two days from home
+          </Link>
         </Card.Title>
         <Card.Description>
           Ortec · Paris ·{' '}
-          <Link {...args} href="#application" tone="neutral">already applied</Link>
+          <Link {...args} href="#application" tone="neutral">
+            already applied
+          </Link>
         </Card.Description>
       </Card.Header>
       <Card.Body>
         <p style={{ margin: 0 }}>
-          The grid kept this one. <Link {...args} href="#grid">See why</Link>, or open{' '}
-          <Link {...args} href="https://example.com" external>the ad itself</Link>.
+          The grid kept this one.{' '}
+          <Link {...args} href="#grid">
+            See why
+          </Link>
+          , or open{' '}
+          <Link {...args} href="https://example.com" external>
+            the ad itself
+          </Link>
+          .
         </p>
       </Card.Body>
     </Card>
@@ -91,10 +102,15 @@ export const InAParagraph: Story = {
   render: (args) => (
     <p style={{ margin: 0, lineHeight: 1.6 }}>
       A linen shirt with a relaxed fit, mother-of-pearl buttons and a single chest pocket, washed
-      for softness. It is cut from <Link {...args} href="#fabric">a heavy Japanese linen</Link> that
-      keeps its shape, and it is the piece{' '}
-      <Link {...args} href="#reviews">everybody judges the range by</Link>. Wash it cold, hang it
-      to dry.
+      for softness. It is cut from{' '}
+      <Link {...args} href="#fabric">
+        a heavy Japanese linen
+      </Link>{' '}
+      that keeps its shape, and it is the piece{' '}
+      <Link {...args} href="#reviews">
+        everybody judges the range by
+      </Link>
+      . Wash it cold, hang it to dry.
     </p>
   ),
 };

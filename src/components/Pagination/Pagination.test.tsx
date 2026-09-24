@@ -37,13 +37,22 @@ describe('Pagination', () => {
       const onPageChange = vi.fn();
       render(<Pagination pageCount={5} onPageChange={onPageChange} />);
 
-      expect(screen.getByRole('button', { name: 'Page 1' })).toHaveAttribute('aria-current', 'page');
+      expect(screen.getByRole('button', { name: 'Page 1' })).toHaveAttribute(
+        'aria-current',
+        'page',
+      );
 
       await userEvent.click(screen.getByRole('button', { name: 'Next page' }));
-      expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute('aria-current', 'page');
+      expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
+        'aria-current',
+        'page',
+      );
 
       await userEvent.click(screen.getByRole('button', { name: 'Page 4' }));
-      expect(screen.getByRole('button', { name: 'Page 4' })).toHaveAttribute('aria-current', 'page');
+      expect(screen.getByRole('button', { name: 'Page 4' })).toHaveAttribute(
+        'aria-current',
+        'page',
+      );
       expect(onPageChange).toHaveBeenLastCalledWith(4);
     });
 
@@ -65,7 +74,10 @@ describe('Pagination', () => {
       await userEvent.click(screen.getByRole('button', { name: 'Page 3' }));
 
       expect(onPageChange).toHaveBeenCalledWith(3);
-      expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute('aria-current', 'page');
+      expect(screen.getByRole('button', { name: 'Page 2' })).toHaveAttribute(
+        'aria-current',
+        'page',
+      );
     });
 
     it("follows the parent's update", async () => {
@@ -77,7 +89,10 @@ describe('Pagination', () => {
 
       await userEvent.click(screen.getByRole('button', { name: 'Page 5' }));
 
-      expect(screen.getByRole('button', { name: 'Page 5' })).toHaveAttribute('aria-current', 'page');
+      expect(screen.getByRole('button', { name: 'Page 5' })).toHaveAttribute(
+        'aria-current',
+        'page',
+      );
     });
   });
 
@@ -111,7 +126,9 @@ describe('Pagination', () => {
 
   describe('with pageHref', () => {
     it('puts the page number wherever {page} appears', () => {
-      render(<Pagination pageCount={3} defaultPage={1} pageHref="/p/{page}?from={page}&sort=price" />);
+      render(
+        <Pagination pageCount={3} defaultPage={1} pageHref="/p/{page}?from={page}&sort=price" />,
+      );
 
       expect(screen.getByRole('link', { name: 'Page 2' })).toHaveAttribute(
         'href',

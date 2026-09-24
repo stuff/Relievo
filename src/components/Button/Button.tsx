@@ -40,7 +40,8 @@ interface ButtonOwnProps {
 }
 
 export interface ButtonAsButtonProps
-  extends ButtonOwnProps,
+  extends
+    ButtonOwnProps,
     Omit<ComponentProps<typeof BaseButton>, LockedProps | 'render' | 'nativeButton'> {
   /**
    * Native button type. Use `submit` to submit the enclosing form.
@@ -53,8 +54,7 @@ export interface ButtonAsButtonProps
 // `type` is dropped: on a link it is a rarely used MIME type hint, and it would clash with
 // the button `type` in the docs.
 export interface ButtonAsLinkProps
-  extends ButtonOwnProps,
-    Omit<ComponentProps<'a'>, LockedProps | 'type'> {
+  extends ButtonOwnProps, Omit<ComponentProps<'a'>, LockedProps | 'type'> {
   /**
    * Renders the button as a link, using the link component configured in `RelievoProvider`
    * (a native `<a>` by default).

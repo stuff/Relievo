@@ -18,7 +18,12 @@ const sizes: ChipSize[] = ['xs', 'sm', 'md', 'lg'];
 // Story labels start with a capital: all-lowercase text sits visually high in a chip.
 const capitalize = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
 
-const row = { display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-2)', alignItems: 'center' } as const;
+const row = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: 'var(--rv-space-2)',
+  alignItems: 'center',
+} as const;
 const stack = { display: 'grid', gap: 'var(--rv-space-4)' } as const;
 
 const meta = {
@@ -112,7 +117,13 @@ export const Controlled: Story = {
 
     return (
       <div style={{ ...stack, fontFamily: 'var(--rv-font-family)' }}>
-        <Chip {...args} tone="primary" variant="outline" pressed={pressed} onPressedChange={setPressed}>
+        <Chip
+          {...args}
+          tone="primary"
+          variant="outline"
+          pressed={pressed}
+          onPressedChange={setPressed}
+        >
           Vegan
         </Chip>
         <span>
@@ -149,10 +160,18 @@ export const GroupMultiple: Story = {
                   <Chip.Group
                     label={`Diet (${variant}, ${size})`}
                     value={value}
-                    onValueChange={(next) => setSelection((current) => ({ ...current, [key]: next }))}
+                    onValueChange={(next) =>
+                      setSelection((current) => ({ ...current, [key]: next }))
+                    }
                   >
                     {diets.map((diet) => (
-                      <Chip {...args} key={diet.value} value={diet.value} variant={variant} size={size}>
+                      <Chip
+                        {...args}
+                        key={diet.value}
+                        value={diet.value}
+                        variant={variant}
+                        size={size}
+                      >
                         {diet.label}
                       </Chip>
                     ))}

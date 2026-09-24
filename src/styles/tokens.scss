@@ -118,7 +118,8 @@ $dark-palette: (
   // contact shadow only. Used where an inset shadow would eat too much of the control (Checkbox).
   --rv-shadow-contact: 0 0 1px color-mix(in oklab, var(--rv-color-shadow), transparent 30%);
 
-  --rv-shadow-pressed: inset 1px 1px 2px color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
+  --rv-shadow-pressed: inset 1px 1px 2px
+    color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
 
   @if $scheme == dark {
     // Dark: a strong highlight and a thin lit top edge carry the relief
@@ -132,14 +133,20 @@ $dark-palette: (
     --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 18%);
     --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 1%);
 
-    --rv-shadow-raised: 1px 2px 3px var(--rv-color-shadow), -1px -1px 3px var(--rv-color-highlight),
-      #{$lit-edge};
-    --rv-shadow-raised-sm: 1px 1px 2px var(--rv-color-shadow),
-      -1px -1px 2px var(--rv-color-highlight), #{$lit-edge};
-    --rv-shadow-pressed-sm: inset 1px 1px 3px var(--rv-color-shadow),
+    --rv-shadow-raised:
+      1px 2px 3px var(--rv-color-shadow), -1px -1px 3px var(--rv-color-highlight), #{$lit-edge};
+    --rv-shadow-raised-sm:
+      1px 1px 2px var(--rv-color-shadow), -1px -1px 2px var(--rv-color-highlight), #{$lit-edge};
+    --rv-shadow-pressed-sm:
+      inset 1px 1px 3px var(--rv-color-shadow),
       inset -1px -1px 1px color-mix(in oklab, white, transparent 88%);
-    --rv-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
-    --rv-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 60%), transparent 15px);
+    --rv-shadow-inset: inset 1px 1px 2px
+      color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
+    --rv-field-depth: linear-gradient(
+      to top,
+      color-mix(in oklab, black, transparent 60%),
+      transparent 15px
+    );
     // Floating: a layer above the page (a select's list), a deep shadow and the lit top edge
     --rv-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
   } @else {
@@ -149,16 +156,25 @@ $dark-palette: (
     --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 25%);
     --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 7%);
 
-    --rv-shadow-raised: 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 30%),
+    --rv-shadow-raised:
+      1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 30%),
       -1px -1px 3px var(--rv-color-highlight);
-    --rv-shadow-raised-sm: 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
+    --rv-shadow-raised-sm:
+      1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
       -1px -1px 3px var(--rv-color-highlight);
-    --rv-shadow-pressed-sm: inset 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
+    --rv-shadow-pressed-sm:
+      inset 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
       inset -1px -1px 2px var(--rv-color-highlight);
-    --rv-shadow-inset: inset 1px 1px 2px color-mix(in oklab, var(--rv-color-shadow), transparent 65%);
-    --rv-field-depth: linear-gradient(to top, color-mix(in oklab, black, transparent 92%), transparent 15px);
+    --rv-shadow-inset: inset 1px 1px 2px
+      color-mix(in oklab, var(--rv-color-shadow), transparent 65%);
+    --rv-field-depth: linear-gradient(
+      to top,
+      color-mix(in oklab, black, transparent 92%),
+      transparent 15px
+    );
     // Floating: a layer above the page (a select's list), a soft shadow cast far below it
-    --rv-shadow-floating: 0 8px 24px color-mix(in oklab, var(--rv-color-shadow), transparent 65%),
+    --rv-shadow-floating:
+      0 8px 24px color-mix(in oklab, var(--rv-color-shadow), transparent 65%),
       0 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 70%);
   }
 }

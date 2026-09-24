@@ -26,8 +26,7 @@ $tones: primary, info, success, warning, danger;
   // the most a tint may reach under text (see tokens.scss).
   background:
     linear-gradient(225deg, var(--card-corner), transparent 20%),
-    linear-gradient(var(--card-glow), transparent 6rem),
-    var(--card-bg);
+    linear-gradient(var(--card-glow), transparent 6rem), var(--card-bg);
   color: var(--rv-color-text);
   font-family: var(--rv-font-family);
   font-size: var(--rv-font-size-md);

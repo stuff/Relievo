@@ -111,7 +111,14 @@ const TabsContext = createContext<TabsContextValue>({ size: 'md', label: '' });
  * `onValueChange` fires in both modes, so it also serves when the tabs drive something else, such
  * as a page change, and no `Tabs.Panel` is rendered at all.
  */
-export function Tabs({ label, size = 'md', value, defaultValue, onValueChange, children }: TabsProps) {
+export function Tabs({
+  label,
+  size = 'md',
+  value,
+  defaultValue,
+  onValueChange,
+  children,
+}: TabsProps) {
   return (
     <TabsContext value={{ size, label }}>
       <BaseTabs.Root

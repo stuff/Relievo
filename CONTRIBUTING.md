@@ -47,11 +47,21 @@ The full list is in [`AGENTS.md`](AGENTS.md). The ones that matter most:
 
 The look of the kit is decided by the maintainer. For anything that changes how a component looks or behaves, open an issue first with the options you see and the one you recommend, ideally with a mockup. Bug fixes, tests, documentation and accessibility improvements can go straight to a pull request.
 
-## Commits and pull requests
+## Pull requests
+
+`main` is protected: it is never pushed to directly. Every change, the maintainer's included, goes through a pull request.
+
+1. Create a branch (from your fork if you are not the maintainer) and make your change.
+2. Open a pull request against `main`. The template lists what to check.
+3. The CI must pass: the `check` job runs the type-check, the lint, the format check, the tests and the build.
+4. The pull request is merged by squash, so its title becomes the commit message on `main`: write it like a commit summary.
+
+Keep a pull request to one topic, and describe what changed and how you checked it.
+
+## Commits
 
 - Write code, comments, docs and commit messages in English.
 - One commit per topic, with a short imperative summary line (`Add a padding prop to Card`) and a body that says why.
-- Keep a pull request to one topic, and describe what changed and how you checked it.
 
 ## License
 

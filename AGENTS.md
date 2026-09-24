@@ -111,7 +111,7 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 ## Naming and repository
 
 - The kit is **Relievo**: package `relievo`, provider `RelievoProvider`, token prefix `--rv-`. Use these names in code, docs and stories.
-- Repository: `git@github.com:stuff/Relievo.git` (remote `origin`, branch `main`).
+- Repository: `git@github.com:stuff/Relievo.git` (remote `origin`, branch `main`). `main` is protected: nothing is pushed to it directly. A change goes through a branch and a pull request, whose `check` job (the CI) must pass, and is merged by squash.
 
 ## Contributing
 
@@ -120,4 +120,4 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 - Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup. **Animations** are validated by the maintainer in a temporary story in Storybook: no need to capture them (frames, GIF).
 - **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Check selection states in grayscale too. The recipe is in `docs/contributing.md`.
 - **A user-visible change adds a line to the Unreleased section of `CHANGELOG.md`**, in the same commit (see `docs/releasing.md`).
-- **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, lint, format, tests and build before committing.
+- **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then, when asked, push the branch and open a pull request with `gh pr create` (never `git push origin main`). Merge it with `gh pr merge --squash --delete-branch` once `check` is green, and only when asked. Run typecheck, lint, format, tests and build before committing.

@@ -118,4 +118,5 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 - Propose before building when a choice is a design decision: give options with a recommendation, then wait. The maintainer makes the visual calls.
 - Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup. **Animations** are validated by the maintainer in a temporary story in Storybook: no need to capture them (frames, GIF).
 - **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Check selection states in grayscale too. The recipe is in `docs/contributing.md`.
+- **A user-visible change adds a line to the Unreleased section of `CHANGELOG.md`**, in the same commit (see `docs/releasing.md`).
 - **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, lint, tests and build before committing.

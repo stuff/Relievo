@@ -29,6 +29,7 @@ A change is expected to come with:
 - **Tests** next to the component (`<Name>.test.tsx`), written the way a user sees the DOM: query by role and accessible name, interact with `userEvent`.
 - **Stories** for what you add, including `Controlled` and `Uncontrolled` ones for stateful components.
 - **JSDoc** on every public prop, with `@default` when it has one: the API tables in Storybook are generated from it.
+- **A line in `CHANGELOG.md`**, under Unreleased, for any change a user of the kit would notice: see [`docs/releasing.md`](docs/releasing.md).
 - **Both themes checked** for anything visual, with contrast measured rather than eyeballed. [`docs/contributing.md`](docs/contributing.md) has the recipe for screenshots.
 
 ## Conventions

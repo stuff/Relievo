@@ -186,6 +186,7 @@ src/
   test/                 # test setup and mocks
 docs/
   contributing.md       # recipes for contributors (visual captures)
+  releasing.md          # versioning policy and how to publish a release
   theming.md            # plan for app-chosen colors
   backlog.md            # planned work and open points
 ```

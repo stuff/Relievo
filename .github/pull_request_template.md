@@ -8,4 +8,5 @@
 - [ ] Tests cover the change, including the accessibility contract (roles, focus, `aria-*`)
 - [ ] Stories added or updated, `Controlled` and `Uncontrolled` for a stateful component
 - [ ] Public props have JSDoc, with `@default` when they have one
+- [ ] `CHANGELOG.md` has a line under Unreleased, when a user would notice the change
 - [ ] Visual change: checked in the light and dark themes (screenshots below)

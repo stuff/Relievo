@@ -55,7 +55,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "oxlint --report-unused-disable-directives",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "pnpm typecheck && pnpm lint && pnpm test && pnpm build"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

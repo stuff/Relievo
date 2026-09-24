@@ -1,5 +1,8 @@
 # Relievo
 
+[![CI](https://github.com/stuff/Relievo/actions/workflows/ci.yml/badge.svg)](https://github.com/stuff/Relievo/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 A React design system with a tactile look: controls stand out in relief, fields are carved into the page, and the state of each control reads from its shape as much as from its color. Built on [Base UI](https://base-ui.com/) (unstyled, accessible primitives), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
 
 ![Relievo components in the light and dark themes](docs/assets/overview.png)
@@ -46,7 +49,7 @@ import 'relievo/styles.css';
 
 See [Theming](#theming-light--dark) for light and dark mode and [Router links](#router-links) to use your router's link component.
 
-To browse every component with its props, run Storybook locally (`pnpm storybook`, see [Development](#development)). The "All components" story of the Overview shows them together on a realistic screen.
+To browse every component with its props, open the [Storybook](https://stuff.github.io/Relievo/), or run it locally (`pnpm storybook`, see [Development](#development)). The "All components" story of the Overview shows them together on a realistic screen.
 
 ## Components
 

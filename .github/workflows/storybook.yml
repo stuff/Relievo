@@ -1,12 +1,10 @@
-# Builds the Storybook and publishes it on GitHub Pages.
-# Manual only for now: Pages is not enabled, since the repository is private and a Pages
-# site is public even then. When the repository goes public, enable Pages (Settings > Pages >
-# Source: GitHub Actions) and add a trigger on pushes to main:
-#   push:
-#     branches: [main]
+# Builds the Storybook and publishes it on GitHub Pages, on every push to main and on demand.
+# Pages must use GitHub Actions as its source (Settings > Pages > Source).
 name: Storybook
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

@@ -1,0 +1,5 @@
+# Commits that only reformat code, ignored by git blame (GitHub reads this file too).
+# Locally: git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# Format the code with oxfmt
+5caf4a04fe32089a3997f1a1320fe8184ac66cde

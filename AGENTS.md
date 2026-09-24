@@ -6,11 +6,12 @@ Relievo, a React design system built on Base UI. See README.md for usage, the co
 
 - `pnpm typecheck`: type-check `src`, `.storybook` and configs
 - `pnpm lint`: oxlint (React, accessibility and correctness rules, configured in `.oxlintrc.json`)
+- `pnpm format`: oxfmt, writes the formatting (single quotes, 100 columns); `pnpm format:check` only checks. Markdown is not formatted
 - `pnpm build`: library build to `dist/` (ESM, types, `styles.css`)
 - `pnpm test`: unit tests (Vitest + Testing Library, jsdom); `pnpm test:watch` in watch mode
 - `pnpm storybook`: dev Storybook on port 6006
 
-Run `pnpm typecheck`, `pnpm lint`, `pnpm test` and `pnpm build` after every change. A lint exception is an `// oxlint-disable-next-line <rule>` comment that says why: do not switch a rule off without a reason.
+Run `pnpm typecheck`, `pnpm lint`, `pnpm format`, `pnpm test` and `pnpm build` after every change. A lint exception is an `// oxlint-disable-next-line <rule>` comment that says why: do not switch a rule off without a reason.
 
 ## Tests
 
@@ -119,4 +120,4 @@ Components never contain a color literal: only `--rv-*` tokens. Adding a hardcod
 - Try visual changes as a **mockup in a story first** (story-local CSS overriding tokens, components untouched), iterate on it, integrate into the components once approved, then delete the mockup. **Animations** are validated by the maintainer in a temporary story in Storybook: no need to capture them (frames, GIF).
 - **Show visual changes with captures in both themes**, and measure when it matters (contrast ratios, pixel centering) instead of eyeballing. Check selection states in grayscale too. The recipe is in `docs/contributing.md`.
 - **A user-visible change adds a line to the Unreleased section of `CHANGELOG.md`**, in the same commit (see `docs/releasing.md`).
-- **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, lint, tests and build before committing.
+- **Commit only when asked**, one commit per topic (split mixed files by staging intermediate versions), then push to `origin` when asked. Run typecheck, lint, format, tests and build before committing.

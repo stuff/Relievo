@@ -15,11 +15,12 @@ Storybook runs at http://localhost:6006. Every component has stories there, and 
 
 ## Before you open a pull request
 
-Run these four commands. CI runs the same ones on every pull request.
+Run these commands. CI runs the same ones on every pull request.
 
 ```bash
 pnpm typecheck
 pnpm lint
+pnpm format
 pnpm test
 pnpm build
 ```

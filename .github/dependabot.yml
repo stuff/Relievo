@@ -1,0 +1,30 @@
+version: 2
+updates:
+  # pnpm is handled by the npm ecosystem, through pnpm-lock.yaml
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Storybook packages must move together
+      storybook:
+        patterns: ['storybook', '@storybook/*']
+      # Everything else that is not a major: one pull request a week rather than one per package
+      minor-and-patch:
+        update-types: [minor, patch]
+    # Never bump the peer range of react, react-dom or @phosphor-icons/react on its own: it is
+    # part of the public API. Their dev versions still follow.
+    ignore:
+      - dependency-name: react
+        update-types: [version-update:semver-major]
+      - dependency-name: react-dom
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']

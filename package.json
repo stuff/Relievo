@@ -2,6 +2,27 @@
   "name": "relievo",
   "version": "0.1.0",
   "description": "Relievo: a React design system built on Base UI",
+  "license": "MIT",
+  "author": {
+    "name": "Nicolas Challeil (aka STuFF)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stuff/Relievo.git"
+  },
+  "homepage": "https://github.com/stuff/Relievo#readme",
+  "bugs": {
+    "url": "https://github.com/stuff/Relievo/issues"
+  },
+  "keywords": [
+    "react",
+    "design-system",
+    "ui",
+    "components",
+    "base-ui",
+    "css-modules",
+    "typescript"
+  ],
   "type": "module",
   "packageManager": "pnpm@10.5.2",
   "files": [

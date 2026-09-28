@@ -37,6 +37,9 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
   // Grid, not block: adjacent margins do not collapse in a grid, so the room the rail reserves
   // for its track adds to the panel's own margin instead of being swallowed by it.
   display: grid;
+  // The one column is as wide as the room, not as its widest content: a bar with more tabs than
+  // room would otherwise stretch the column to the width of all its tabs, and never scroll.
+  grid-template-columns: minmax(0, 1fr);
 }
 
 // The rail: one wide secondary button. Raised, because it can be pressed (see the relief rule in
@@ -69,15 +72,83 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
   }
 }
 
+// The scroller and the indicator under it, as wide as the rail (the negative margin gives back the
+// rail's padding). It clips sideways only: when the selected tab is scrolled out of view, the
+// indicator follows it, and must not stick out past the rail's ends, while it still draws below the
+// rail's box. Its own box holds both, because an anchor has to sit inside the containing block of
+// what is positioned against it.
+.viewport {
+  position: relative;
+  margin: (-$rail-padding);
+  padding: $rail-padding;
+  overflow-x: clip;
+}
+
 // More tabs than room: they scroll sideways. The native scrollbar is hidden; the bar scrolls with
-// a trackpad, a wheel, or by focusing a tab with the keyboard, which scrolls it into view.
+// a trackpad, a wheel, a mouse drag, or by focusing a tab with the keyboard, which scrolls it into
+// view. Fades at the ends tell there is more to see.
+// The fades at either end. Registered as lengths so that they can be transitioned: a gradient
+// cannot, but the size of its stops can.
+@property --rv-tabs-fade-start {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --rv-tabs-fade-end {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 .scroller {
   overflow-x: auto;
   scrollbar-width: none;
   border-radius: var(--rv-radius-full);
+  // The tabs fade out into the rail. Black and transparent are alpha here, not colors: a mask
+  // only reads the alpha channel.
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black var(--rv-tabs-fade-start),
+    black calc(100% - var(--rv-tabs-fade-end)),
+    transparent
+  );
+  transition:
+    --rv-tabs-fade-start var(--rv-duration-state) ease,
+    --rv-tabs-fade-end var(--rv-duration-state) ease;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// The classes below are toggled by useScrollRail. A bar wider than its room can be grabbed with a
+// mouse.
+.scrollable {
+  cursor: grab;
+}
+
+// There is more to see before / after the visible part. 1.5rem matches FADE in useScrollRail.ts.
+.fadeStart {
+  --rv-tabs-fade-start: 1.5rem;
+}
+
+.fadeEnd {
+  --rv-tabs-fade-end: 1.5rem;
+}
+
+// A mouse drag is scrolling the bar
+.dragging {
+  cursor: grabbing;
+  user-select: none;
+
+  .tab {
+    cursor: grabbing;
   }
 }
 

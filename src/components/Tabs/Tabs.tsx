@@ -1,7 +1,8 @@
-import { createContext, use, type ReactElement, type ReactNode } from 'react';
+import { createContext, use, useRef, type ReactElement, type ReactNode } from 'react';
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { IconSlot } from '../../internal/IconSlot';
 import styles from './Tabs.module.scss';
+import { useScrollRail } from './useScrollRail';
 
 export type TabsSize = 'sm' | 'md';
 export type TabsPanelVariant = 'plain' | 'framed';
@@ -89,6 +90,14 @@ interface TabsContextValue {
 
 const TabsContext = createContext<TabsContextValue>({ size: 'md', label: '' });
 
+// The markers useScrollRail toggles on the scroller
+const railClasses = {
+  scrollable: styles.scrollable,
+  fadeStart: styles.fadeStart,
+  fadeEnd: styles.fadeEnd,
+  dragging: styles.dragging,
+};
+
 /**
  * A bar of tabs over the content they show. The bar is one raised rail, like a wide secondary
  * button, and the selected tab is the primary fill, which slides from one tab to the next.
@@ -142,18 +151,22 @@ export function Tabs({
  */
 function TabsList({ children }: TabsListProps) {
   const { size, label } = use(TabsContext);
+  const scroller = useRef<HTMLDivElement>(null);
+  useScrollRail(scroller, railClasses);
 
   return (
     <div data-size={size} className={styles.rail}>
-      <div className={styles.scroller}>
-        <BaseTabs.List aria-label={label} className={styles.list} style={undefined}>
-          {children}
-        </BaseTabs.List>
+      <div className={styles.viewport}>
+        <div ref={scroller} className={styles.scroller}>
+          <BaseTabs.List aria-label={label} className={styles.list} style={undefined}>
+            {children}
+          </BaseTabs.List>
+        </div>
+        {/* The bar under the rail, anchored to the selected tab, so it slides with it. An element
+            rather than a pseudo: an anchor must come earlier in the tree than what is positioned
+            against it, and the list's ::after is already the thumb. Decorative. */}
+        <span aria-hidden className={styles.underline} />
       </div>
-      {/* The bar under the rail, anchored to the selected tab, so it slides with it. An element
-          rather than a pseudo: an anchor must come earlier in the tree than what is positioned
-          against it, and the list's ::after is already the thumb. Decorative. */}
-      <span aria-hidden className={styles.underline} />
     </div>
   );
 }

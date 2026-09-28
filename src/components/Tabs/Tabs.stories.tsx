@@ -155,7 +155,11 @@ export const Sizes: Story = {
   ),
 };
 
-/** More tabs than room: the bar scrolls sideways, and the rail holds still around it. */
+/**
+ * More tabs than room: the bar scrolls sideways, and the rail holds still around it. Scroll it
+ * with the mouse wheel, by dragging it with the mouse, with a trackpad or a finger, or with the
+ * keyboard. A fade at either end tells there is more to see on that side.
+ */
 export const Scrolling: Story = {
   render: (args) => (
     <div style={{ maxWidth: '26rem' }}>

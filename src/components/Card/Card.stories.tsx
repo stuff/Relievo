@@ -66,7 +66,7 @@ export const WithActions: Story = {
 
 const tones: { tone: CardTone; title: string }[] = [
   { tone: 'neutral', title: 'Project summary' },
-  { tone: 'primary', title: 'New feature' },
+  { tone: 'accent', title: 'New feature' },
   { tone: 'info', title: 'Maintenance on Sunday' },
   { tone: 'success', title: 'Payment received' },
   { tone: 'warning', title: 'Storage almost full' },

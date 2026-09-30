@@ -17,7 +17,7 @@ import {
 import { IconSlot } from '../../internal/IconSlot';
 import styles from './Card.module.scss';
 
-export type CardTone = 'neutral' | 'primary' | 'info' | 'success' | 'warning' | 'danger';
+export type CardTone = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type CardVariant = 'solid' | 'outline';
 export type CardPadding = 'sm' | 'md' | 'lg';
 export type CardElement = 'div' | 'article' | 'section';
@@ -142,7 +142,7 @@ interface CardContextValue {
 const CardContext = createContext<CardContextValue | null>(null);
 
 const toneIcons: Record<CardStatusTone, ReactElement> = {
-  primary: <SparkleIcon />,
+  accent: <SparkleIcon />,
   info: <InfoIcon />,
   success: <CheckCircleIcon />,
   warning: <WarningIcon />,

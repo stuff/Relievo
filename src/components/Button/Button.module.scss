@@ -63,15 +63,15 @@ $flat: 0 0 transparent;
   // Variants
   &[data-variant='primary'] {
     --button-bg: linear-gradient(
-      var(--rv-color-primary-top) 0% 5%,
-      var(--rv-color-primary-bottom) 95% 100%
+      var(--rv-color-accent-top) 0% 5%,
+      var(--rv-color-accent-bottom) 95% 100%
     );
-    --button-fg: var(--rv-color-on-primary);
+    --button-fg: var(--rv-color-on-accent);
 
     &:hover:not([data-disabled]) {
       --button-bg: linear-gradient(
-        var(--rv-color-primary-top-hover) 0% 5%,
-        var(--rv-color-primary-bottom-hover) 95% 100%
+        var(--rv-color-accent-top-hover) 0% 5%,
+        var(--rv-color-accent-bottom-hover) 95% 100%
       );
     }
   }

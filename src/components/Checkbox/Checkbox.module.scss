@@ -27,7 +27,7 @@ $line-height: 1.5;
   }
 }
 
-// A raised cube in the secondary button colors: it can be pressed. Ticked, it turns primary and
+// A raised cube in the secondary button colors: it can be pressed. Ticked, it turns accent and
 // stays raised: the check carries the selection (an exception to the relief rule, see AGENTS.md).
 // Pressed, it goes down physically (1px lower, a contact shadow) rather than with an inset shadow,
 // which would eat most of so small a box and push the check off-center.
@@ -48,12 +48,12 @@ $line-height: 1.5;
     var(--rv-color-sheen-bottom) 95% 100%
   );
   box-shadow: var(--rv-shadow-raised-sm);
-  color: var(--rv-color-on-primary);
+  color: var(--rv-color-on-accent);
   transition:
     box-shadow var(--rv-duration-press) ease,
     translate var(--rv-duration-press) ease;
 
-  // The primary fill, as a layer over the secondary one: a gradient cannot be transitioned, its
+  // The accent fill, as a layer over the secondary one: a gradient cannot be transitioned, its
   // opacity can
   &::before {
     content: '';
@@ -61,8 +61,8 @@ $line-height: 1.5;
     inset: 0;
     border-radius: inherit;
     background-image: linear-gradient(
-      var(--rv-color-primary-top) 0% 5%,
-      var(--rv-color-primary-bottom) 95% 100%
+      var(--rv-color-accent-top) 0% 5%,
+      var(--rv-color-accent-bottom) 95% 100%
     );
     opacity: 0;
     transition: opacity var(--rv-duration-state) ease;
@@ -108,7 +108,7 @@ $line-height: 1.5;
 }
 
 .indicator {
-  // Above the primary layer
+  // Above the accent layer
   position: relative;
   display: inline-flex;
   // Pops in (scale with a small overshoot, and opacity); Base UI waits for the transition before

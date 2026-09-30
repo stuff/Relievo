@@ -1,6 +1,6 @@
 @use '../../styles/icons';
 
-$tones: primary, info, success, warning, danger;
+$tones: accent, info, success, warning, danger;
 
 // A flat panel: information, not something to press (see Relief in AGENTS.md).
 .card {

@@ -180,7 +180,7 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
   transition: color var(--rv-duration-state) ease;
 
   &:hover:not([aria-selected='true'], [data-disabled]) {
-    background-color: color-mix(in oklab, var(--rv-color-primary-tint), transparent 88%);
+    background-color: color-mix(in oklab, var(--rv-color-accent-tint), transparent 88%);
     color: var(--rv-color-text);
   }
 
@@ -221,9 +221,9 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
 // The selected tab, painted on the tab itself: the rendering where anchor positioning is not
 // supported, and the base the sliding thumb takes over from below.
 .tab[aria-selected='true'] {
-  background: linear-gradient(var(--rv-color-primary-top), var(--rv-color-primary-bottom));
+  background: linear-gradient(var(--rv-color-accent-top), var(--rv-color-accent-bottom));
   box-shadow: var(--rv-shadow-raised-sm);
-  color: var(--rv-color-on-primary);
+  color: var(--rv-color-on-accent);
   font-weight: var(--rv-font-weight-medium);
 
   // No focus mark here: entering the bar always lands the focus on the selected tab, so the rail's
@@ -250,7 +250,7 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
     position-anchor: --rv-tabs-thumb;
     inset: anchor(top) anchor(right) anchor(bottom) anchor(left);
     border-radius: var(--rv-radius-full);
-    background: linear-gradient(var(--rv-color-primary-top), var(--rv-color-primary-bottom));
+    background: linear-gradient(var(--rv-color-accent-top), var(--rv-color-accent-bottom));
     box-shadow: var(--rv-shadow-raised-sm);
     transition:
       inset 250ms $thumb-easing,
@@ -290,10 +290,10 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
     top: $track-thumb-top;
     block-size: $track-thumb-height;
     border-radius: var(--rv-radius-full);
-    // The primary itself, chosen by the maintainer. Measured against the page: 3.2:1 in light,
-    // 2.3:1 in dark, where the primary is a dull green on a near-black background. The thumb and
+    // The accent itself, chosen by the maintainer. Measured against the page: 3.2:1 in light,
+    // 2.3:1 in dark, where the accent is a dull green on a near-black background. The thumb and
     // the label above already carry the selection, so the mark is not alone in saying it.
-    background: var(--rv-color-primary);
+    background: var(--rv-color-accent);
     transition:
       left 250ms $thumb-easing,
       right 250ms $thumb-easing,

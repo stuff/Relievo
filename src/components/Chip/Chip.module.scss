@@ -2,7 +2,7 @@
 @use '../../styles/icons';
 @use '../../styles/typography';
 
-$tones: neutral, primary, info, success, warning, danger;
+$tones: neutral, accent, info, success, warning, danger;
 
 $sizes: (
   xs: (
@@ -112,8 +112,8 @@ $sizes: (
     // A neutral chip has no meaning of its own: once selected, it takes the brand color.
     // Explicit tones keep their color when selected.
     &[data-tone='neutral'][data-pressed] {
-      --chip-tint: var(--rv-color-primary-tint);
-      --chip-text: var(--rv-color-primary-text);
+      --chip-tint: var(--rv-color-accent-tint);
+      --chip-text: var(--rv-color-accent-text);
     }
 
     &[data-variant='outline']:hover:not([data-disabled]) {

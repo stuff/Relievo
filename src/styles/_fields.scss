@@ -31,7 +31,7 @@ $field-inset: map.get(map.get($control-sizes, md), padding);
   transition: color 150ms ease;
 
   &[data-focused] {
-    color: var(--rv-color-primary-text);
+    color: var(--rv-color-accent-text);
   }
 
   // After data-focused: an invalid field stays red while focused

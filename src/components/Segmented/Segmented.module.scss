@@ -17,8 +17,8 @@ $thumb-easing: cubic-bezier(0.3, 0.7, 0.4, 1);
 .track {
   // The chosen item is in the brand color: a choice among options carries no status, so there
   // is no tone
-  --segment-tint: var(--rv-color-primary-tint);
-  --segment-text: var(--rv-color-primary-text);
+  --segment-tint: var(--rv-color-accent-tint);
+  --segment-text: var(--rv-color-accent-text);
 
   position: relative;
   // Each control anchors its own thumb, even with several controls on the page

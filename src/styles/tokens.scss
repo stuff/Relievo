@@ -7,20 +7,20 @@
 // downlevel light-dark() in a way that resolves on :root only, which breaks subtree overrides.
 
 $light-palette: (
-  primary: #45824d,
-  on-primary: #ffffffe8,
-  // Primary as text on the background, and on its tint (chips)
-  primary-text: color-mix(in oklab, var(--rv-color-primary), black 35%),
+  accent: #45824d,
+  on-accent: #ffffffe8,
+  // Accent as text on the background, and on its tint (chips)
+  accent-text: color-mix(in oklab, var(--rv-color-accent), black 35%),
   background: #dad6c3,
   surface: #f3f0e4,
   surface-hover: rgba(0, 0, 0, 0.15),
   text: rgba(0, 0, 0, 0.7),
   border: color-mix(in oklab, var(--rv-color-background), black 12%),
-  focus-ring: var(--rv-color-primary),
+  focus-ring: var(--rv-color-accent),
   // Tones: <tone>-tint is a vivid color for tinted backgrounds, always used transparent (20–32%).
   // <tone>-text is the tone as text or border: 4.5:1 on the background, the surface, and over
   // its tint up to 32% on either.
-  primary-tint: var(--rv-color-primary),
+  accent-tint: var(--rv-color-accent),
   neutral-tint: #8a8272,
   info-tint: #2b6fd6,
   success-tint: #2e9a5a,
@@ -44,11 +44,11 @@ $light-palette: (
 );
 
 $dark-palette: (
-  primary: #305836,
-  on-primary: rgba(255, 255, 255, 0.8),
-  // Primary as text on the background, and on its tint (chips). A saturated green: lightening
-  // the dull primary with white would turn it gray.
-  primary-text: #9ccfa3,
+  accent: #305836,
+  on-accent: rgba(255, 255, 255, 0.8),
+  // Accent as text on the background, and on its tint (chips). A saturated green: lightening
+  // the dull accent with white would turn it gray.
+  accent-text: #9ccfa3,
   background: rgb(23, 19, 19),
   surface: rgb(35, 28, 28),
   surface-hover: rgba(255, 255, 255, 0.05),
@@ -56,9 +56,9 @@ $dark-palette: (
   // border: color-mix(in oklab, var(--rv-color-background), white 12%),
   border: rgba(255, 255, 255, 0.2),
   // Lightened so the ring stays visible against the dark background
-  focus-ring: color-mix(in oklab, var(--rv-color-primary), white 35%),
-  // Tones: see the light palette. The primary tint is brighter than the dull dark primary.
-  primary-tint: #5fae6a,
+  focus-ring: color-mix(in oklab, var(--rv-color-accent), white 35%),
+  // Tones: see the light palette. The accent tint is brighter than the dull dark accent.
+  accent-tint: #5fae6a,
   neutral-tint: #a8a097,
   info-tint: #5b9cf0,
   success-tint: #4fc07f,
@@ -101,11 +101,11 @@ $dark-palette: (
   // - flat: everything else, including static chips.
   // Values are redeclared with each palette so var() resolves against that scope's colors.
 
-  // Primary button gradient (top / bottom stop): hover lightens
-  --rv-color-primary-top: color-mix(in oklab, var(--rv-color-primary), white 5%);
-  --rv-color-primary-bottom: color-mix(in oklab, var(--rv-color-primary), black 20%);
-  --rv-color-primary-top-hover: color-mix(in oklab, var(--rv-color-primary), white 12%);
-  --rv-color-primary-bottom-hover: color-mix(in oklab, var(--rv-color-primary), black 14%);
+  // Accent button gradient (top / bottom stop): hover lightens
+  --rv-color-accent-top: color-mix(in oklab, var(--rv-color-accent), white 5%);
+  --rv-color-accent-bottom: color-mix(in oklab, var(--rv-color-accent), black 20%);
+  --rv-color-accent-top-hover: color-mix(in oklab, var(--rv-color-accent), white 12%);
+  --rv-color-accent-bottom-hover: color-mix(in oklab, var(--rv-color-accent), black 14%);
 
   // Secondary text: helper texts, descriptions. As muted as 4.5:1 allows, with some margin: 5:1 on
   // the light background (the worst case; 4.4:1 at 20%), 5.4:1 on the light surface, 5.6:1+ in dark
@@ -127,7 +127,7 @@ $dark-palette: (
 
     // Secondary button gradient, over the surface. Milder than in light: the dark surface is
     // already near black, so the same mix used in light would crush the bottom stop to black and
-    // read as a harsh shadow instead of the gentle sheen the primary button gets.
+    // read as a harsh shadow instead of the gentle sheen the accent button gets.
     --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 8%);
     --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 4%);
     --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 18%);

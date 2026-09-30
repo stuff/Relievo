@@ -6,7 +6,7 @@
 }
 
 // Muted like a helper text, so it reads as a secondary affordance rather than a heading; it takes
-// the primary color on hover and focus, like Link.
+// the accent color on hover and focus, like Link.
 .trigger {
   display: flex;
   align-items: center;
@@ -25,7 +25,7 @@
   transition: color var(--rv-duration-state) ease;
 
   &:hover:not([data-disabled]) {
-    color: var(--rv-color-primary-text);
+    color: var(--rv-color-accent-text);
   }
 
   &:focus-visible {

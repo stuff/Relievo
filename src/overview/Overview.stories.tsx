@@ -118,7 +118,7 @@ function Overview() {
       </Card>
 
       {/* Tabs over the list: the rail is a wide secondary button, the current tab the
-          primary fill. Its panel holds the card below. */}
+          accent fill. Its panel holds the card below. */}
       <Tabs label="Products" defaultValue="all">
         <Tabs.List>
           <Tabs.Item value="all" startIcon={<ListIcon />}>
@@ -301,7 +301,7 @@ function Overview() {
                   Tags
                 </span>
                 <div style={row}>
-                  <Chip tone="primary">New</Chip>
+                  <Chip tone="accent">New</Chip>
                   <Chip>Summer</Chip>
                   <Chip variant="outline">Organic</Chip>
                   <Chip disabled>Archived</Chip>
@@ -373,7 +373,7 @@ function Overview() {
                   <Segmented.Item value="list">List</Segmented.Item>
                   <Segmented.Item value="grid">Grid</Segmented.Item>
                 </Segmented>
-                <Chip size={size} tone="primary">
+                <Chip size={size} tone="accent">
                   Chip {size}
                 </Chip>
                 {size === 'md' && (

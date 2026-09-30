@@ -80,7 +80,7 @@ export const WithContent: Story = {
   },
 };
 
-/** A `Link` inside the message takes the alert's tone, not its own default primary color. */
+/** A `Link` inside the message takes the alert's tone, not its own default accent color. */
 export const WithLink: Story = {
   render: (args) => (
     <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>

@@ -100,7 +100,7 @@ const railClasses = {
 
 /**
  * A bar of tabs over the content they show. The bar is one raised rail, like a wide secondary
- * button, and the selected tab is the primary fill, which slides from one tab to the next.
+ * button, and the selected tab is the accent fill, which slides from one tab to the next.
  *
  * ```tsx
  * <Tabs label="Offers" defaultValue="new">

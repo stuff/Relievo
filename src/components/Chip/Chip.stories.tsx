@@ -11,7 +11,7 @@ import {
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Chip, type ChipSize, type ChipTone, type ChipVariant } from './Chip';
 
-const tones: ChipTone[] = ['neutral', 'primary', 'info', 'success', 'warning', 'danger'];
+const tones: ChipTone[] = ['neutral', 'accent', 'info', 'success', 'warning', 'danger'];
 const variants: ChipVariant[] = ['solid', 'outline'];
 const sizes: ChipSize[] = ['xs', 'sm', 'md', 'lg'];
 
@@ -61,7 +61,7 @@ export const Sizes: Story = {
   render: (args) => (
     <div style={row}>
       {sizes.map((size) => (
-        <Chip {...args} key={size} size={size} tone="primary" startIcon={<StarIcon />}>
+        <Chip {...args} key={size} size={size} tone="accent" startIcon={<StarIcon />}>
           {size.toUpperCase()}
         </Chip>
       ))}
@@ -98,7 +98,7 @@ export const Disabled: Story = {
       <Chip {...args} disabled defaultPressed={false}>
         Selectable
       </Chip>
-      <Chip {...args} disabled defaultPressed variant="outline" tone="primary">
+      <Chip {...args} disabled defaultPressed variant="outline" tone="accent">
         Selected
       </Chip>
     </div>
@@ -107,7 +107,7 @@ export const Disabled: Story = {
 
 /** A standalone chip becomes selectable with `defaultPressed` (uncontrolled)… */
 export const Uncontrolled: Story = {
-  args: { defaultPressed: false, children: 'Vegan', tone: 'primary', variant: 'outline' },
+  args: { defaultPressed: false, children: 'Vegan', tone: 'accent', variant: 'outline' },
 };
 
 /** …or with `pressed` and `onPressedChange` (controlled). */
@@ -119,7 +119,7 @@ export const Controlled: Story = {
       <div style={{ ...stack, fontFamily: 'var(--rv-font-family)' }}>
         <Chip
           {...args}
-          tone="primary"
+          tone="accent"
           variant="outline"
           pressed={pressed}
           onPressedChange={setPressed}

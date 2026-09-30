@@ -4,7 +4,7 @@ import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { IconSlot } from '../../internal/IconSlot';
 import styles from './Chip.module.scss';
 
-export type ChipTone = 'neutral' | 'primary' | 'info' | 'success' | 'warning' | 'danger';
+export type ChipTone = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type ChipVariant = 'solid' | 'outline';
 export type ChipSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -14,9 +14,9 @@ type LockedProps = 'className' | 'style' | 'render' | 'nativeButton';
 
 export interface ChipProps extends Omit<ComponentProps<typeof Toggle>, LockedProps> {
   /**
-   * Meaning of the chip. `neutral` for plain tags, `primary` to highlight without a status,
+   * Meaning of the chip. `neutral` for plain tags, `accent` to highlight without a status,
    * `info`, `success`, `warning` and `danger` for statuses. A selected `neutral` chip turns to
-   * the brand color (`primary`); other tones keep their color when selected.
+   * the brand color (`accent`); other tones keep their color when selected.
    * @default 'neutral'
    */
   tone?: ChipTone;

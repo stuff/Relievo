@@ -14,7 +14,7 @@ describe('Link', () => {
     );
   });
 
-  it('is primary by default, and carries its tone as an attribute', () => {
+  it('is accent by default, and carries its tone as an attribute', () => {
     render(
       <>
         <Link href="/a">One</Link>
@@ -24,7 +24,7 @@ describe('Link', () => {
       </>,
     );
 
-    expect(screen.getByRole('link', { name: 'One' })).toHaveAttribute('data-tone', 'primary');
+    expect(screen.getByRole('link', { name: 'One' })).toHaveAttribute('data-tone', 'accent');
     expect(screen.getByRole('link', { name: 'Two' })).toHaveAttribute('data-tone', 'neutral');
   });
 

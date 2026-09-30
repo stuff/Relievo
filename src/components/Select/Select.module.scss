@@ -177,7 +177,7 @@ $size: map.get($control-sizes, md);
 
 .itemIndicator {
   display: inline-flex;
-  color: var(--rv-color-primary-text);
+  color: var(--rv-color-accent-text);
 }
 
 @media (prefers-reduced-motion: reduce) {

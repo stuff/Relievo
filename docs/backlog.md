@@ -33,13 +33,10 @@ mockup before building.
   (150ms, 250ms): move them to the tokens.
 - **Icon-only Button**: square, with a required `aria-label`.
 - **Removable chip**: an `onRemove` prop rendering an accessible remove button inside the chip.
-- **Button `tone`**: Button's `variant="primary"` predates the common `tone` prop; aligning it
-  (`<Button tone="accent">`, `tone="danger"` for destructive actions) would make every component
-  follow the same rule.
 
 ## Design consistency (from the Overview story review)
 
-- **Secondary button in dark theme** barely stands out from a card: dark gray on dark gray, only
+- **Neutral button in dark theme** barely stands out from a card: dark gray on dark gray, only
   the relief separates them.
 - **One type scale, applied on purpose**: sizes were picked per component and they collide when
   components are nested. In one `Alert` (body text `sm`) holding a `Checkbox` (label `md`) and a

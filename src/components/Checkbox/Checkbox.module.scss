@@ -27,7 +27,7 @@ $line-height: 1.5;
   }
 }
 
-// A raised cube in the secondary button colors: it can be pressed. Ticked, it turns accent and
+// A raised cube in the neutral button colors: it can be pressed. Ticked, it turns accent and
 // stays raised: the check carries the selection (an exception to the relief rule, see AGENTS.md).
 // Pressed, it goes down physically (1px lower, a contact shadow) rather than with an inset shadow,
 // which would eat most of so small a box and push the check off-center.
@@ -53,7 +53,7 @@ $line-height: 1.5;
     box-shadow var(--rv-duration-press) ease,
     translate var(--rv-duration-press) ease;
 
-  // The accent fill, as a layer over the secondary one: a gradient cannot be transitioned, its
+  // The accent fill, as a layer over the neutral one: a gradient cannot be transitioned, its
   // opacity can
   &::before {
     content: '';

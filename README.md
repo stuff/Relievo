@@ -44,7 +44,7 @@ Import the stylesheet once, at the root of your app:
 import { Button } from 'relievo';
 import 'relievo/styles.css';
 
-<Button variant="primary" size="md">Save</Button>;
+<Button tone="accent" size="md">Save</Button>;
 ```
 
 See [Theming](#theming-light--dark) for light and dark mode and [Router links](#router-links) to use your router's link component.
@@ -65,7 +65,7 @@ To browse every component with its props, open the [Storybook](https://stuff.git
 | `Checkbox` | A single yes / no choice, with a mixed state |
 | `Input` | Single-line text field with label, helper text, error, icons, prefix / suffix, an end action (`Input.Action`: clear, show password) or a button beside it |
 | `Textarea` | Multi-line text field, the same carved field as `Input` |
-| `Menu` | A secondary button opening a list of actions: groups, separators, submenus, checkable items |
+| `Menu` | A neutral button opening a list of actions: groups, separators, submenus, checkable items |
 | `Pagination` | Previous / next and page numbers, as buttons or links |
 | `Chip` | Tags and statuses (static), or selectable toggles |
 | `Chip.Group` | Filters: several choices among chips |

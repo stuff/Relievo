@@ -211,11 +211,7 @@ describe('Input', () => {
   describe('end button', () => {
     it('renders the button after the field, under the same label and helper text', () => {
       render(
-        <Input
-          label="Address"
-          helperText="Required."
-          endButton={<Button variant="secondary">Read the page</Button>}
-        />,
+        <Input label="Address" helperText="Required." endButton={<Button>Read the page</Button>} />,
       );
 
       const input = screen.getByRole('textbox', { name: 'Address' });

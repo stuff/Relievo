@@ -148,7 +148,9 @@ export const WithInputAndButton: Story = {
       <div style={{ flex: 1 }}>
         <Select {...args} />
       </div>
-      <Button startIcon={<PlusIcon />}>Add</Button>
+      <Button tone="accent" startIcon={<PlusIcon />}>
+        Add
+      </Button>
     </div>
   ),
 };

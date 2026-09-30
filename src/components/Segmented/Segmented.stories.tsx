@@ -66,9 +66,7 @@ export const Sizes: Story = {
                 </Segmented.Item>
               ))}
             </Segmented>
-            <Button size={size} variant="secondary">
-              Export
-            </Button>
+            <Button size={size}>Export</Button>
           </div>
         ))}
       </div>
@@ -159,7 +157,7 @@ export const InToolbar: Story = {
           Grid
         </Segmented.Item>
       </Segmented>
-      <Button>New</Button>
+      <Button tone="accent">New</Button>
     </div>
   ),
 };

@@ -73,7 +73,7 @@ export interface CheckboxProps {
 
 /**
  * A single yes / no choice, such as accepting terms or turning an option on, with an optional
- * helper text. The box is a raised cube, like a secondary button; ticked, it turns to the brand
+ * helper text. The box is a raised cube, like a neutral button; ticked, it turns to the brand
  * color and shows a check. Set `error` to show the error state.
  *
  * Works uncontrolled or controlled:

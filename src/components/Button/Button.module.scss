@@ -1,16 +1,27 @@
+@use 'sass:list';
 @use 'sass:map';
 @use '../../styles/controls' as *;
 @use '../../styles/icons';
 @use '../../styles/typography';
 
 $flat: 0 0 transparent;
+$status-tones: info, success, warning, danger;
 
 .button {
-  // Variants and states override these. --button-fg falls back to the text color; an ancestor
-  // such as Alert can set --button-fg-context to make a Button variant="link" that belongs to it
-  // take its tone instead (see Alert.module.scss). primary and secondary set --button-fg outright.
-  --button-bg: var(--rv-color-surface);
-  --button-fg: var(--button-fg-context, var(--rv-color-text));
+  // Tones, variants and states override these. The default is a solid neutral button: the sheen
+  // over the surface, in the text color. --button-ring is the border of a status tone, drawn as an
+  // inset shadow in front of the relief so it takes no room: a bordered button is as wide as a
+  // neutral one, and keeps its border when pressed.
+  --button-bg: linear-gradient(
+    var(--rv-color-sheen-top) 0% 25%,
+    var(--rv-color-sheen-bottom) 95% 100%
+  );
+  --button-bg-hover: linear-gradient(
+    var(--rv-color-sheen-top-hover) 0% 25%,
+    var(--rv-color-sheen-bottom-hover) 95% 100%
+  );
+  --button-fg: var(--rv-color-text);
+  --button-ring: #{$flat};
   --button-elevation: var(--rv-shadow-raised);
 
   position: relative;
@@ -22,7 +33,7 @@ $flat: 0 0 transparent;
   border-radius: var(--rv-radius-full);
   background: var(--button-bg);
   color: var(--button-fg);
-  box-shadow: var(--button-elevation);
+  box-shadow: var(--button-ring), var(--button-elevation);
   font-family: var(--rv-font-family);
   font-weight: var(--rv-font-weight-medium);
   line-height: 1;
@@ -45,7 +56,7 @@ $flat: 0 0 transparent;
 
   // Disabled: it cannot be pressed, so it is flat
   &[data-disabled] {
-    --button-elevation: none;
+    --button-elevation: #{$flat};
 
     opacity: 0.6;
     cursor: default;
@@ -60,49 +71,54 @@ $flat: 0 0 transparent;
     }
   }
 
-  // Variants
-  &[data-variant='primary'] {
+  // Tones of the solid variant. The accent is the brand fill. A status tone keeps the neutral fill,
+  // with a border in its tint and a label in its text color: filled, it would look like the accent
+  // (success is green too) and its label would struggle to reach 4.5:1 (warning).
+  &[data-variant='solid'][data-tone='accent'] {
     --button-bg: linear-gradient(
       var(--rv-color-accent-top) 0% 5%,
       var(--rv-color-accent-bottom) 95% 100%
     );
-    --button-fg: var(--rv-color-on-accent);
-
-    &:hover:not([data-disabled]) {
-      --button-bg: linear-gradient(
-        var(--rv-color-accent-top-hover) 0% 5%,
-        var(--rv-color-accent-bottom-hover) 95% 100%
-      );
-    }
-  }
-
-  &[data-variant='secondary'] {
-    --button-bg: linear-gradient(
-      var(--rv-color-sheen-top) 0% 25%,
-      var(--rv-color-sheen-bottom) 95% 100%
+    --button-bg-hover: linear-gradient(
+      var(--rv-color-accent-top-hover) 0% 5%,
+      var(--rv-color-accent-bottom-hover) 95% 100%
     );
+    --button-fg: var(--rv-color-on-accent);
+  }
 
-    &:hover:not([data-disabled]) {
-      --button-bg: linear-gradient(
-        var(--rv-color-sheen-top-hover) 0% 25%,
-        var(--rv-color-sheen-bottom-hover) 95% 100%
-      );
+  @each $tone in $status-tones {
+    &[data-variant='solid'][data-tone='#{$tone}'] {
+      --button-ring: inset 0 0 0 2px var(--rv-color-#{$tone}-tint);
+      --button-fg: var(--rv-color-#{$tone}-text);
     }
   }
 
+  // Link: text only, flat. A neutral link takes the text color, or the tone of an ancestor that
+  // sets --button-fg-context (an Alert: see Alert.module.scss); the other tones their text color.
   &[data-variant='link'] {
     --button-bg: none;
+    --button-bg-hover: var(--rv-color-surface-hover);
+    --button-fg: var(--button-fg-context, var(--rv-color-text));
     --button-elevation: #{$flat};
 
     &:hover:not([data-disabled]) {
-      --button-bg: var(--rv-color-surface-hover);
-      --button-elevation: #{$flat};
       text-decoration: underline;
     }
 
     &:active:not([data-disabled]) {
       --button-elevation: #{$flat};
     }
+
+    @each $tone in list.join(accent, $status-tones) {
+      &[data-tone='#{$tone}'] {
+        --button-fg: var(--rv-color-#{$tone}-text);
+      }
+    }
+  }
+
+  // After the tones, which set the fill to hover to at the same specificity
+  &:hover:not([data-disabled]) {
+    --button-bg: var(--button-bg-hover);
   }
 
   // Icons: 1.125em follows the size's font size (about 16px sm, 18px md, 20px lg)

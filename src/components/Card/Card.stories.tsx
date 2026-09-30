@@ -56,8 +56,10 @@ export const WithActions: Story = {
       </Card.Body>
       <Card.Footer>
         <ButtonGroup>
-          <Button variant="secondary">Cancel</Button>
-          <Button startIcon={<PlusIcon />}>Invite</Button>
+          <Button>Cancel</Button>
+          <Button tone="accent" startIcon={<PlusIcon />}>
+            Invite
+          </Button>
         </ButtonGroup>
       </Card.Footer>
     </Card>
@@ -155,9 +157,7 @@ export const WithSlots: Story = {
           <Card.Description>3 items, delivered by Thursday</Card.Description>
         </Card.Header>
         <Card.Footer>
-          <Button variant="secondary" size="sm">
-            Track the parcel
-          </Button>
+          <Button size="sm">Track the parcel</Button>
         </Card.Footer>
       </Card>
       <Card as="article" tone="warning">

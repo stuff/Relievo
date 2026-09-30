@@ -107,9 +107,7 @@ function Overview() {
         </Card.Header>
         <Card.Footer>
           <ButtonGroup>
-            <Button variant="secondary" size="sm">
-              Review
-            </Button>
+            <Button size="sm">Review</Button>
             <Button variant="link" size="sm">
               Dismiss
             </Button>
@@ -117,7 +115,7 @@ function Overview() {
         </Card.Footer>
       </Card>
 
-      {/* Tabs over the list: the rail is a wide secondary button, the current tab the
+      {/* Tabs over the list: the rail is a wide neutral button, the current tab the
           accent fill. Its panel holds the card below. */}
       <Tabs label="Products" defaultValue="all">
         <Tabs.List>
@@ -158,11 +156,10 @@ function Overview() {
                       ) : undefined
                     }
                   />
-                  <Button variant="secondary" startIcon={<FunnelIcon />}>
-                    Filters
-                  </Button>
+                  <Button startIcon={<FunnelIcon />}>Filters</Button>
                   {/* Spinner replaces the usual icon while the action it starts is running */}
                   <Button
+                    tone="accent"
                     startIcon={saving ? <Spinner /> : <PlusIcon />}
                     disabled={saving}
                     onClick={() => {
@@ -349,8 +346,8 @@ function Overview() {
         <Card.Footer>
           <ButtonGroup>
             <Button variant="link">Cancel</Button>
-            <Button variant="secondary">Save draft</Button>
-            <Button>Publish</Button>
+            <Button>Save draft</Button>
+            <Button tone="accent">Publish</Button>
           </ButtonGroup>
         </Card.Footer>
       </Card>
@@ -363,12 +360,10 @@ function Overview() {
           <div style={stack}>
             {(['sm', 'md', 'lg'] as const).map((size) => (
               <div key={size} style={row}>
-                <Button size={size} startIcon={<PlusIcon />}>
+                <Button tone="accent" size={size} startIcon={<PlusIcon />}>
                   Button {size}
                 </Button>
-                <Button size={size} variant="secondary">
-                  Secondary
-                </Button>
+                <Button size={size}>Neutral</Button>
                 <Segmented label={`View (${size})`} size={size} defaultValue="grid">
                   <Segmented.Item value="list">List</Segmented.Item>
                   <Segmented.Item value="grid">Grid</Segmented.Item>

@@ -42,7 +42,7 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
   grid-template-columns: minmax(0, 1fr);
 }
 
-// The rail: one wide secondary button. Raised, because it can be pressed (see the relief rule in
+// The rail: one wide neutral button. Raised, because it can be pressed (see the relief rule in
 // AGENTS.md). Segmented's track is carved instead, since it holds a value; tabs are navigation.
 .rail {
   box-sizing: border-box;

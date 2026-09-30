@@ -119,11 +119,7 @@ export const WithButton: Story = {
     helperText:
       'Required: without an address the offer cannot be found again. Campaign tokens are ' +
       'removed, the address kept is the offer’s.',
-    endButton: (
-      <Button variant="secondary" startIcon={<GlobeIcon />}>
-        Read the page
-      </Button>
-    ),
+    endButton: <Button startIcon={<GlobeIcon />}>Read the page</Button>,
   },
 };
 

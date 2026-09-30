@@ -4,7 +4,8 @@ import { IconSlot } from '../../internal/IconSlot';
 import { useLinkComponent } from '../../provider/RelievoProvider';
 import styles from './Button.module.scss';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'link';
+export type ButtonVariant = 'solid' | 'link';
+export type ButtonTone = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 // Styling is owned by the design system: className and style are not part of the public API.
@@ -12,11 +13,19 @@ type LockedProps = 'className' | 'style';
 
 interface ButtonOwnProps {
   /**
-   * Visual style. `primary` for the main action, `secondary` for supporting actions,
-   * `link` for low-emphasis actions in text or dense layouts.
-   * @default 'primary'
+   * How the button is drawn. `solid` is a raised button; `link` is text only, for low-emphasis
+   * actions in text or dense layouts.
+   * @default 'solid'
    */
   variant?: ButtonVariant;
+  /**
+   * What the action means. `neutral` for most actions, `accent` for the main action of a screen
+   * (filled with the brand color, one per view), `danger` for a destructive action, `info`,
+   * `success` and `warning` for an action tied to that status. A status tone draws a colored
+   * border and label on the neutral fill: pair it with a label or an icon that says the same thing.
+   * @default 'neutral'
+   */
+  tone?: ButtonTone;
   /**
    * Height, horizontal padding and font size.
    * @default 'md'
@@ -88,7 +97,8 @@ export function Button(props: ButtonProps) {
 
   if (props.href !== undefined) {
     const {
-      variant = 'primary',
+      variant = 'solid',
+      tone = 'neutral',
       size = 'md',
       href,
       disabled = false,
@@ -104,6 +114,7 @@ export function Button(props: ButtonProps) {
     );
     const sharedProps = {
       'data-variant': variant,
+      'data-tone': tone,
       'data-size': size,
       className: styles.button,
       style: undefined,
@@ -131,12 +142,21 @@ export function Button(props: ButtonProps) {
     );
   }
 
-  const { variant = 'primary', size = 'md', startIcon, endIcon, children, ...buttonProps } = props;
+  const {
+    variant = 'solid',
+    tone = 'neutral',
+    size = 'md',
+    startIcon,
+    endIcon,
+    children,
+    ...buttonProps
+  } = props;
 
   return (
     <BaseButton
       {...buttonProps}
       data-variant={variant}
+      data-tone={tone}
       data-size={size}
       className={styles.button}
       style={undefined}

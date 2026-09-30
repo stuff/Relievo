@@ -6,25 +6,27 @@ import { RelievoProvider, type LinkComponentProps } from '../../provider';
 import { Button, type ButtonProps } from './Button';
 
 describe('Button', () => {
-  it('renders a native button with the default variant and size', () => {
+  it('renders a native button, solid, neutral and md by default', () => {
     render(<Button>Save</Button>);
 
     const button = screen.getByRole('button', { name: 'Save' });
     expect(button.tagName).toBe('BUTTON');
     expect(button).toHaveAttribute('type', 'button');
-    expect(button).toHaveAttribute('data-variant', 'primary');
+    expect(button).toHaveAttribute('data-variant', 'solid');
+    expect(button).toHaveAttribute('data-tone', 'neutral');
     expect(button).toHaveAttribute('data-size', 'md');
   });
 
-  it('applies the variant and size', () => {
+  it('applies the variant, tone and size', () => {
     render(
-      <Button variant="secondary" size="lg">
-        Save
+      <Button variant="link" tone="danger" size="lg">
+        Delete
       </Button>,
     );
 
-    const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('data-variant', 'secondary');
+    const button = screen.getByRole('button', { name: 'Delete' });
+    expect(button).toHaveAttribute('data-variant', 'link');
+    expect(button).toHaveAttribute('data-tone', 'danger');
     expect(button).toHaveAttribute('data-size', 'lg');
   });
 
@@ -129,8 +131,29 @@ describe('Button', () => {
       const link = screen.getByRole('link', { name: 'Settings' });
       expect(link.tagName).toBe('A');
       expect(link).toHaveAttribute('href', '/settings');
-      expect(link).toHaveAttribute('data-variant', 'primary');
+      expect(link).toHaveAttribute('data-variant', 'solid');
+      expect(link).toHaveAttribute('data-tone', 'neutral');
       expect(screen.queryByRole('button')).not.toBeInTheDocument();
+    });
+
+    it('applies the variant and tone, enabled or disabled', () => {
+      render(
+        <>
+          <Button href="/new" tone="accent">
+            New
+          </Button>
+          <Button href="/old" variant="link" tone="warning" disabled>
+            Old
+          </Button>
+        </>,
+      );
+
+      const enabled = screen.getByRole('link', { name: 'New' });
+      expect(enabled).toHaveAttribute('data-variant', 'solid');
+      expect(enabled).toHaveAttribute('data-tone', 'accent');
+      const disabled = screen.getByRole('link', { name: 'Old' });
+      expect(disabled).toHaveAttribute('data-variant', 'link');
+      expect(disabled).toHaveAttribute('data-tone', 'warning');
     });
 
     it('renders a disabled link without href', () => {

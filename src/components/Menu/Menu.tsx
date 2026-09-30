@@ -205,7 +205,7 @@ function Popup({ submenu = false, children }: { submenu?: boolean; children?: Re
 }
 
 /**
- * A secondary button that opens a list of actions: items with an optional icon, groups under a
+ * A neutral button that opens a list of actions: items with an optional icon, groups under a
  * title, separators, submenus, and items that can be ticked. The list floats above the page.
  * Keyboard: arrows move, Enter chooses, the right arrow opens a submenu, Escape closes.
  *
@@ -234,7 +234,6 @@ export function Menu({
         disabled={disabled}
         render={
           <Button
-            variant="secondary"
             size={size}
             startIcon={startIcon}
             endIcon={<CaretDownIcon />}

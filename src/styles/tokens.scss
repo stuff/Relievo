@@ -125,7 +125,7 @@ $dark-palette: (
     // Dark: a strong highlight and a thin lit top edge carry the relief
     $lit-edge: inset 0 1px 0 color-mix(in oklab, white, transparent 88%);
 
-    // Secondary button gradient, over the surface. Milder than in light: the dark surface is
+    // Neutral button gradient, over the surface. Milder than in light: the dark surface is
     // already near black, so the same mix used in light would crush the bottom stop to black and
     // read as a harsh shadow instead of the gentle sheen the accent button gets.
     --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 8%);
@@ -150,7 +150,7 @@ $dark-palette: (
     // Floating: a layer above the page (a select's list), a deep shadow and the lit top edge
     --rv-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
   } @else {
-    // Secondary button gradient, over the surface
+    // Neutral button gradient, over the surface
     --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 15%);
     --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 10%);
     --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 25%);

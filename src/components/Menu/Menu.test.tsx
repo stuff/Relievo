@@ -21,7 +21,8 @@ describe('Menu', () => {
 
     const trigger = screen.getByRole('button', { name: 'Actions' });
     expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
-    expect(trigger).toHaveAttribute('data-variant', 'secondary');
+    expect(trigger).toHaveAttribute('data-variant', 'solid');
+    expect(trigger).toHaveAttribute('data-tone', 'neutral');
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
 
     await open();

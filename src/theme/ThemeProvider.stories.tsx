@@ -17,7 +17,7 @@ function ThemeSwitcher() {
         {modes.map((option) => (
           <Button
             key={option}
-            variant={option === mode ? 'primary' : 'secondary'}
+            tone={option === mode ? 'accent' : 'neutral'}
             onClick={() => setMode(option)}
           >
             {option}

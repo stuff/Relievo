@@ -40,6 +40,8 @@ $sizes: (
 
   display: inline-flex;
   align-items: center;
+  // Centered like a Button, for a chip stretched wider than its content (a grid cell)
+  justify-content: center;
   gap: 0.25em;
   box-sizing: border-box;
   margin: 0;

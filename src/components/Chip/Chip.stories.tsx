@@ -24,7 +24,7 @@ const row = {
   gap: 'var(--rv-space-2)',
   alignItems: 'center',
 } as const;
-const stack = { display: 'grid', gap: 'var(--rv-space-4)' } as const;
+const stack = { display: 'grid', gap: 'var(--rv-space-4)', justifyItems: 'start' } as const;
 
 const meta = {
   title: 'Components/Chip',
@@ -41,18 +41,27 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+/** Every tone in both variants: static chips first, then the same series selectable. */
 export const Tones: Story = {
   render: (args) => (
     <div style={stack}>
-      {variants.map((variant) => (
-        <div key={variant} style={row}>
-          {tones.map((tone) => (
-            <Chip {...args} key={tone} tone={tone} variant={variant}>
-              {capitalize(tone)}
-            </Chip>
-          ))}
-        </div>
-      ))}
+      {[false, true].map((selectable) =>
+        variants.map((variant) => (
+          <div key={`${selectable}-${variant}`} style={row}>
+            {tones.map((tone) => (
+              <Chip
+                {...args}
+                key={tone}
+                tone={tone}
+                variant={variant}
+                defaultPressed={selectable ? false : undefined}
+              >
+                {capitalize(tone)}
+              </Chip>
+            ))}
+          </div>
+        )),
+      )}
     </div>
   ),
 };

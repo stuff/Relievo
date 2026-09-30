@@ -94,7 +94,7 @@ $dark-palette: (
   }
 
   // Relief tells what can be pressed (see AGENTS.md):
-  // - raised: buttons (--rv-shadow-raised) and selectable chips (--rv-shadow-raised-sm);
+  // - raised: buttons and selectable chips (--rv-shadow-raised), small controls (--rv-shadow-raised-sm);
   // - pressed: a pushed button (--rv-shadow-pressed) or a selected chip (--rv-shadow-pressed-sm);
   // - carved: text fields (--rv-shadow-inset, --rv-field-depth);
   // - floating: layers above the page, such as a select's list (--rv-shadow-floating);

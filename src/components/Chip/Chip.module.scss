@@ -46,7 +46,8 @@ $sizes: (
   box-sizing: border-box;
   margin: 0;
   border: 1px solid var(--chip-border);
-  border-radius: var(--rv-radius-full);
+  // Nearly rectangular: a chip is not a button, whose shape is the pill
+  border-radius: var(--rv-radius-md);
   background: var(--chip-bg);
   color: var(--chip-fg);
   font-family: var(--rv-font-family);
@@ -83,10 +84,12 @@ $sizes: (
     opacity: 0.6;
   }
 
-  // Selectable chips can be pressed, so they are raised like buttons; once selected, they are
-  // pressed in. Static chips are information: they stay flat (see the relief rule in AGENTS.md).
+  // Selectable chips can be pressed, so they are raised like small buttons: opaque, the neutral
+  // button's sheen tinted with the tone (plain in outline), and a button's shadow. Once selected,
+  // they are pressed in. Static chips are information: a transparent tint, flat (see the relief
+  // rule in AGENTS.md).
   &.selectable {
-    box-shadow: var(--rv-shadow-raised-sm);
+    box-shadow: var(--rv-shadow-raised);
     cursor: pointer;
     user-select: none;
 
@@ -95,8 +98,32 @@ $sizes: (
       outline-offset: 2px;
     }
 
-    &:hover:not([data-disabled]) {
-      --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 74%);
+    &:not([data-pressed]):not([data-disabled]) {
+      --chip-bg: linear-gradient(
+        color-mix(in oklab, var(--chip-tint) 22%, var(--rv-color-sheen-top)) 0% 25%,
+        color-mix(in oklab, var(--chip-tint) 22%, var(--rv-color-sheen-bottom)) 95% 100%
+      );
+
+      &:hover {
+        --chip-bg: linear-gradient(
+          color-mix(in oklab, var(--chip-tint) 22%, var(--rv-color-sheen-top-hover)) 0% 25%,
+          color-mix(in oklab, var(--chip-tint) 22%, var(--rv-color-sheen-bottom-hover)) 95% 100%
+        );
+      }
+
+      &[data-variant='outline'] {
+        --chip-bg: linear-gradient(
+          var(--rv-color-sheen-top) 0% 25%,
+          var(--rv-color-sheen-bottom) 95% 100%
+        );
+      }
+
+      &[data-variant='outline']:hover {
+        --chip-bg: linear-gradient(
+          var(--rv-color-sheen-top-hover) 0% 25%,
+          var(--rv-color-sheen-bottom-hover) 95% 100%
+        );
+      }
     }
 
     // Selected: pressed in, and a thicker, full-strength ring. The ring carries the selection
@@ -116,10 +143,6 @@ $sizes: (
     &[data-tone='neutral'][data-pressed] {
       --chip-tint: var(--rv-color-accent-tint);
       --chip-text: var(--rv-color-accent-text);
-    }
-
-    &[data-variant='outline']:hover:not([data-disabled]) {
-      --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 88%);
     }
 
     &[data-variant='outline'][data-pressed] {

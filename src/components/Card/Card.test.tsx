@@ -145,6 +145,16 @@ describe('Card', () => {
       expect(slot).toHaveAttribute('aria-hidden', 'true');
     });
 
+    it('shows no icon on an accent card, a highlight rather than a status', () => {
+      const { container } = render(
+        <Card tone="accent">
+          <Card.Body>Featured</Card.Body>
+        </Card>,
+      );
+
+      expect(container.querySelector('svg')).toBeNull();
+    });
+
     it('shows no icon on a neutral card', () => {
       const { container } = render(
         <Card>

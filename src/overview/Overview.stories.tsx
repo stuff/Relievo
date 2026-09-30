@@ -4,14 +4,12 @@ import {
   CheckCircleIcon,
   FolderIcon,
   FunnelIcon,
-  InfoIcon,
   ListIcon,
   MagnifyingGlassIcon,
   PencilSimpleIcon,
   PlusIcon,
   TrashIcon,
   WarningIcon,
-  XCircleIcon,
   XIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -58,29 +56,12 @@ const suppliers = [
   { value: 'tannery', label: 'Old Tannery' },
 ];
 
+// No icon on the status chips: the tone brings its own (see "Common props: tone" in AGENTS.md).
 const products = [
-  {
-    name: 'Linen shirt',
-    price: '49 €',
-    status: 'Published',
-    tone: 'success',
-    icon: <CheckCircleIcon />,
-  },
-  { name: 'Wool scarf', price: '35 €', status: 'In review', tone: 'info', icon: <InfoIcon /> },
-  {
-    name: 'Canvas tote',
-    price: '19 €',
-    status: 'Low stock',
-    tone: 'warning',
-    icon: <WarningIcon />,
-  },
-  {
-    name: 'Leather boots',
-    price: '189 €',
-    status: 'Sync failed',
-    tone: 'danger',
-    icon: <XCircleIcon />,
-  },
+  { name: 'Linen shirt', price: '49 €', status: 'Published', tone: 'success' },
+  { name: 'Wool scarf', price: '35 €', status: 'In review', tone: 'info' },
+  { name: 'Canvas tote', price: '19 €', status: 'Low stock', tone: 'warning' },
+  { name: 'Leather boots', price: '189 €', status: 'Sync failed', tone: 'danger' },
 ] as const;
 
 function Overview() {
@@ -230,7 +211,7 @@ function Overview() {
                         {product.price}
                       </span>
                       <span style={{ width: '8.5rem' }}>
-                        <Chip tone={product.tone} size="sm" startIcon={product.icon}>
+                        <Chip tone={product.tone} size="sm">
                           {product.status}
                         </Chip>
                       </span>

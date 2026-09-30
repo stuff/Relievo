@@ -91,6 +91,30 @@ describe('Button', () => {
     expect(end).toHaveAttribute('aria-hidden', 'true');
   });
 
+  it("draws a status tone's icon by default, replaced by an explicit one or removed with false", () => {
+    render(
+      <>
+        <Button tone="danger">Default</Button>
+        <Button tone="danger" startIcon={<PlusIcon data-testid="explicit" />}>
+          Explicit
+        </Button>
+        <Button tone="danger" startIcon={false}>
+          Removed
+        </Button>
+        <Button href="/new" tone="success">
+          Link
+        </Button>
+      </>,
+    );
+
+    expect(screen.getByRole('button', { name: 'Default' }).querySelector('svg')).not.toBeNull();
+    const explicit = screen.getByRole('button', { name: 'Explicit' });
+    expect(explicit.querySelectorAll('svg')).toHaveLength(1);
+    expect(explicit).toContainElement(screen.getByTestId('explicit'));
+    expect(screen.getByRole('button', { name: 'Removed' }).querySelector('svg')).toBeNull();
+    expect(screen.getByRole('link', { name: 'Link' }).querySelector('svg')).not.toBeNull();
+  });
+
   it('renders Phosphor icons in bold, unless the icon sets its own weight', () => {
     const { container: bold } = render(<PlusIcon weight="bold" />);
     const { container: regular } = render(<PlusIcon weight="regular" />);

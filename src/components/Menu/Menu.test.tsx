@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PencilSimpleIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
@@ -285,5 +285,49 @@ describe('Menu', () => {
     const trigger = screen.getByRole('button', { name: 'Actions' });
     expect(trigger).not.toHaveClass('custom');
     expect(trigger).not.toHaveAttribute('style');
+  });
+
+  describe('danger item icon', () => {
+    it("defaults to the tone's icon, so the color is not alone in saying it is destructive", async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item>Edit</Menu.Item>
+          <Menu.Item tone="danger">Delete</Menu.Item>
+        </Menu>,
+      );
+      const menu = await open();
+
+      const remove = within(menu).getByRole('menuitem', { name: 'Delete' });
+      const slot = remove.querySelector('svg')!.parentElement!;
+      expect(slot).toHaveAttribute('aria-hidden', 'true');
+      expect(within(menu).getByRole('menuitem', { name: 'Edit' }).querySelector('svg')).toBeNull();
+    });
+
+    it('lets a more specific icon win over the tone', async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item tone="danger" startIcon={<PencilSimpleIcon data-testid="specific" />}>
+            Delete
+          </Menu.Item>
+        </Menu>,
+      );
+      const menu = await open();
+
+      expect(within(menu).getByTestId('specific')).toBeInTheDocument();
+      expect(menu.querySelectorAll('svg')).toHaveLength(1);
+    });
+
+    it('removes the icon with startIcon={false}', async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item tone="danger" startIcon={false}>
+            Delete
+          </Menu.Item>
+        </Menu>,
+      );
+      const menu = await open();
+
+      expect(menu.querySelector('svg')).toBeNull();
+    });
   });
 });

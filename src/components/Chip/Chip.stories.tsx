@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  BellIcon,
-  CheckCircleIcon,
-  EnvelopeIcon,
-  InfoIcon,
-  StarIcon,
-  WarningIcon,
-  XCircleIcon,
-} from '@phosphor-icons/react';
+import { BellIcon, EnvelopeIcon, StarIcon } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Chip, type ChipSize, type ChipTone, type ChipVariant } from './Chip';
 
@@ -78,20 +70,24 @@ export const Sizes: Story = {
   ),
 };
 
-/** Status chips: a tone and a matching icon, so the status does not rely on color alone. */
+/**
+ * Status chips. The tone brings its own icon, so the status never rests on the color alone: nine
+ * of the fifteen tone pairs are indistinguishable once the hue is taken away. Pass `startIcon` to
+ * replace it, or `startIcon={false}` to drop it when the label already says the same thing.
+ */
 export const Statuses: Story = {
   render: (args) => (
     <div style={row}>
-      <Chip {...args} tone="info" startIcon={<InfoIcon />}>
+      <Chip {...args} tone="info">
         In review
       </Chip>
-      <Chip {...args} tone="success" startIcon={<CheckCircleIcon />}>
+      <Chip {...args} tone="success">
         Published
       </Chip>
-      <Chip {...args} tone="warning" startIcon={<WarningIcon />}>
+      <Chip {...args} tone="warning">
         Expires soon
       </Chip>
-      <Chip {...args} tone="danger" startIcon={<XCircleIcon />}>
+      <Chip {...args} tone="danger">
         Failed
       </Chip>
     </div>

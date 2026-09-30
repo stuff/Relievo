@@ -1,13 +1,10 @@
-import type { CSSProperties, ReactElement } from 'react';
+import type { CSSProperties } from 'react';
 import {
   ArrowRightIcon,
   CaretDownIcon,
-  CheckIcon,
   DownloadSimpleIcon,
-  InfoIcon,
   PlusIcon,
   TrashIcon,
-  WarningIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { LinkComponentProps } from '../../provider';
@@ -27,12 +24,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const tones: ButtonTone[] = ['neutral', 'accent', 'info', 'success', 'warning', 'danger'];
-const statusIcons: Partial<Record<ButtonTone, ReactElement>> = {
-  info: <InfoIcon />,
-  success: <CheckIcon />,
-  warning: <WarningIcon />,
-  danger: <TrashIcon />,
-};
 const row: CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',
@@ -59,7 +50,7 @@ export const Link: Story = {
 /**
  * Every tone, solid and as a link. A status tone (`info`, `success`, `warning`, `danger`) keeps the
  * neutral fill with a border and a label in its color: filled, it would compete with the accent.
- * Pair it with an icon or a label that says the same thing.
+ * It also gets its tone's icon, which `startIcon` replaces (a bin for Delete) or removes (`false`).
  */
 export const Tones: Story = {
   render: (args) => (
@@ -88,7 +79,7 @@ export const Sizes: Story = {
               key={tone}
               size={size}
               tone={tone}
-              startIcon={statusIcons[tone] ?? <PlusIcon />}
+              startIcon={tone === 'neutral' || tone === 'accent' ? <PlusIcon /> : undefined}
             >
               {capitalize(tone)}
             </Button>

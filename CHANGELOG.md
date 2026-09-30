@@ -12,6 +12,7 @@ The first release will be 0.1.0. What it contains:
 - Actions and navigation: `Button` (`solid` and `link` variants, `neutral`, `accent` and status tones, as a link with `href`, icons), `ButtonGroup`, `Link`, `Menu` (groups, separators, submenus, checkable items), `Pagination`, `Tabs`.
 - Form controls: `Input` (icons, affixes, `Input.Action`, `endButton`), `Textarea`, `Select`, `Checkbox`, `Segmented`.
 - Display and feedback: `Alert`, `Chip` and `Chip.Group`, `Collapsible`, `Spinner`.
+- One icon per status tone, shared by `Alert`, `Button`, `Card`, `Chip` and `Menu.Item`, so a status is never carried by color alone: nine of the fifteen tone pairs are indistinguishable in greyscale. `neutral` and `accent` have none; the caller can replace the icon or remove it with `false`.
 - Theming: `ThemeProvider` and `useTheme` (light, dark, system; controlled or uncontrolled), `ThemeScript` to avoid the flash on first paint, and the `--rv-*` design tokens.
 - `RelievoProvider`, to render links through the app's router link.
 - Geist as the typeface, through `@fontsource-variable/geist`.

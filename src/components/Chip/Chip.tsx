@@ -2,6 +2,7 @@ import { createContext, use, type ComponentProps, type ReactElement, type ReactN
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { IconSlot } from '../../internal/IconSlot';
+import { toneIcon } from '../../internal/toneIcons';
 import styles from './Chip.module.scss';
 
 export type ChipTone = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
@@ -15,8 +16,9 @@ type LockedProps = 'className' | 'style' | 'render' | 'nativeButton';
 export interface ChipProps extends Omit<ComponentProps<typeof Toggle>, LockedProps> {
   /**
    * Meaning of the chip. `neutral` for plain tags, `accent` to highlight without a status,
-   * `info`, `success`, `warning` and `danger` for statuses. A selected `neutral` chip turns to
-   * the brand color (`accent`); other tones keep their color when selected.
+   * `info`, `success`, `warning` and `danger` for statuses, each of which comes with its own
+   * icon so the color is never alone in carrying it. A selected `neutral` chip turns to the
+   * brand color (`accent`); other tones keep their color when selected.
    * @default 'neutral'
    */
   tone?: ChipTone;
@@ -34,8 +36,12 @@ export interface ChipProps extends Omit<ComponentProps<typeof Toggle>, LockedPro
    * Icon before the label, such as `<StarIcon />` from `@phosphor-icons/react`. The chip sets its
    * size and color; the icon is decorative. On selectable chips, the icon can tell what each
    * chip turns on.
+   *
+   * Defaults to the status tone's icon for `info`, `success`, `warning` and `danger`, so the
+   * status is never carried by the color alone; `neutral` and `accent` have none. Pass an
+   * element to replace it, or `false` to remove it.
    */
-  startIcon?: ReactElement;
+  startIcon?: ReactElement | false;
   /**
    * Icon after the label. Sized and colored like `startIcon`.
    */
@@ -96,6 +102,10 @@ export function Chip({
   children,
   ...props
 }: ChipProps) {
+  // The status tone's icon by default; false removes it. An explicit icon wins: on a filter chip
+  // it says what the filter turns on, which is more use than repeating the tone.
+  const leadingIcon = startIcon === false ? undefined : (startIcon ?? toneIcon(tone));
+
   const inGroup = use(ChipGroupContext);
   const selectable =
     inGroup ||
@@ -125,7 +135,7 @@ export function Chip({
         data-disabled={disabled ? '' : undefined}
         {...sharedProps}
       >
-        <IconSlot icon={startIcon} className={styles.icon} />
+        <IconSlot icon={leadingIcon} className={styles.icon} />
         <Label>{children}</Label>
         <IconSlot icon={endIcon} className={styles.icon} />
       </span>
@@ -134,7 +144,7 @@ export function Chip({
 
   const content = (
     <>
-      <IconSlot icon={startIcon} className={styles.icon} />
+      <IconSlot icon={leadingIcon} className={styles.icon} />
       <Label>{children}</Label>
       <IconSlot icon={endIcon} className={styles.icon} />
     </>

@@ -2,6 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { CaretDownIcon, CaretRightIcon, CheckIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { toneIcon } from '../../internal/toneIcons';
 import { useLinkComponent } from '../../provider/RelievoProvider';
 import { Button, type ButtonSize } from '../Button';
 import styles from './Menu.module.scss';
@@ -62,7 +63,14 @@ interface MenuItemContentProps {
   children?: ReactNode;
 }
 
-export interface MenuItemProps extends MenuItemContentProps {
+export interface MenuItemProps extends Omit<MenuItemContentProps, 'startIcon'> {
+  /**
+   * Icon before the label, such as `<PencilSimpleIcon />`. Decorative. A `danger` item defaults
+   * to the tone's cross, so the color is never alone in saying the action is destructive; pass
+   * an element to replace it with something more specific, such as `<TrashIcon />`, or `false`
+   * to remove it.
+   */
+  startIcon?: ReactElement | false;
   /**
    * Called when the item is chosen, by pointer or keyboard. The menu then closes.
    */
@@ -72,8 +80,9 @@ export interface MenuItemProps extends MenuItemContentProps {
    */
   href?: string;
   /**
-   * The meaning of the item, as a color: `danger` for a destructive action, such as Delete.
-   * Pair it with a label that says so: color alone does not carry meaning.
+   * The meaning of the item, as a color: `danger` for a destructive action, such as Delete. It
+   * comes with the tone's icon, and its label should say so too: color alone does not carry
+   * meaning.
    * @default 'neutral'
    */
   tone?: MenuItemTone;
@@ -261,8 +270,11 @@ function MenuItem({
   // Called without the click event, as its type says: a server action passed as onSelect would
   // otherwise receive the event and fail to serialize it
   const select = onSelect && (() => onSelect());
+  // The tone's icon by default; false removes it. A more specific icon, such as a bin for Delete,
+  // says more than the generic cross, so an explicit one wins.
+  const leadingIcon = startIcon === false ? undefined : (startIcon ?? toneIcon(tone));
   const content = (
-    <ItemContent startIcon={startIcon} endIcon={endIcon}>
+    <ItemContent startIcon={leadingIcon} endIcon={endIcon}>
       {children}
     </ItemContent>
   );

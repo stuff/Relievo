@@ -94,8 +94,9 @@ $dark-palette: (
   }
 
   // Relief tells what can be pressed (see AGENTS.md):
-  // - raised: buttons and selectable chips (--rv-shadow-raised), small controls (--rv-shadow-raised-sm);
-  // - pressed: a pushed button (--rv-shadow-pressed) or a selected chip (--rv-shadow-pressed-sm);
+  // - raised: buttons (--rv-shadow-raised), small controls (--rv-shadow-raised-sm), selectable chips
+  //   (a shadow in their border's color and --rv-shadow-drop);
+  // - pressed: a pushed button (--rv-shadow-pressed) or small control (--rv-shadow-pressed-sm);
   // - carved: text fields (--rv-shadow-inset, --rv-field-depth);
   // - floating: layers above the page, such as a select's list (--rv-shadow-floating);
   // - flat: everything else, including static chips.
@@ -120,6 +121,10 @@ $dark-palette: (
 
   --rv-shadow-pressed: inset 1px 1px 2px
     color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
+
+  // A soft drop shadow straight down: what lifts a selectable chip off the page, under its colored
+  // shadow. Barely visible in dark, where the colored shadow does the work.
+  --rv-shadow-drop: 0 3px 5px color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
 
   @if $scheme == dark {
     // Dark: a strong highlight and a thin lit top edge carry the relief

@@ -38,8 +38,6 @@ mockup before building.
 
 - **Neutral button in dark theme** barely stands out from a card: dark gray on dark gray, only
   the relief separates them.
-- **Selectable chips in dark theme**: their opaque, raised fill sets them apart from static chips
-  in light, much less in dark, where the tinted sheen stays close to a static chip's tint.
 - **One type scale, applied on purpose**: sizes were picked per component and they collide when
   components are nested. In one `Alert` (body text `sm`) holding a `Checkbox` (label `md`) and a
   `Button` (`sm`, its own control scale), the controls read larger than the message they belong to,

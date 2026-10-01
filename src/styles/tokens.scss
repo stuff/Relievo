@@ -45,11 +45,12 @@ $light-palette: (
   // the lightest thing on it, and the row under the pointer
   floating: color-mix(in oklab, var(--rv-color-surface), white 75%),
   floating-hover: color-mix(in oklab, var(--rv-color-text), transparent 92%),
-  // A Card's fill (and a framed Tabs panel's): white at 25% over whatever is behind it, so it is
-  // lighter than the page without being as light as the surface, and the neutral buttons, which
-  // are a sheen over the surface, stand out of it. The page shows through: it follows the
-  // background the app chooses. The text keeps 5.2:1 on it (muted, on the default background).
-  card: color-mix(in oklab, white, transparent 75%),
+  // A Card's fill (and a framed Tabs panel's): the background with 25% of white, a bit less light
+  // than the surface, so the neutral buttons, which are a sheen over the surface, stand out of it.
+  // Derived from the background, so it follows the one the app chooses, and opaque: a sticky card
+  // must not show what scrolls behind it. The text keeps 5.2:1 on it (muted, on the default
+  // background).
+  card: color-mix(in oklab, var(--rv-color-background), white 25%),
 );
 
 $dark-palette: (

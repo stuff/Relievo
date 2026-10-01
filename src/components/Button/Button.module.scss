@@ -97,7 +97,9 @@ $status-tones: info, success, warning, danger;
   // sets --button-fg-context (an Alert: see Alert.module.scss); the other tones their text color.
   &[data-variant='link'] {
     --button-bg: none;
-    --button-bg-hover: var(--rv-color-surface-hover);
+    // The hover fill is the label's own color, faintly: it follows the tone, and the tone of an
+    // enclosing Alert, instead of one gray for every link
+    --button-bg-hover: color-mix(in oklab, var(--button-fg), transparent 88%);
     --button-fg: var(--button-fg-context, var(--rv-color-text));
     --button-elevation: #{$flat};
 

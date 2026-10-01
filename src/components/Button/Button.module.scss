@@ -34,6 +34,10 @@ $status-tones: info, success, warning, danger;
   --button-fg: var(--rv-color-text);
   --button-ring: #{$flat};
   --button-elevation: var(--rv-shadow-raised);
+  --button-pressed: var(--rv-shadow-pressed);
+  // Pushed in on a fill or a border that hides the neutral one: darker and a pixel deeper
+  --button-pressed-strong: inset 2px 2px 3px
+    color-mix(in oklab, var(--rv-color-shadow), transparent 25%);
 
   position: relative;
   display: inline-flex;
@@ -44,7 +48,7 @@ $status-tones: info, success, warning, danger;
   border-radius: var(--rv-radius-full);
   background: var(--button-bg);
   color: var(--button-fg);
-  box-shadow: var(--button-ring), var(--button-elevation);
+  box-shadow: var(--button-elevation), var(--button-ring);
   font-family: var(--rv-font-family);
   font-weight: var(--rv-font-weight-medium);
   line-height: 1;
@@ -62,7 +66,7 @@ $status-tones: info, success, warning, danger;
   // Pressed while held, and while the menu it opens is open (a Menu trigger)
   &:active:not([data-disabled]),
   &[data-popup-open] {
-    --button-elevation: var(--rv-shadow-pressed);
+    --button-elevation: var(--button-pressed);
   }
 
   // Disabled: it cannot be pressed, so it is flat
@@ -91,12 +95,14 @@ $status-tones: info, success, warning, danger;
     --button-top-end: 5%;
     --button-hover-to: var(--rv-color-text);
     --button-hover-pull: 16%;
+    --button-pressed: var(--button-pressed-strong);
     --button-fg: var(--rv-color-on-accent);
   }
 
   @each $tone in $status-tones {
     &[data-variant='solid'][data-tone='#{$tone}'] {
       --button-ring: inset 0 0 0 2px var(--rv-color-#{$tone}-tint);
+      --button-pressed: var(--button-pressed-strong);
       --button-fg: var(--rv-color-#{$tone}-text);
     }
   }

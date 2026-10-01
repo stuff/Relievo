@@ -3,6 +3,7 @@ import { Field } from '@base-ui/react/field';
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { useInheritedTheme } from '../../internal/useInheritedTheme';
 import styles from './Select.module.scss';
 
 interface SelectBaseProps {
@@ -186,6 +187,7 @@ export function Select({
   options,
   ...rootProps
 }: SelectProps) {
+  const { anchorRef, positionerRef } = useInheritedTheme();
   const items = options
     ? options.map((option) => (
         <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
@@ -201,7 +203,7 @@ export function Select({
         {label}
       </Field.Label>
       <BaseSelect.Root<string> {...rootProps} disabled={disabled} items={collectItems(items)}>
-        <BaseSelect.Trigger className={styles.trigger} style={undefined}>
+        <BaseSelect.Trigger ref={anchorRef} className={styles.trigger} style={undefined}>
           <IconSlot icon={startIcon} className={styles.icon} />
           <BaseSelect.Value className={styles.value} placeholder={placeholder} />
           <BaseSelect.Icon className={styles.caret}>
@@ -210,6 +212,7 @@ export function Select({
         </BaseSelect.Trigger>
         <BaseSelect.Portal>
           <BaseSelect.Positioner
+            ref={positionerRef}
             className={styles.positioner}
             alignItemWithTrigger={false}
             sideOffset={4}

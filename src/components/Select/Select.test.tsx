@@ -220,6 +220,34 @@ describe('Select', () => {
     });
   });
 
+  describe('theme of the list', () => {
+    // The list is portalled out of its section: it must still open in the section's theme
+    it.each(['light', 'dark'])(
+      'opens in the theme of a %s section around the select',
+      async (theme) => {
+        render(
+          <div data-theme={theme}>
+            <Countries />
+          </div>,
+        );
+
+        await userEvent.click(screen.getByRole('combobox'));
+
+        const themed = (await screen.findByRole('listbox')).closest('[data-theme]');
+        expect(themed).toHaveAttribute('data-theme', theme);
+        expect(themed).not.toContainElement(screen.getByRole('combobox'));
+      },
+    );
+
+    it('adds no theme when no section is themed, so the page theme applies', async () => {
+      render(<Countries />);
+
+      await userEvent.click(screen.getByRole('combobox'));
+
+      expect((await screen.findByRole('listbox')).closest('[data-theme]')).toBeNull();
+    });
+  });
+
   it('ignores className and style passed by untyped callers', () => {
     const props = { className: 'custom', style: { color: 'red' } } as object;
     const { container } = render(<Countries {...props} />);

@@ -31,6 +31,44 @@ describe('Menu', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
   });
 
+  describe('theme of the list', () => {
+    // The list is portalled out of its section: it must still open in the section's theme
+    it.each(['light', 'dark'])(
+      'opens in the theme of a %s section around the menu',
+      async (theme) => {
+        render(
+          <div data-theme={theme}>
+            <Menu label="Actions">
+              <Menu.Item>Edit</Menu.Item>
+              <Menu.Submenu label="More">
+                <Menu.Item>Archive</Menu.Item>
+              </Menu.Submenu>
+            </Menu>
+          </div>,
+        );
+
+        const menu = await open();
+        expect(menu.closest('[data-theme]')).toHaveAttribute('data-theme', theme);
+
+        await userEvent.click(screen.getByRole('menuitem', { name: 'More' }));
+        const submenu = (await screen.findByRole('menuitem', { name: 'Archive' })).closest(
+          '[role="menu"]',
+        )!;
+        expect(submenu.closest('[data-theme]')).toHaveAttribute('data-theme', theme);
+      },
+    );
+
+    it('adds no theme when no section is themed, so the page theme applies', async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item>Edit</Menu.Item>
+        </Menu>,
+      );
+
+      expect((await open()).closest('[data-theme]')).toBeNull();
+    });
+  });
+
   it('calls onSelect and closes when an item is chosen', async () => {
     const onSelect = vi.fn();
     render(

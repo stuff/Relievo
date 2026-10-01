@@ -2,6 +2,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { CaretDownIcon, CaretRightIcon, CheckIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { useInheritedTheme } from '../../internal/useInheritedTheme';
 import { toneIcon } from '../../internal/toneIcons';
 import { useLinkComponent } from '../../provider/RelievoProvider';
 import { Button, type ButtonSize } from '../Button';
@@ -198,10 +199,19 @@ function ItemContent({ startIcon, endIcon, children }: MenuItemContentProps) {
 }
 
 // The floating list, shared by the menu and its submenus
-function Popup({ submenu = false, children }: { submenu?: boolean; children?: ReactNode }) {
+function Popup({
+  submenu = false,
+  positionerRef,
+  children,
+}: {
+  submenu?: boolean;
+  positionerRef: (positioner: HTMLElement | null) => void;
+  children?: ReactNode;
+}) {
   return (
     <BaseMenu.Portal>
       <BaseMenu.Positioner
+        ref={positionerRef}
         className={styles.positioner}
         sideOffset={submenu ? 0 : 4}
         alignOffset={submenu ? -5 : 0}
@@ -237,9 +247,12 @@ export function Menu({
   children,
   ...rootProps
 }: MenuProps) {
+  const { anchorRef, positionerRef } = useInheritedTheme();
+
   return (
     <BaseMenu.Root {...rootProps}>
       <BaseMenu.Trigger
+        ref={anchorRef}
         disabled={disabled}
         render={
           <Button
@@ -252,7 +265,7 @@ export function Menu({
       >
         {label}
       </BaseMenu.Trigger>
-      <Popup>{children}</Popup>
+      <Popup positionerRef={positionerRef}>{children}</Popup>
     </BaseMenu.Root>
   );
 }
@@ -326,14 +339,23 @@ function MenuSeparator() {
 }
 
 function MenuSubmenu({ label, startIcon, disabled = false, children }: MenuSubmenuProps) {
+  const { anchorRef, positionerRef } = useInheritedTheme();
+
   return (
     <BaseMenu.SubmenuRoot>
-      <BaseMenu.SubmenuTrigger disabled={disabled} className={styles.item} style={undefined}>
+      <BaseMenu.SubmenuTrigger
+        ref={anchorRef}
+        disabled={disabled}
+        className={styles.item}
+        style={undefined}
+      >
         <ItemContent startIcon={startIcon} endIcon={<CaretRightIcon />}>
           {label}
         </ItemContent>
       </BaseMenu.SubmenuTrigger>
-      <Popup submenu>{children}</Popup>
+      <Popup submenu positionerRef={positionerRef}>
+        {children}
+      </Popup>
     </BaseMenu.SubmenuRoot>
   );
 }

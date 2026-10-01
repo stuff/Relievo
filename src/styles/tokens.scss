@@ -45,6 +45,11 @@ $light-palette: (
   // the lightest thing on it, and the row under the pointer
   floating: color-mix(in oklab, var(--rv-color-surface), white 75%),
   floating-hover: color-mix(in oklab, var(--rv-color-text), transparent 92%),
+  // A Card's fill (and a framed Tabs panel's): white at 25% over whatever is behind it, so it is
+  // lighter than the page without being as light as the surface, and the neutral buttons, which
+  // are a sheen over the surface, stand out of it. The page shows through: it follows the
+  // background the app chooses. The text keeps 5.2:1 on it (muted, on the default background).
+  card: color-mix(in oklab, white, transparent 75%),
 );
 
 $dark-palette: (
@@ -85,6 +90,8 @@ $dark-palette: (
   // Floating layers: the surface, already the lightest layer in dark (see the light palette)
   floating: var(--rv-color-surface),
   floating-hover: rgba(255, 255, 255, 0.05),
+  // A Card's fill: the surface (see the light palette)
+  card: var(--rv-color-surface),
 );
 
 @each $name in map.keys($light-palette) {

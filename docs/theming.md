@@ -71,6 +71,7 @@ Components contain no color literal: they only use `--rv-*` tokens. Everything b
   (light; the surface in dark), `sheen-*`,
   the relief shadows, `field-depth`.
 - Neutral constants: `text`, `text-muted` (`text`, 15% more transparent), `surface-hover`, `floating-hover`,
+  `card` (light, white at 25% over the background),
   `border` (dark), `highlight` (light, white), `shadow` (dark, black), the lit edge.
 - Status tones: `info`, `success`, `warning`, `danger` (`-tint` and `-text`, plus
   `danger-text-muted`, 20% more transparent, for error messages). Their contrast was

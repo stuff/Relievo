@@ -336,11 +336,11 @@ $track-reach: $track-center + math.div($track-thumb-height, 2);
     border-radius: var(--rv-radius-lg);
   }
 
-  // Framed: the surface of a Card, so a panel and a card never drift apart
+  // Framed: the fill of a Card, so a panel and a card never drift apart
   &[data-variant='framed'] {
     border: 1px solid var(--rv-color-border);
     border-radius: var(--rv-radius-lg);
-    background: var(--rv-color-surface);
+    background: var(--rv-color-card);
     padding: var(--rv-space-5) var(--rv-space-6);
   }
 }

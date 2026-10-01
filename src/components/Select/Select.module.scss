@@ -56,46 +56,86 @@ $size: map.get($control-sizes, md);
   }
 }
 
-// The field: carved like Input's pill (a value goes here, see the relief rule in AGENTS.md)
+// The trigger: a wide neutral button (it can be pressed, see the relief rule in AGENTS.md), ended
+// by a cap in the accent fill that holds the chevron. It takes the neutral Button's relief: raised,
+// darker on hover, pressed while held and while the list is open.
 .trigger {
+  // The states below override these. --select-ring is the border of the invalid state, drawn as an
+  // inset shadow in front of the relief, as Button's status tones do.
+  --select-top: var(--rv-color-sheen-top);
+  --select-bottom: var(--rv-color-sheen-bottom);
+  --select-elevation: var(--rv-shadow-raised);
+  --select-ring: 0 0 transparent;
+  // The cap's fill, and the shadow it draws when pressed: it covers the trigger's own, so it takes
+  // the accent Button's pressed shadow, from the top only, so none falls on its straight left edge
+  --select-cap-top: var(--rv-color-accent-top);
+  --select-cap-bottom: var(--rv-color-accent-bottom);
+  --select-cap-elevation: 0 0 transparent;
+
   display: flex;
   align-items: center;
   gap: var(--rv-space-2);
   inline-size: 100%;
   min-inline-size: 0;
   height: map.get($size, height);
-  padding-inline: map.get($size, padding) calc(#{map.get($size, padding)} - 0.25rem);
-  border: 1px solid var(--rv-color-border);
+  // A button keeps 1px of vertical padding by default, which would inset the cap
+  padding-block: 0;
+  // The cap is flush with the end of the pill
+  padding-inline: map.get($size, padding) 0;
+  border: none;
   border-radius: var(--rv-radius-full);
-  background-color: var(--rv-color-field);
-  background-image: var(--rv-field-depth);
-  box-shadow: var(--rv-shadow-inset);
+  background-color: transparent;
+  background-image: linear-gradient(var(--select-top) 0% 25%, var(--select-bottom) 95% 100%);
+  box-shadow: var(--select-elevation), var(--select-ring);
   color: var(--rv-color-text);
   font-family: var(--rv-font-family);
   font-size: map.get($size, font-size);
   line-height: 1;
   text-align: start;
   cursor: pointer;
+  transition: box-shadow 150ms ease;
+
+  // Hover pulls both fills toward the text color, like Button's
+  &:hover:not([data-disabled]) {
+    --select-top: color-mix(in oklab, var(--rv-color-sheen-top), var(--rv-color-text) 12%);
+    --select-bottom: color-mix(in oklab, var(--rv-color-sheen-bottom), var(--rv-color-text) 12%);
+    --select-cap-top: color-mix(in oklab, var(--rv-color-accent-top), var(--rv-color-text) 16%);
+    --select-cap-bottom: color-mix(
+      in oklab,
+      var(--rv-color-accent-bottom),
+      var(--rv-color-text) 16%
+    );
+  }
 
   // Outside the field, like a Button's: one focus ring across the kit
-  &:focus-visible,
-  &[data-popup-open] {
+  &:focus-visible {
     outline: 2px solid var(--rv-color-focus-ring);
     outline-offset: 3px;
   }
 
-  // Invalid: a red ring hugging the field, as an inset shadow rather than an outline, so a field
-  // that is both invalid and focused shows both
-  &[data-invalid] {
-    box-shadow:
-      inset 0 0 0 2px var(--rv-color-danger-text),
-      var(--rv-shadow-inset);
+  // Pressed while held, and while the list it opens is open
+  &:active:not([data-disabled]),
+  &[data-popup-open] {
+    --select-elevation: var(--rv-shadow-pressed);
+    --select-cap-elevation: inset 0 3px 3px -2px
+      color-mix(in oklab, var(--rv-color-shadow), transparent 25%);
   }
 
-  // Disabled: no value can go here, so the field is flat
+  // Invalid: a 2px border in the danger tint, like Button's status tones. The cap sits inside it.
+  &[data-invalid] {
+    --select-ring: inset 0 0 0 2px var(--rv-color-danger-tint);
+
+    &:active:not([data-disabled]),
+    &[data-popup-open] {
+      --select-elevation: inset 2px 2px 3px
+        color-mix(in oklab, var(--rv-color-shadow), transparent 25%);
+    }
+  }
+
+  // Disabled: it cannot be pressed, so it is flat
   &[data-disabled] {
-    background-image: none;
-    box-shadow: none;
+    --select-elevation: 0 0 transparent;
+
     opacity: 0.6;
     cursor: default;
   }
@@ -117,15 +157,37 @@ $size: map.get($control-sizes, md);
   @include icons.icon-slot;
 }
 
-// Muted icons, like Input's (5.6:1 in light, 6:1+ in dark)
-.trigger > .icon,
-.caret {
+// Muted start icon, like Input's (5.6:1 in light, 6:1+ in dark)
+.trigger > .icon {
   color: color-mix(in oklab, var(--rv-color-text), transparent 10%);
 }
 
-// The chevron turns over while the list is open
+// The cap: the accent fill of a button, the full height of the pill. Its end follows the pill's
+// curve: a radius of half the height, and not the full-radius token, since radii that overflow
+// the box scale all four corners down, which would round the straight left edge too.
 .caret {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: none;
+  inline-size: map.get($size, height);
+  border-radius: 0 calc(#{map.get($size, height)} / 2) calc(#{map.get($size, height)} / 2) 0;
+  background-image: linear-gradient(var(--select-cap-top) 0% 5%, var(--select-cap-bottom) 95% 100%);
+  box-shadow: var(--select-cap-elevation);
+  color: var(--rv-color-on-accent);
+  transition: box-shadow 150ms ease;
+
+  // Invalid: inset by the ring, which keeps all around it
+  .trigger[data-invalid] & {
+    margin: 2px;
+    border-radius: 0 calc(#{map.get($size, height)} / 2 - 2px)
+      calc(#{map.get($size, height)} / 2 - 2px) 0;
+  }
+}
+
+// Only the chevron turns over while the list is open: the cap stays put
+.caret > .icon {
   transition: rotate var(--rv-duration-state) ease;
 
   .trigger[data-popup-open] & {
@@ -181,7 +243,9 @@ $size: map.get($control-sizes, md);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .caret {
+  .trigger,
+  .caret,
+  .caret > .icon {
     transition: none;
   }
 }

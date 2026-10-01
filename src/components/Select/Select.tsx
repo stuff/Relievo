@@ -162,9 +162,10 @@ function collectItems(children: ReactNode, items: Record<string, ReactNode> = {}
 }
 
 /**
- * A single choice among a long list, such as a country or a category: a field that opens a list
- * of options. The field is carved like an Input (a value goes here); the list floats above the
- * page. Keyboard: arrows move, Enter chooses, typing jumps to an option.
+ * A single choice among a long list, such as a country or a category: a button that opens a list
+ * of options. The trigger is raised like a Button (it can be pressed, and stays pressed while the
+ * list is open), with the chevron on an accent cap; the list floats above the page. Keyboard:
+ * arrows move, Enter chooses, typing jumps to an option.
  *
  * Options go as `Select.Item` children, grouped under a title with `Select.Group` if needed, or as
  * an array with `options` for a simple list.

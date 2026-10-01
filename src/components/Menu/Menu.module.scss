@@ -16,7 +16,7 @@
 // Items: flat rows with an optional icon on each side
 .item {
   --item-color: var(--rv-color-text);
-  --item-highlight: var(--rv-color-surface-hover);
+  --item-highlight: var(--rv-color-floating-hover);
 
   @include floating.list-item;
 

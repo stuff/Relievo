@@ -41,6 +41,10 @@ $light-palette: (
   highlight: white,
   // Text fields: near white, so they stand out from the surface as the place for a value
   field: color-mix(in oklab, var(--rv-color-surface), white 75%),
+  // Floating layers (a select's list, a menu): as light as the fields, so a layer above the page is
+  // the lightest thing on it, and the row under the pointer
+  floating: color-mix(in oklab, var(--rv-color-surface), white 75%),
+  floating-hover: color-mix(in oklab, var(--rv-color-text), transparent 92%),
 );
 
 $dark-palette: (
@@ -78,6 +82,9 @@ $dark-palette: (
   highlight: color-mix(in oklab, var(--rv-color-background), white 30%),
   // Text fields: the page background, darker than the surface, so they sink below it
   field: var(--rv-color-background),
+  // Floating layers: the surface, already the lightest layer in dark (see the light palette)
+  floating: var(--rv-color-surface),
+  floating-hover: rgba(255, 255, 255, 0.05),
 );
 
 @each $name in map.keys($light-palette) {
@@ -98,7 +105,8 @@ $dark-palette: (
   //   (a shadow in their border's color and --rv-shadow-drop);
   // - pressed: a pushed button (--rv-shadow-pressed) or small control (--rv-shadow-pressed-sm);
   // - carved: text fields (--rv-shadow-inset, --rv-field-depth);
-  // - floating: layers above the page, such as a select's list (--rv-shadow-floating);
+  // - floating: layers above the page, such as a select's list (--rv-shadow-floating,
+  //   --rv-color-floating);
   // - flat: everything else, including static chips.
   // Values are redeclared with each palette so var() resolves against that scope's colors.
 

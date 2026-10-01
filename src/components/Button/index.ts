@@ -4,5 +4,6 @@ export type {
   ButtonAsLinkProps,
   ButtonProps,
   ButtonSize,
+  ButtonTone,
   ButtonVariant,
 } from './Button';

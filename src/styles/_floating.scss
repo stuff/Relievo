@@ -1,7 +1,7 @@
 // Floating lists: a layer above the page (a select's options, a menu), shared by Select and Menu.
 // The layer floats (see the relief rule in AGENTS.md); its content is flat: rows, not buttons.
 
-// The layer: surface, border, floating shadow, a thin scrollbar, and a fade and slight zoom when
+// The layer: its own light background, border, floating shadow, a thin scrollbar, and a fade and slight zoom when
 // it opens and closes (off under prefers-reduced-motion)
 @mixin floating-popup {
   box-sizing: border-box;
@@ -13,7 +13,7 @@
   padding: var(--rv-space-1);
   border: 1px solid var(--rv-color-border);
   border-radius: var(--rv-radius-lg);
-  background-color: var(--rv-color-surface);
+  background-color: var(--rv-color-floating);
   box-shadow: var(--rv-shadow-floating);
   color: var(--rv-color-text);
   font-family: var(--rv-font-family);
@@ -49,7 +49,7 @@
   outline: none;
 
   &[data-highlighted] {
-    background-color: var(--rv-color-surface-hover);
+    background-color: var(--rv-color-floating-hover);
   }
 
   &[data-disabled] {

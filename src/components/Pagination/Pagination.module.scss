@@ -57,7 +57,7 @@ $max-items: 15;
 }
 
 // Pages are flat, like a link button, so the row stays light. The current page is not an action
-// but a landmark (you are here): a flat primary disc, without relief, so it does not invite a
+// but a landmark (you are here): a flat accent disc, without relief, so it does not invite a
 // click. The filled shape tells it apart without relying on color.
 .item {
   display: inline-flex;
@@ -92,8 +92,8 @@ $max-items: 15;
   }
 
   &[data-current] {
-    background-color: var(--rv-color-primary);
-    color: var(--rv-color-on-primary);
+    background-color: var(--rv-color-accent);
+    color: var(--rv-color-on-accent);
     cursor: default;
   }
 

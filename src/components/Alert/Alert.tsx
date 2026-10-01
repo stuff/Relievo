@@ -1,12 +1,7 @@
 import { type ReactElement, type ReactNode } from 'react';
-import {
-  CheckCircleIcon,
-  InfoIcon,
-  WarningCircleIcon,
-  WarningIcon,
-  XIcon,
-} from '@phosphor-icons/react';
+import { XIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { toneIcon } from '../../internal/toneIcons';
 import styles from './Alert.module.scss';
 
 export type AlertTone = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
@@ -14,8 +9,8 @@ export type AlertTone = 'neutral' | 'info' | 'success' | 'warning' | 'danger';
 export interface AlertProps {
   /**
    * The meaning of the message, as a color: it fills the alert with a light tint of the tone and
-   * colors its border, icon and title. `neutral` has no status: a plain remark. Each tone comes
-   * with its own icon, so the color is never alone in carrying the meaning.
+   * colors its border, icon and title. Each status tone comes with its own icon, so the color is
+   * never alone in carrying the meaning. `neutral` has no status, and no icon: a plain remark.
    * @default 'neutral'
    */
   tone?: AlertTone;
@@ -29,8 +24,9 @@ export interface AlertProps {
    */
   children?: ReactNode;
   /**
-   * The icon before the message. Defaults to the tone's icon (a warning triangle for `warning`…);
-   * pass another element to replace it, such as `<ClockIcon />`, or `false` to remove it.
+   * The icon before the message. Defaults to the status tone's icon (a warning triangle for
+   * `warning`, a cross for `danger`…); `neutral` has none. Pass another element to replace it,
+   * such as `<ClockIcon />`, or `false` to remove it.
    */
   icon?: ReactElement | false;
   /**
@@ -52,14 +48,6 @@ export interface AlertProps {
    */
   live?: boolean;
 }
-
-const toneIcons: Record<AlertTone, ReactElement> = {
-  neutral: <InfoIcon />,
-  info: <InfoIcon />,
-  success: <CheckCircleIcon />,
-  warning: <WarningIcon />,
-  danger: <WarningCircleIcon />,
-};
 
 /**
  * A message in the flow of the page: a failed action, a warning, a result. Flat, since it is
@@ -84,8 +72,8 @@ export function Alert({
   closeLabel = 'Close',
   live = false,
 }: AlertProps) {
-  // The tone's icon by default; false removes it
-  const leadingIcon = icon === false ? undefined : (icon ?? toneIcons[tone]);
+  // The tone's icon by default; false removes it. A neutral alert has none: it states nothing.
+  const leadingIcon = icon === false ? undefined : (icon ?? toneIcon(tone));
   // A message that shows up after an action is announced: at once when it is a problem, once the
   // user is idle otherwise
   const role = live ? (tone === 'warning' || tone === 'danger' ? 'alert' : 'status') : undefined;

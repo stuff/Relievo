@@ -128,4 +128,32 @@ describe('Alert', () => {
     expect(container.querySelector('.custom')).toBeNull();
     expect(container.querySelector('[style]')).toBeNull();
   });
+
+  describe('leading icon', () => {
+    it("shows the tone's icon by default, hidden from assistive technologies", () => {
+      const { container } = render(<Alert tone="warning" title="Low stock" />);
+
+      const slot = container.querySelector('svg')!.parentElement!;
+      expect(slot).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('shows no icon on a neutral alert, which states nothing', () => {
+      const { container } = render(<Alert title="A remark" />);
+
+      expect(container.querySelector('svg')).toBeNull();
+    });
+
+    it('replaces the icon with the given element', () => {
+      render(<Alert tone="info" icon={<ClockIcon data-testid="clock" />} title="Queued" />);
+
+      expect(screen.getByTestId('clock')).toBeInTheDocument();
+      expect(document.querySelectorAll('svg')).toHaveLength(1);
+    });
+
+    it('removes the icon with icon={false}', () => {
+      const { container } = render(<Alert tone="success" icon={false} title="Paid" />);
+
+      expect(container.querySelector('svg')).toBeNull();
+    });
+  });
 });

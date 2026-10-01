@@ -1,17 +1,43 @@
+@use 'sass:list';
 @use 'sass:map';
 @use '../../styles/controls' as *;
 @use '../../styles/icons';
 @use '../../styles/typography';
 
 $flat: 0 0 transparent;
+$status-tones: info, success, warning, danger;
 
 .button {
-  // Variants and states override these. --button-fg falls back to the text color; an ancestor
-  // such as Alert can set --button-fg-context to make a Button variant="link" that belongs to it
-  // take its tone instead (see Alert.module.scss). primary and secondary set --button-fg outright.
-  --button-bg: var(--rv-color-surface);
-  --button-fg: var(--button-fg-context, var(--rv-color-text));
+  // Tones, variants and states override these. The default is a solid neutral button: the sheen
+  // over the surface, in the text color. --button-ring is the border of a status tone, drawn as an
+  // inset shadow in front of the relief so it takes no room: a bordered button is as wide as a
+  // neutral one, and keeps its border when pressed.
+  --button-top: var(--rv-color-sheen-top);
+  --button-bottom: var(--rv-color-sheen-bottom);
+  --button-top-end: 25%;
+  --button-bg: linear-gradient(
+    var(--button-top) 0% var(--button-top-end),
+    var(--button-bottom) 95% 100%
+  );
+  // Hover pulls the fill toward a color: the label's, so a solid button gets darker where its label
+  // is dark and lighter where it is light, and a status tone is tinted with its own. The accent's
+  // label is white in both themes, which would only wash a dark green out: it is pulled toward the
+  // text color instead, darker in the light theme and lighter in the dark one, like the other tones.
+  --button-hover-to: var(--button-fg);
+  --button-hover-pull: 12%;
+  --button-bg-hover: linear-gradient(
+    color-mix(in oklab, var(--button-top), var(--button-hover-to) var(--button-hover-pull)) 0%
+      var(--button-top-end),
+    color-mix(in oklab, var(--button-bottom), var(--button-hover-to) var(--button-hover-pull)) 95%
+      100%
+  );
+  --button-fg: var(--rv-color-text);
+  --button-ring: #{$flat};
   --button-elevation: var(--rv-shadow-raised);
+  --button-pressed: var(--rv-shadow-pressed);
+  // Pushed in on a fill or a border that hides the neutral one: darker and a pixel deeper
+  --button-pressed-strong: inset 2px 2px 3px
+    color-mix(in oklab, var(--rv-color-shadow), transparent 25%);
 
   position: relative;
   display: inline-flex;
@@ -22,7 +48,7 @@ $flat: 0 0 transparent;
   border-radius: var(--rv-radius-full);
   background: var(--button-bg);
   color: var(--button-fg);
-  box-shadow: var(--button-elevation);
+  box-shadow: var(--button-elevation), var(--button-ring);
   font-family: var(--rv-font-family);
   font-weight: var(--rv-font-weight-medium);
   line-height: 1;
@@ -40,12 +66,12 @@ $flat: 0 0 transparent;
   // Pressed while held, and while the menu it opens is open (a Menu trigger)
   &:active:not([data-disabled]),
   &[data-popup-open] {
-    --button-elevation: var(--rv-shadow-pressed);
+    --button-elevation: var(--button-pressed);
   }
 
   // Disabled: it cannot be pressed, so it is flat
   &[data-disabled] {
-    --button-elevation: none;
+    --button-elevation: #{$flat};
 
     opacity: 0.6;
     cursor: default;
@@ -60,49 +86,55 @@ $flat: 0 0 transparent;
     }
   }
 
-  // Variants
-  &[data-variant='primary'] {
-    --button-bg: linear-gradient(
-      var(--rv-color-primary-top) 0% 5%,
-      var(--rv-color-primary-bottom) 95% 100%
-    );
-    --button-fg: var(--rv-color-on-primary);
+  // Tones of the solid variant. The accent is the brand fill. A status tone keeps the neutral fill,
+  // with a border in its tint and a label in its text color: filled, it would look like the accent
+  // (success is green too) and its label would struggle to reach 4.5:1 (warning).
+  &[data-variant='solid'][data-tone='accent'] {
+    --button-top: var(--rv-color-accent-top);
+    --button-bottom: var(--rv-color-accent-bottom);
+    --button-top-end: 5%;
+    --button-hover-to: var(--rv-color-text);
+    --button-hover-pull: 16%;
+    --button-pressed: var(--button-pressed-strong);
+    --button-fg: var(--rv-color-on-accent);
+  }
 
-    &:hover:not([data-disabled]) {
-      --button-bg: linear-gradient(
-        var(--rv-color-primary-top-hover) 0% 5%,
-        var(--rv-color-primary-bottom-hover) 95% 100%
-      );
+  @each $tone in $status-tones {
+    &[data-variant='solid'][data-tone='#{$tone}'] {
+      --button-ring: inset 0 0 0 2px var(--rv-color-#{$tone}-tint);
+      --button-pressed: var(--button-pressed-strong);
+      --button-fg: var(--rv-color-#{$tone}-text);
     }
   }
 
-  &[data-variant='secondary'] {
-    --button-bg: linear-gradient(
-      var(--rv-color-sheen-top) 0% 25%,
-      var(--rv-color-sheen-bottom) 95% 100%
-    );
-
-    &:hover:not([data-disabled]) {
-      --button-bg: linear-gradient(
-        var(--rv-color-sheen-top-hover) 0% 25%,
-        var(--rv-color-sheen-bottom-hover) 95% 100%
-      );
-    }
-  }
-
+  // Link: text only, flat. A neutral link takes the text color, or the tone of an ancestor that
+  // sets --button-fg-context (an Alert: see Alert.module.scss); the other tones their text color.
   &[data-variant='link'] {
     --button-bg: none;
+    // The hover fill is the label's own color, faintly: it follows the tone, and the tone of an
+    // enclosing Alert, instead of one gray for every link
+    --button-bg-hover: color-mix(in oklab, var(--button-fg), transparent 88%);
+    --button-fg: var(--button-fg-context, var(--rv-color-text));
     --button-elevation: #{$flat};
 
     &:hover:not([data-disabled]) {
-      --button-bg: var(--rv-color-surface-hover);
-      --button-elevation: #{$flat};
       text-decoration: underline;
     }
 
     &:active:not([data-disabled]) {
       --button-elevation: #{$flat};
     }
+
+    @each $tone in list.join(accent, $status-tones) {
+      &[data-tone='#{$tone}'] {
+        --button-fg: var(--rv-color-#{$tone}-text);
+      }
+    }
+  }
+
+  // After the tones, which set the fill to hover to at the same specificity
+  &:hover:not([data-disabled]) {
+    --button-bg: var(--button-bg-hover);
   }
 
   // Icons: 1.125em follows the size's font size (about 16px sm, 18px md, 20px lg)

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PencilSimpleIcon } from '@phosphor-icons/react';
 import { describe, expect, it, vi } from 'vitest';
@@ -21,13 +21,52 @@ describe('Menu', () => {
 
     const trigger = screen.getByRole('button', { name: 'Actions' });
     expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
-    expect(trigger).toHaveAttribute('data-variant', 'secondary');
+    expect(trigger).toHaveAttribute('data-variant', 'solid');
+    expect(trigger).toHaveAttribute('data-tone', 'neutral');
     expect(screen.queryByRole('menu')).not.toBeInTheDocument();
 
     await open();
 
     expect(screen.getByRole('menuitem', { name: 'Edit' })).toBeInTheDocument();
     expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  describe('theme of the list', () => {
+    // The list is portalled out of its section: it must still open in the section's theme
+    it.each(['light', 'dark'])(
+      'opens in the theme of a %s section around the menu',
+      async (theme) => {
+        render(
+          <div data-theme={theme}>
+            <Menu label="Actions">
+              <Menu.Item>Edit</Menu.Item>
+              <Menu.Submenu label="More">
+                <Menu.Item>Archive</Menu.Item>
+              </Menu.Submenu>
+            </Menu>
+          </div>,
+        );
+
+        const menu = await open();
+        expect(menu.closest('[data-theme]')).toHaveAttribute('data-theme', theme);
+
+        await userEvent.click(screen.getByRole('menuitem', { name: 'More' }));
+        const submenu = (await screen.findByRole('menuitem', { name: 'Archive' })).closest(
+          '[role="menu"]',
+        )!;
+        expect(submenu.closest('[data-theme]')).toHaveAttribute('data-theme', theme);
+      },
+    );
+
+    it('adds no theme when no section is themed, so the page theme applies', async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item>Edit</Menu.Item>
+        </Menu>,
+      );
+
+      expect((await open()).closest('[data-theme]')).toBeNull();
+    });
   });
 
   it('calls onSelect and closes when an item is chosen', async () => {
@@ -284,5 +323,49 @@ describe('Menu', () => {
     const trigger = screen.getByRole('button', { name: 'Actions' });
     expect(trigger).not.toHaveClass('custom');
     expect(trigger).not.toHaveAttribute('style');
+  });
+
+  describe('danger item icon', () => {
+    it("defaults to the tone's icon, so the color is not alone in saying it is destructive", async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item>Edit</Menu.Item>
+          <Menu.Item tone="danger">Delete</Menu.Item>
+        </Menu>,
+      );
+      const menu = await open();
+
+      const remove = within(menu).getByRole('menuitem', { name: 'Delete' });
+      const slot = remove.querySelector('svg')!.parentElement!;
+      expect(slot).toHaveAttribute('aria-hidden', 'true');
+      expect(within(menu).getByRole('menuitem', { name: 'Edit' }).querySelector('svg')).toBeNull();
+    });
+
+    it('lets a more specific icon win over the tone', async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item tone="danger" startIcon={<PencilSimpleIcon data-testid="specific" />}>
+            Delete
+          </Menu.Item>
+        </Menu>,
+      );
+      const menu = await open();
+
+      expect(within(menu).getByTestId('specific')).toBeInTheDocument();
+      expect(menu.querySelectorAll('svg')).toHaveLength(1);
+    });
+
+    it('removes the icon with startIcon={false}', async () => {
+      render(
+        <Menu label="Actions">
+          <Menu.Item tone="danger" startIcon={false}>
+            Delete
+          </Menu.Item>
+        </Menu>,
+      );
+      const menu = await open();
+
+      expect(menu.querySelector('svg')).toBeNull();
+    });
   });
 });

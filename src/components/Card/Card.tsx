@@ -7,17 +7,11 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react';
-import {
-  CheckCircleIcon,
-  InfoIcon,
-  SparkleIcon,
-  WarningIcon,
-  XCircleIcon,
-} from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { toneIcon } from '../../internal/toneIcons';
 import styles from './Card.module.scss';
 
-export type CardTone = 'neutral' | 'primary' | 'info' | 'success' | 'warning' | 'danger';
+export type CardTone = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type CardVariant = 'solid' | 'outline';
 export type CardPadding = 'sm' | 'md' | 'lg';
 export type CardElement = 'div' | 'article' | 'section';
@@ -55,9 +49,9 @@ interface CardBaseProps {
 interface CardNeutralProps extends CardBaseProps {
   /**
    * The meaning of the card, as a color: the border takes the tone, the top of the card gets a
-   * light tint of it (lighter in `outline`) and a tone icon sits in the top-right corner.
-   * `neutral` has no meaning, and no icon. Pair a status tone with a title that says the same
-   * thing: color alone does not carry meaning.
+   * light tint of it (lighter in `outline`) and a status tone's icon sits in the top-right
+   * corner. `neutral` has no meaning and `accent` no status, so neither has an icon. Pair a
+   * status tone with a title that says the same thing: color alone does not carry meaning.
    * @default 'neutral'
    */
   tone?: 'neutral';
@@ -67,17 +61,18 @@ interface CardNeutralProps extends CardBaseProps {
 interface CardToneProps extends CardBaseProps {
   /**
    * The meaning of the card, as a color: the border takes the tone, the top of the card gets a
-   * light tint of it (lighter in `outline`) and a tone icon sits in the top-right corner.
-   * `neutral` has no meaning, and no icon. Pair a status tone with a title that says the same
-   * thing: color alone does not carry meaning.
+   * light tint of it (lighter in `outline`) and a status tone's icon sits in the top-right
+   * corner. `neutral` has no meaning and `accent` no status, so neither has an icon. Pair a
+   * status tone with a title that says the same thing: color alone does not carry meaning.
    * @default 'neutral'
    */
   tone: CardStatusTone;
   /**
-   * Decorative icon in the top-right corner, in the tone's color, behind the text. Only with a
-   * tone other than `neutral`. Defaults to the tone's icon (a warning triangle for `warning`…);
-   * pass another element to replace it, such as `<LockIcon />`, or `false` to remove it. Hidden
-   * when `Card.Header` has an `end` slot, which takes its corner.
+   * Decorative icon in the top-right corner, in the tone's color, behind the text. Defaults to
+   * the status tone's icon (a warning triangle for `warning`, a cross for `danger`…); `accent`
+   * has none, being a brand highlight rather than a status. Pass another element to replace it, such as
+   * `<LockIcon />`, or `false` to remove it. Hidden when `Card.Header` has an `end` slot, which
+   * takes its corner.
    */
   icon?: ReactElement | false;
 }
@@ -141,14 +136,6 @@ interface CardContextValue {
 
 const CardContext = createContext<CardContextValue | null>(null);
 
-const toneIcons: Record<CardStatusTone, ReactElement> = {
-  primary: <SparkleIcon />,
-  info: <InfoIcon />,
-  success: <CheckCircleIcon />,
-  warning: <WarningIcon />,
-  danger: <XCircleIcon />,
-};
-
 /**
  * A flat panel that groups related content: a header (title and
  * description), a body and a footer set apart by a line, each optional. A status `tone` colors
@@ -174,8 +161,9 @@ export function Card({
   children,
 }: CardProps) {
   const titleId = useId();
-  // The tone's icon by default; false removes it. A neutral card has none.
-  const cornerIcon = tone === 'neutral' || icon === false ? undefined : (icon ?? toneIcons[tone]);
+  // The status tone's icon by default; false removes it. Neutral and accent have none: neither
+  // states anything the icon could repeat.
+  const cornerIcon = icon === false ? undefined : (icon ?? toneIcon(tone));
   const [hasTitle, setHasTitle] = useState(false);
   // A generic div cannot be named; an article or a section is named by its title
   const labelledBy = Element !== 'div' && hasTitle ? titleId : undefined;

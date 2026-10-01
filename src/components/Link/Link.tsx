@@ -4,7 +4,7 @@ import { useLinkComponent } from '../../provider/RelievoProvider';
 import { IconSlot } from '../../internal/IconSlot';
 import styles from './Link.module.scss';
 
-export type LinkTone = 'primary' | 'neutral';
+export type LinkTone = 'accent' | 'neutral';
 
 type LockedProps = 'className' | 'style';
 
@@ -23,9 +23,9 @@ export interface LinkProps extends Omit<
    */
   children?: ReactNode;
   /**
-   * The color of the link: `primary` is the brand color, `neutral` the text color, for a link in
+   * The color of the link: `accent` is the brand color, `neutral` the text color, for a link in
    * a place that is already busy. Both are underlined, since color alone may not mark a link.
-   * @default 'primary'
+   * @default 'accent'
    */
   tone?: LinkTone;
   /**
@@ -49,7 +49,7 @@ export interface LinkProps extends Omit<
  * For a link that acts as a control — a row of actions, an icon and a label — use
  * `Button variant="link"`, which has a control's height and spacing.
  */
-export function Link({ href, children, tone = 'primary', external = false, ...rest }: LinkProps) {
+export function Link({ href, children, tone = 'accent', external = false, ...rest }: LinkProps) {
   const LinkComponent = useLinkComponent();
 
   return (

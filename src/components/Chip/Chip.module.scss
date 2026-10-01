@@ -2,7 +2,7 @@
 @use '../../styles/icons';
 @use '../../styles/typography';
 
-$tones: neutral, primary, info, success, warning, danger;
+$tones: neutral, accent, info, success, warning, danger;
 
 $sizes: (
   xs: (
@@ -40,11 +40,14 @@ $sizes: (
 
   display: inline-flex;
   align-items: center;
+  // Centered like a Button, for a chip stretched wider than its content (a grid cell)
+  justify-content: center;
   gap: 0.25em;
   box-sizing: border-box;
   margin: 0;
   border: 1px solid var(--chip-border);
-  border-radius: var(--rv-radius-full);
+  // Nearly rectangular: a chip is not a button, whose shape is the pill
+  border-radius: var(--rv-radius-md);
   background: var(--chip-bg);
   color: var(--chip-fg);
   font-family: var(--rv-font-family);
@@ -81,10 +84,15 @@ $sizes: (
     opacity: 0.6;
   }
 
-  // Selectable chips can be pressed, so they are raised like buttons; once selected, they are
-  // pressed in. Static chips are information: they stay flat (see the relief rule in AGENTS.md).
+  // Selectable chips can be pressed, so they are lifted off the page: a static chip's look, with a
+  // crisp shadow in the border's color under it and a soft drop shadow. The colored shadow is what
+  // shows in the dark theme, where a black shadow vanishes. Pressed, and once selected, the chip
+  // drops back onto the page. Static chips are information: flat (see the relief rule in
+  // AGENTS.md).
   &.selectable {
-    box-shadow: var(--rv-shadow-raised-sm);
+    box-shadow:
+      0 2px 0 var(--chip-border),
+      var(--rv-shadow-drop);
     cursor: pointer;
     user-select: none;
 
@@ -97,23 +105,25 @@ $sizes: (
       --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 74%);
     }
 
-    // Selected: pressed in, and a thicker, full-strength ring. The ring carries the selection
-    // without relying on color (WCAG 1.4.1): 1px border + 1px inset ring, so the size does not
-    // change. It reaches 4.5:1 on the background (non-text needs 3:1).
+    &:active:not([data-disabled]):not([data-pressed]) {
+      box-shadow: none;
+    }
+
+    // Selected: back on the page, with a thicker, full-strength ring. The ring carries the
+    // selection without relying on color (WCAG 1.4.1): 1px border + 1px inset ring, so the size
+    // does not change. It reaches 4.5:1 on the background (non-text needs 3:1).
     &[data-pressed] {
       --chip-bg: color-mix(in oklab, var(--chip-tint), transparent 68%);
       --chip-border: var(--chip-text);
 
-      box-shadow:
-        inset 0 0 0 1px var(--chip-text),
-        var(--rv-shadow-pressed-sm);
+      box-shadow: inset 0 0 0 1px var(--chip-text);
     }
 
     // A neutral chip has no meaning of its own: once selected, it takes the brand color.
     // Explicit tones keep their color when selected.
     &[data-tone='neutral'][data-pressed] {
-      --chip-tint: var(--rv-color-primary-tint);
-      --chip-text: var(--rv-color-primary-text);
+      --chip-tint: var(--rv-color-accent-tint);
+      --chip-text: var(--rv-color-accent-text);
     }
 
     &[data-variant='outline']:hover:not([data-disabled]) {

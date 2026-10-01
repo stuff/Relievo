@@ -5,7 +5,7 @@ Nothing here is decided unless stated: check with the maintainer before starting
 
 ## Next steps
 
-- **App-chosen colors**: primary and background as seeds, everything else derived with a fixed
+- **App-chosen colors**: accent and background as seeds, everything else derived with a fixed
   lightness per role. Full plan and inventory in `docs/theming.md`.
 
 ## Asked for by the cv app
@@ -33,13 +33,10 @@ mockup before building.
   (150ms, 250ms): move them to the tokens.
 - **Icon-only Button**: square, with a required `aria-label`.
 - **Removable chip**: an `onRemove` prop rendering an accessible remove button inside the chip.
-- **Button `tone`**: Button's `variant="primary"` predates the common `tone` prop; aligning it
-  (`<Button tone="primary">`, `tone="danger"` for destructive actions) would make every component
-  follow the same rule.
 
 ## Design consistency (from the Overview story review)
 
-- **Secondary button in dark theme** barely stands out from a card: dark gray on dark gray, only
+- **Neutral button in dark theme** barely stands out from a card: dark gray on dark gray, only
   the relief separates them.
 - **One type scale, applied on purpose**: sizes were picked per component and they collide when
   components are nested. In one `Alert` (body text `sm`) holding a `Checkbox` (label `md`) and a
@@ -53,7 +50,7 @@ mockup before building.
   recommended contrast. Measure it and darken if needed.
 - **Button `lg` label** sits half a pixel high with Geist (rounds to 1px): adjusting its font size
   could make the math land on whole pixels.
-- **`primary` and `success`** are both green; shifting success toward teal would separate them.
+- **`accent` and `success`** are both green; shifting success toward teal would separate them.
 
 ## Typography and loading
 

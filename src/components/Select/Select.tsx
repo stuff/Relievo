@@ -3,6 +3,7 @@ import { Field } from '@base-ui/react/field';
 import { Select as BaseSelect } from '@base-ui/react/select';
 import { CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { useInheritedTheme } from '../../internal/useInheritedTheme';
 import styles from './Select.module.scss';
 
 interface SelectBaseProps {
@@ -161,9 +162,10 @@ function collectItems(children: ReactNode, items: Record<string, ReactNode> = {}
 }
 
 /**
- * A single choice among a long list, such as a country or a category: a field that opens a list
- * of options. The field is carved like an Input (a value goes here); the list floats above the
- * page. Keyboard: arrows move, Enter chooses, typing jumps to an option.
+ * A single choice among a long list, such as a country or a category: a button that opens a list
+ * of options. The trigger is raised like a Button (it can be pressed, and stays pressed while the
+ * list is open), with the chevron on an accent cap; the list floats above the page. Keyboard:
+ * arrows move, Enter chooses, typing jumps to an option.
  *
  * Options go as `Select.Item` children, grouped under a title with `Select.Group` if needed, or as
  * an array with `options` for a simple list.
@@ -186,6 +188,7 @@ export function Select({
   options,
   ...rootProps
 }: SelectProps) {
+  const { anchorRef, positionerRef } = useInheritedTheme();
   const items = options
     ? options.map((option) => (
         <SelectItem key={option.value} value={option.value} disabled={option.disabled}>
@@ -201,7 +204,7 @@ export function Select({
         {label}
       </Field.Label>
       <BaseSelect.Root<string> {...rootProps} disabled={disabled} items={collectItems(items)}>
-        <BaseSelect.Trigger className={styles.trigger} style={undefined}>
+        <BaseSelect.Trigger ref={anchorRef} className={styles.trigger} style={undefined}>
           <IconSlot icon={startIcon} className={styles.icon} />
           <BaseSelect.Value className={styles.value} placeholder={placeholder} />
           <BaseSelect.Icon className={styles.caret}>
@@ -210,6 +213,7 @@ export function Select({
         </BaseSelect.Trigger>
         <BaseSelect.Portal>
           <BaseSelect.Positioner
+            ref={positionerRef}
             className={styles.positioner}
             alignItemWithTrigger={false}
             sideOffset={4}

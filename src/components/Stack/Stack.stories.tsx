@@ -7,7 +7,7 @@ import { Stack } from './Stack';
 const item: CSSProperties = {
   padding: 'var(--rv-space-2) var(--rv-space-3)',
   borderRadius: 'var(--rv-radius-sm)',
-  background: 'color-mix(in oklab, var(--rv-color-primary-tint), transparent 80%)',
+  background: 'color-mix(in oklab, var(--rv-color-accent-tint), transparent 80%)',
   color: 'var(--rv-color-text)',
   fontFamily: 'var(--rv-font-family)',
 };

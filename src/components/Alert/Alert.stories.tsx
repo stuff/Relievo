@@ -71,16 +71,14 @@ export const WithContent: Story = {
         </p>
         <Checkbox label="Replace the version on file with this one" />
         <div>
-          <Button variant="secondary" size="sm">
-            Add anyway
-          </Button>
+          <Button size="sm">Add anyway</Button>
         </div>
       </>
     ),
   },
 };
 
-/** A `Link` inside the message takes the alert's tone, not its own default primary color. */
+/** A `Link` inside the message takes the alert's tone, not its own default accent color. */
 export const WithLink: Story = {
   render: (args) => (
     <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
@@ -118,7 +116,7 @@ export const Dismissible: Story = {
         34 offers scored again, 3 verdicts changed.
       </Alert>
     ) : (
-      <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>
+      <Button size="sm" onClick={() => setOpen(true)}>
         Show it again
       </Button>
     );
@@ -136,7 +134,7 @@ export const Live: Story = {
     return (
       <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
         <div>
-          <Button variant="secondary" size="sm" onClick={() => setFailures((n) => n + 1)}>
+          <Button size="sm" onClick={() => setFailures((n) => n + 1)}>
             Save
           </Button>
         </div>

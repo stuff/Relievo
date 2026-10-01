@@ -36,7 +36,7 @@ export const InAnInput: Story = {
 /** As `startIcon`, in place of a button's usual icon while its action runs. */
 export const InAButton: Story = {
   render: () => (
-    <Button variant="secondary" startIcon={<Spinner />} disabled>
+    <Button startIcon={<Spinner />} disabled>
       Loading…
     </Button>
   ),

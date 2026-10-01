@@ -7,20 +7,20 @@
 // downlevel light-dark() in a way that resolves on :root only, which breaks subtree overrides.
 
 $light-palette: (
-  primary: #45824d,
-  on-primary: #ffffffe8,
-  // Primary as text on the background, and on its tint (chips)
-  primary-text: color-mix(in oklab, var(--rv-color-primary), black 35%),
+  accent: #45824d,
+  on-accent: #ffffffe8,
+  // Accent as text on the background, and on its tint (chips)
+  accent-text: color-mix(in oklab, var(--rv-color-accent), black 35%),
   background: #dad6c3,
   surface: #f3f0e4,
   surface-hover: rgba(0, 0, 0, 0.15),
   text: rgba(0, 0, 0, 0.7),
   border: color-mix(in oklab, var(--rv-color-background), black 12%),
-  focus-ring: var(--rv-color-primary),
+  focus-ring: var(--rv-color-accent),
   // Tones: <tone>-tint is a vivid color for tinted backgrounds, always used transparent (20–32%).
   // <tone>-text is the tone as text or border: 4.5:1 on the background, the surface, and over
   // its tint up to 32% on either.
-  primary-tint: var(--rv-color-primary),
+  accent-tint: var(--rv-color-accent),
   neutral-tint: #8a8272,
   info-tint: #2b6fd6,
   success-tint: #2e9a5a,
@@ -41,14 +41,23 @@ $light-palette: (
   highlight: white,
   // Text fields: near white, so they stand out from the surface as the place for a value
   field: color-mix(in oklab, var(--rv-color-surface), white 75%),
+  // Floating layers (a select's list, a menu): as light as the fields, so a layer above the page is
+  // the lightest thing on it, and the row under the pointer
+  floating: color-mix(in oklab, var(--rv-color-surface), white 75%),
+  floating-hover: color-mix(in oklab, var(--rv-color-text), transparent 92%),
+  // A Card's fill (and a framed Tabs panel's): white at 25% over whatever is behind it, so it is
+  // lighter than the page without being as light as the surface, and the neutral buttons, which
+  // are a sheen over the surface, stand out of it. The page shows through: it follows the
+  // background the app chooses. The text keeps 5.2:1 on it (muted, on the default background).
+  card: color-mix(in oklab, white, transparent 75%),
 );
 
 $dark-palette: (
-  primary: #305836,
-  on-primary: rgba(255, 255, 255, 0.8),
-  // Primary as text on the background, and on its tint (chips). A saturated green: lightening
-  // the dull primary with white would turn it gray.
-  primary-text: #9ccfa3,
+  accent: #305836,
+  on-accent: rgba(255, 255, 255, 0.8),
+  // Accent as text on the background, and on its tint (chips). A saturated green: lightening
+  // the dull accent with white would turn it gray.
+  accent-text: #9ccfa3,
   background: rgb(23, 19, 19),
   surface: rgb(35, 28, 28),
   surface-hover: rgba(255, 255, 255, 0.05),
@@ -56,9 +65,9 @@ $dark-palette: (
   // border: color-mix(in oklab, var(--rv-color-background), white 12%),
   border: rgba(255, 255, 255, 0.2),
   // Lightened so the ring stays visible against the dark background
-  focus-ring: color-mix(in oklab, var(--rv-color-primary), white 35%),
-  // Tones: see the light palette. The primary tint is brighter than the dull dark primary.
-  primary-tint: #5fae6a,
+  focus-ring: color-mix(in oklab, var(--rv-color-accent), white 35%),
+  // Tones: see the light palette. The accent tint is brighter than the dull dark accent.
+  accent-tint: #5fae6a,
   neutral-tint: #a8a097,
   info-tint: #5b9cf0,
   success-tint: #4fc07f,
@@ -78,6 +87,11 @@ $dark-palette: (
   highlight: color-mix(in oklab, var(--rv-color-background), white 30%),
   // Text fields: the page background, darker than the surface, so they sink below it
   field: var(--rv-color-background),
+  // Floating layers: the surface, already the lightest layer in dark (see the light palette)
+  floating: var(--rv-color-surface),
+  floating-hover: rgba(255, 255, 255, 0.05),
+  // A Card's fill: the surface (see the light palette)
+  card: var(--rv-color-surface),
 );
 
 @each $name in map.keys($light-palette) {
@@ -94,18 +108,18 @@ $dark-palette: (
   }
 
   // Relief tells what can be pressed (see AGENTS.md):
-  // - raised: buttons (--rv-shadow-raised) and selectable chips (--rv-shadow-raised-sm);
-  // - pressed: a pushed button (--rv-shadow-pressed) or a selected chip (--rv-shadow-pressed-sm);
+  // - raised: buttons (--rv-shadow-raised), small controls (--rv-shadow-raised-sm), selectable chips
+  //   (a shadow in their border's color and --rv-shadow-drop);
+  // - pressed: a pushed button (--rv-shadow-pressed) or small control (--rv-shadow-pressed-sm);
   // - carved: text fields (--rv-shadow-inset, --rv-field-depth);
-  // - floating: layers above the page, such as a select's list (--rv-shadow-floating);
+  // - floating: layers above the page, such as a select's list (--rv-shadow-floating,
+  //   --rv-color-floating);
   // - flat: everything else, including static chips.
   // Values are redeclared with each palette so var() resolves against that scope's colors.
 
-  // Primary button gradient (top / bottom stop): hover lightens
-  --rv-color-primary-top: color-mix(in oklab, var(--rv-color-primary), white 5%);
-  --rv-color-primary-bottom: color-mix(in oklab, var(--rv-color-primary), black 20%);
-  --rv-color-primary-top-hover: color-mix(in oklab, var(--rv-color-primary), white 12%);
-  --rv-color-primary-bottom-hover: color-mix(in oklab, var(--rv-color-primary), black 14%);
+  // Accent button gradient (top / bottom stop)
+  --rv-color-accent-top: color-mix(in oklab, var(--rv-color-accent), white 5%);
+  --rv-color-accent-bottom: color-mix(in oklab, var(--rv-color-accent), black 20%);
 
   // Secondary text: helper texts, descriptions. As muted as 4.5:1 allows, with some margin: 5:1 on
   // the light background (the worst case; 4.4:1 at 20%), 5.4:1 on the light surface, 5.6:1+ in dark
@@ -121,13 +135,17 @@ $dark-palette: (
   --rv-shadow-pressed: inset 1px 1px 2px
     color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
 
+  // A soft drop shadow straight down: what lifts a selectable chip off the page, under its colored
+  // shadow. Barely visible in dark, where the colored shadow does the work.
+  --rv-shadow-drop: 0 3px 5px color-mix(in oklab, var(--rv-color-shadow), transparent 40%);
+
   @if $scheme == dark {
     // Dark: a strong highlight and a thin lit top edge carry the relief
     $lit-edge: inset 0 1px 0 color-mix(in oklab, white, transparent 88%);
 
-    // Secondary button gradient, over the surface. Milder than in light: the dark surface is
+    // Neutral button gradient, over the surface. Milder than in light: the dark surface is
     // already near black, so the same mix used in light would crush the bottom stop to black and
-    // read as a harsh shadow instead of the gentle sheen the primary button gets.
+    // read as a harsh shadow instead of the gentle sheen the accent button gets.
     --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 8%);
     --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 4%);
     --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 18%);
@@ -150,7 +168,7 @@ $dark-palette: (
     // Floating: a layer above the page (a select's list), a deep shadow and the lit top edge
     --rv-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
   } @else {
-    // Secondary button gradient, over the surface
+    // Neutral button gradient, over the surface
     --rv-color-sheen-top: color-mix(in oklab, var(--rv-color-surface), white 15%);
     --rv-color-sheen-bottom: color-mix(in oklab, var(--rv-color-surface), black 10%);
     --rv-color-sheen-top-hover: color-mix(in oklab, var(--rv-color-surface), white 25%);

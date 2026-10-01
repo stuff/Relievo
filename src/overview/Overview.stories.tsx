@@ -4,14 +4,12 @@ import {
   CheckCircleIcon,
   FolderIcon,
   FunnelIcon,
-  InfoIcon,
   ListIcon,
   MagnifyingGlassIcon,
   PencilSimpleIcon,
   PlusIcon,
   TrashIcon,
   WarningIcon,
-  XCircleIcon,
   XIcon,
 } from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -58,29 +56,12 @@ const suppliers = [
   { value: 'tannery', label: 'Old Tannery' },
 ];
 
+// No icon on the status chips: the tone brings its own (see "Common props: tone" in AGENTS.md).
 const products = [
-  {
-    name: 'Linen shirt',
-    price: '49 €',
-    status: 'Published',
-    tone: 'success',
-    icon: <CheckCircleIcon />,
-  },
-  { name: 'Wool scarf', price: '35 €', status: 'In review', tone: 'info', icon: <InfoIcon /> },
-  {
-    name: 'Canvas tote',
-    price: '19 €',
-    status: 'Low stock',
-    tone: 'warning',
-    icon: <WarningIcon />,
-  },
-  {
-    name: 'Leather boots',
-    price: '189 €',
-    status: 'Sync failed',
-    tone: 'danger',
-    icon: <XCircleIcon />,
-  },
+  { name: 'Linen shirt', price: '49 €', status: 'Published', tone: 'success' },
+  { name: 'Wool scarf', price: '35 €', status: 'In review', tone: 'info' },
+  { name: 'Canvas tote', price: '19 €', status: 'Low stock', tone: 'warning' },
+  { name: 'Leather boots', price: '189 €', status: 'Sync failed', tone: 'danger' },
 ] as const;
 
 function Overview() {
@@ -107,9 +88,7 @@ function Overview() {
         </Card.Header>
         <Card.Footer>
           <ButtonGroup>
-            <Button variant="secondary" size="sm">
-              Review
-            </Button>
+            <Button size="sm">Review</Button>
             <Button variant="link" size="sm">
               Dismiss
             </Button>
@@ -117,8 +96,8 @@ function Overview() {
         </Card.Footer>
       </Card>
 
-      {/* Tabs over the list: the rail is a wide secondary button, the current tab the
-          primary fill. Its panel holds the card below. */}
+      {/* Tabs over the list: the rail is a wide neutral button, the current tab the
+          accent fill. Its panel holds the card below. */}
       <Tabs label="Products" defaultValue="all">
         <Tabs.List>
           <Tabs.Item value="all" startIcon={<ListIcon />}>
@@ -158,11 +137,10 @@ function Overview() {
                       ) : undefined
                     }
                   />
-                  <Button variant="secondary" startIcon={<FunnelIcon />}>
-                    Filters
-                  </Button>
+                  <Button startIcon={<FunnelIcon />}>Filters</Button>
                   {/* Spinner replaces the usual icon while the action it starts is running */}
                   <Button
+                    tone="accent"
                     startIcon={saving ? <Spinner /> : <PlusIcon />}
                     disabled={saving}
                     onClick={() => {
@@ -233,7 +211,7 @@ function Overview() {
                         {product.price}
                       </span>
                       <span style={{ width: '8.5rem' }}>
-                        <Chip tone={product.tone} size="sm" startIcon={product.icon}>
+                        <Chip tone={product.tone} size="sm">
                           {product.status}
                         </Chip>
                       </span>
@@ -301,7 +279,7 @@ function Overview() {
                   Tags
                 </span>
                 <div style={row}>
-                  <Chip tone="primary">New</Chip>
+                  <Chip tone="accent">New</Chip>
                   <Chip>Summer</Chip>
                   <Chip variant="outline">Organic</Chip>
                   <Chip disabled>Archived</Chip>
@@ -349,8 +327,8 @@ function Overview() {
         <Card.Footer>
           <ButtonGroup>
             <Button variant="link">Cancel</Button>
-            <Button variant="secondary">Save draft</Button>
-            <Button>Publish</Button>
+            <Button>Save draft</Button>
+            <Button tone="accent">Publish</Button>
           </ButtonGroup>
         </Card.Footer>
       </Card>
@@ -363,17 +341,15 @@ function Overview() {
           <div style={stack}>
             {(['sm', 'md', 'lg'] as const).map((size) => (
               <div key={size} style={row}>
-                <Button size={size} startIcon={<PlusIcon />}>
+                <Button tone="accent" size={size} startIcon={<PlusIcon />}>
                   Button {size}
                 </Button>
-                <Button size={size} variant="secondary">
-                  Secondary
-                </Button>
+                <Button size={size}>Neutral</Button>
                 <Segmented label={`View (${size})`} size={size} defaultValue="grid">
                   <Segmented.Item value="list">List</Segmented.Item>
                   <Segmented.Item value="grid">Grid</Segmented.Item>
                 </Segmented>
-                <Chip size={size} tone="primary">
+                <Chip size={size} tone="accent">
                   Chip {size}
                 </Chip>
                 {size === 'md' && (

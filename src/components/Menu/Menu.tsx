@@ -2,6 +2,8 @@ import type { ReactElement, ReactNode } from 'react';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { CaretDownIcon, CaretRightIcon, CheckIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { useInheritedTheme } from '../../internal/useInheritedTheme';
+import { toneIcon } from '../../internal/toneIcons';
 import { useLinkComponent } from '../../provider/RelievoProvider';
 import { Button, type ButtonSize } from '../Button';
 import styles from './Menu.module.scss';
@@ -62,7 +64,14 @@ interface MenuItemContentProps {
   children?: ReactNode;
 }
 
-export interface MenuItemProps extends MenuItemContentProps {
+export interface MenuItemProps extends Omit<MenuItemContentProps, 'startIcon'> {
+  /**
+   * Icon before the label, such as `<PencilSimpleIcon />`. Decorative. A `danger` item defaults
+   * to the tone's cross, so the color is never alone in saying the action is destructive; pass
+   * an element to replace it with something more specific, such as `<TrashIcon />`, or `false`
+   * to remove it.
+   */
+  startIcon?: ReactElement | false;
   /**
    * Called when the item is chosen, by pointer or keyboard. The menu then closes.
    */
@@ -72,8 +81,9 @@ export interface MenuItemProps extends MenuItemContentProps {
    */
   href?: string;
   /**
-   * The meaning of the item, as a color: `danger` for a destructive action, such as Delete.
-   * Pair it with a label that says so: color alone does not carry meaning.
+   * The meaning of the item, as a color: `danger` for a destructive action, such as Delete. It
+   * comes with the tone's icon, and its label should say so too: color alone does not carry
+   * meaning.
    * @default 'neutral'
    */
   tone?: MenuItemTone;
@@ -189,10 +199,19 @@ function ItemContent({ startIcon, endIcon, children }: MenuItemContentProps) {
 }
 
 // The floating list, shared by the menu and its submenus
-function Popup({ submenu = false, children }: { submenu?: boolean; children?: ReactNode }) {
+function Popup({
+  submenu = false,
+  positionerRef,
+  children,
+}: {
+  submenu?: boolean;
+  positionerRef: (positioner: HTMLElement | null) => void;
+  children?: ReactNode;
+}) {
   return (
     <BaseMenu.Portal>
       <BaseMenu.Positioner
+        ref={positionerRef}
         className={styles.positioner}
         sideOffset={submenu ? 0 : 4}
         alignOffset={submenu ? -5 : 0}
@@ -205,7 +224,7 @@ function Popup({ submenu = false, children }: { submenu?: boolean; children?: Re
 }
 
 /**
- * A secondary button that opens a list of actions: items with an optional icon, groups under a
+ * A neutral button that opens a list of actions: items with an optional icon, groups under a
  * title, separators, submenus, and items that can be ticked. The list floats above the page.
  * Keyboard: arrows move, Enter chooses, the right arrow opens a submenu, Escape closes.
  *
@@ -228,13 +247,15 @@ export function Menu({
   children,
   ...rootProps
 }: MenuProps) {
+  const { anchorRef, positionerRef } = useInheritedTheme();
+
   return (
     <BaseMenu.Root {...rootProps}>
       <BaseMenu.Trigger
+        ref={anchorRef}
         disabled={disabled}
         render={
           <Button
-            variant="secondary"
             size={size}
             startIcon={startIcon}
             endIcon={<CaretDownIcon />}
@@ -244,7 +265,7 @@ export function Menu({
       >
         {label}
       </BaseMenu.Trigger>
-      <Popup>{children}</Popup>
+      <Popup positionerRef={positionerRef}>{children}</Popup>
     </BaseMenu.Root>
   );
 }
@@ -262,8 +283,11 @@ function MenuItem({
   // Called without the click event, as its type says: a server action passed as onSelect would
   // otherwise receive the event and fail to serialize it
   const select = onSelect && (() => onSelect());
+  // The tone's icon by default; false removes it. A more specific icon, such as a bin for Delete,
+  // says more than the generic cross, so an explicit one wins.
+  const leadingIcon = startIcon === false ? undefined : (startIcon ?? toneIcon(tone));
   const content = (
-    <ItemContent startIcon={startIcon} endIcon={endIcon}>
+    <ItemContent startIcon={leadingIcon} endIcon={endIcon}>
       {children}
     </ItemContent>
   );
@@ -315,14 +339,23 @@ function MenuSeparator() {
 }
 
 function MenuSubmenu({ label, startIcon, disabled = false, children }: MenuSubmenuProps) {
+  const { anchorRef, positionerRef } = useInheritedTheme();
+
   return (
     <BaseMenu.SubmenuRoot>
-      <BaseMenu.SubmenuTrigger disabled={disabled} className={styles.item} style={undefined}>
+      <BaseMenu.SubmenuTrigger
+        ref={anchorRef}
+        disabled={disabled}
+        className={styles.item}
+        style={undefined}
+      >
         <ItemContent startIcon={startIcon} endIcon={<CaretRightIcon />}>
           {label}
         </ItemContent>
       </BaseMenu.SubmenuTrigger>
-      <Popup submenu>{children}</Popup>
+      <Popup submenu positionerRef={positionerRef}>
+        {children}
+      </Popup>
     </BaseMenu.SubmenuRoot>
   );
 }

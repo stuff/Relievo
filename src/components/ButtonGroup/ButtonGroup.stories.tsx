@@ -12,8 +12,8 @@ const meta = {
   },
   render: (args) => (
     <ButtonGroup {...args}>
-      <Button variant="secondary">Cancel</Button>
-      <Button>Save</Button>
+      <Button>Cancel</Button>
+      <Button tone="accent">Save</Button>
     </ButtonGroup>
   ),
 } satisfies Meta<typeof ButtonGroup>;
@@ -27,13 +27,11 @@ export const WithIcons: Story = {
   args: { label: 'Document actions' },
   render: (args) => (
     <ButtonGroup {...args}>
-      <Button startIcon={<PlusIcon />}>New</Button>
-      <Button variant="secondary" startIcon={<DownloadSimpleIcon />}>
-        Export
+      <Button tone="accent" startIcon={<PlusIcon />}>
+        New
       </Button>
-      <Button variant="secondary" startIcon={<ShareNetworkIcon />}>
-        Share
-      </Button>
+      <Button startIcon={<DownloadSimpleIcon />}>Export</Button>
+      <Button startIcon={<ShareNetworkIcon />}>Share</Button>
       <Button variant="link">More</Button>
     </ButtonGroup>
   ),
@@ -50,9 +48,9 @@ export const SingleLine: Story = {
       }}
     >
       <ButtonGroup {...args}>
-        <Button variant="secondary">Cancel</Button>
-        <Button variant="secondary">Save draft</Button>
-        <Button>Publish</Button>
+        <Button>Cancel</Button>
+        <Button>Save draft</Button>
+        <Button tone="accent">Publish</Button>
       </ButtonGroup>
     </div>
   ),

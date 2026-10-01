@@ -1,10 +1,12 @@
 import type { ComponentProps, ReactElement, ReactNode } from 'react';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { IconSlot } from '../../internal/IconSlot';
+import { toneIcon } from '../../internal/toneIcons';
 import { useLinkComponent } from '../../provider/RelievoProvider';
 import styles from './Button.module.scss';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'link';
+export type ButtonVariant = 'solid' | 'link';
+export type ButtonTone = 'neutral' | 'accent' | 'info' | 'success' | 'warning' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 // Styling is owned by the design system: className and style are not part of the public API.
@@ -12,11 +14,20 @@ type LockedProps = 'className' | 'style';
 
 interface ButtonOwnProps {
   /**
-   * Visual style. `primary` for the main action, `secondary` for supporting actions,
-   * `link` for low-emphasis actions in text or dense layouts.
-   * @default 'primary'
+   * How the button is drawn. `solid` is a raised button; `link` is text only, for low-emphasis
+   * actions in text or dense layouts.
+   * @default 'solid'
    */
   variant?: ButtonVariant;
+  /**
+   * What the action means. `neutral` for most actions, `accent` for the main action of a screen
+   * (filled with the brand color, one per view), `danger` for a destructive action, `info`,
+   * `success` and `warning` for an action tied to that status. A status tone draws a colored
+   * border and label on the neutral fill, and its icon before the label (see `startIcon`), so the
+   * color is never alone in carrying it.
+   * @default 'neutral'
+   */
+  tone?: ButtonTone;
   /**
    * Height, horizontal padding and font size.
    * @default 'md'
@@ -25,8 +36,12 @@ interface ButtonOwnProps {
   /**
    * Icon before the label, such as `<PlusIcon />` from `@phosphor-icons/react`. The button sets its
    * size and color; the icon is decorative (hidden from screen readers).
+   *
+   * Defaults to the status tone's icon for `info`, `success`, `warning` and `danger`; `neutral`
+   * and `accent` have none. Pass an element to replace it with a more specific one, such as
+   * `<TrashIcon />` for Delete, or `false` to remove it.
    */
-  startIcon?: ReactElement;
+  startIcon?: ReactElement | false;
   /**
    * Icon after the label, such as `<ArrowRightIcon />`. Sized and colored like `startIcon`.
    */
@@ -85,25 +100,32 @@ function Content({
 
 export function Button(props: ButtonProps) {
   const Link = useLinkComponent();
+  // The status tone's icon by default; false removes it. An explicit icon wins: a bin says more
+  // about Delete than the generic cross.
+  const leadingIcon =
+    props.startIcon === false ? undefined : (props.startIcon ?? toneIcon(props.tone ?? 'neutral'));
 
   if (props.href !== undefined) {
     const {
-      variant = 'primary',
+      variant = 'solid',
+      tone = 'neutral',
       size = 'md',
       href,
       disabled = false,
-      startIcon,
+      // Kept out of the DOM props: leadingIcon above resolves it
+      startIcon: _startIcon,
       endIcon,
       children,
       ...linkProps
     } = props;
     const content = (
-      <Content startIcon={startIcon} endIcon={endIcon}>
+      <Content startIcon={leadingIcon} endIcon={endIcon}>
         {children}
       </Content>
     );
     const sharedProps = {
       'data-variant': variant,
+      'data-tone': tone,
       'data-size': size,
       className: styles.button,
       style: undefined,
@@ -131,17 +153,26 @@ export function Button(props: ButtonProps) {
     );
   }
 
-  const { variant = 'primary', size = 'md', startIcon, endIcon, children, ...buttonProps } = props;
+  const {
+    variant = 'solid',
+    tone = 'neutral',
+    size = 'md',
+    startIcon: _startIcon,
+    endIcon,
+    children,
+    ...buttonProps
+  } = props;
 
   return (
     <BaseButton
       {...buttonProps}
       data-variant={variant}
+      data-tone={tone}
       data-size={size}
       className={styles.button}
       style={undefined}
     >
-      <Content startIcon={startIcon} endIcon={endIcon}>
+      <Content startIcon={leadingIcon} endIcon={endIcon}>
         {children}
       </Content>
     </BaseButton>

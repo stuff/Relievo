@@ -102,7 +102,7 @@ $size: map.get($control-sizes, md);
 }
 
 // The end action: a round, icon-only button, 2rem in the 2.5rem pill. Raised, like a small
-// secondary button: it can be pressed (see the relief rule in AGENTS.md).
+// neutral button: it can be pressed (see the relief rule in AGENTS.md).
 .action {
   display: inline-grid;
   flex: none;

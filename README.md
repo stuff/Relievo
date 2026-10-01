@@ -3,9 +3,9 @@
 [![CI](https://github.com/stuff/Relievo/actions/workflows/ci.yml/badge.svg)](https://github.com/stuff/Relievo/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-A React design system with a tactile look: controls stand out in relief, fields are carved into the page, and the state of each control reads from its shape as much as from its color. Built on [Base UI](https://base-ui.com/) (unstyled, accessible primitives), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
+A React design system with a tactile look: what can be pressed (buttons, selects, chips) stands out in relief, fields where a value goes are carved into the page, and the state of each control reads from its shape as much as from its color. Built on [Base UI](https://base-ui.com/) (unstyled, accessible primitives), written in TypeScript, styled with Sass CSS Modules and CSS custom-property tokens, and documented with Storybook.
 
-![Relievo components in the light and dark themes](docs/assets/overview.png)
+![The "All components" story in the light and dark themes: tabs, a product list with filters and actions, and a form with inputs, selects and an error](docs/assets/overview.png)
 
 - **Accessible by construction.** Behaviour and keyboard handling come from Base UI. Text reaches 4.5:1 contrast in both themes, selection never relies on color alone, and every accessibility contract has a test.
 - **Light and dark**, following the OS or set by the app, with no flash on first paint.
@@ -44,7 +44,7 @@ Import the stylesheet once, at the root of your app:
 import { Button } from 'relievo';
 import 'relievo/styles.css';
 
-<Button variant="primary" size="md">Save</Button>;
+<Button tone="accent" size="md">Save</Button>;
 ```
 
 See [Theming](#theming-light--dark) for light and dark mode and [Router links](#router-links) to use your router's link component.
@@ -57,7 +57,7 @@ To browse every component with its props, open the [Storybook](https://stuff.git
 | --- | --- |
 | `Box` | Generic container: padding, margin, optional border, element (`as`) |
 | `Stack` | Children in a column or a row: gap, alignment, separators, wrap, element (`as`, lists included) |
-| `Button` | Actions; `href` renders it as a link; `startIcon` / `endIcon` |
+| `Button` | Actions: `solid` or `link` variant, `tone` (`neutral`, `accent`, status tones); `href` renders it as a link; `startIcon` / `endIcon` |
 | `ButtonGroup` | Related buttons on a single line, with a fixed gap |
 | `Card` | A flat panel grouping related content, with an optional `tone` (and its corner icon) and an `outline` variant: `Card.Header` (`Card.Title`, `Card.Description`), `Card.Body`, `Card.Footer` |
 | `Alert` | A message in the flow of the page (`tone`, `title`, an icon, an optional close button) |
@@ -65,13 +65,13 @@ To browse every component with its props, open the [Storybook](https://stuff.git
 | `Checkbox` | A single yes / no choice, with a mixed state |
 | `Input` | Single-line text field with label, helper text, error, icons, prefix / suffix, an end action (`Input.Action`: clear, show password) or a button beside it |
 | `Textarea` | Multi-line text field, the same carved field as `Input` |
-| `Menu` | A secondary button opening a list of actions: groups, separators, submenus, checkable items |
+| `Menu` | A neutral button opening a list of actions: groups, separators, submenus, checkable items |
 | `Pagination` | Previous / next and page numbers, as buttons or links |
 | `Chip` | Tags and statuses (static), or selectable toggles |
 | `Chip.Group` | Filters: several choices among chips |
 | `Segmented` | A single choice among a few short options (radio group) |
 | `Tabs` | A bar of tabs over the content they show: `Tabs.List`, `Tabs.Item` (icon), `Tabs.Panel` (`plain` or `framed`) |
-| `Select` | A single choice among a long list (`Select.Item` children or an `options` array) |
+| `Select` | A single choice among a long list (`Select.Item` children or an `options` array): a raised button with an accent cap that opens a floating list |
 | `Collapsible` | A section whose content (`children`) shows or hides on click, under its `label` |
 | `Spinner` | An action in progress, as a spinning ring; drop it anywhere an icon is expected, such as `startIcon` |
 | `ThemeProvider`, `useTheme` | Light / dark / system mode |
@@ -161,7 +161,7 @@ Read or change the mode anywhere inside it with `useTheme()`:
 const { mode, resolvedMode, setMode } = useTheme();
 ```
 
-The provider sets `data-theme` on `<html>`, so portalled popups are themed too. In `system` mode it removes the attribute and the CSS follows `prefers-color-scheme`. Render a single provider at the app root. To force a theme for one section, set the attribute directly:
+The provider sets `data-theme` on `<html>`, so portalled popups are themed too. A `Select` or `Menu` list opened inside a section forced with `data-theme` (below) takes that section's theme. In `system` mode it removes the attribute and the CSS follows `prefers-color-scheme`. Render a single provider at the app root. To force a theme for one section, set the attribute directly:
 
 ```html
 <section data-theme="dark">Always dark here</section>
@@ -191,10 +191,10 @@ src/
   components/<Name>/    # component, Sass CSS Module (*.module.scss), stories, tests, index
   theme/                # ThemeProvider and useTheme
   provider/             # RelievoProvider (router link)
-  internal/             # shared internals (IconSlot)
+  internal/             # shared internals (IconSlot, tone icons, useInheritedTheme)
   utils/                # useControllableState
   styles/tokens.scss    # design tokens (--rv-*), light/dark palettes, relief tokens
-  styles/_*.scss        # shared Sass mixins (control sizes, icons, typography, a11y)
+  styles/_*.scss        # shared Sass mixins (control sizes, fields, floating lists, icons, typography, a11y)
   styles/global.scss    # global element styles (html font size, body colors, scroll behavior)
   overview/             # a story using every component together
   test/                 # test setup and mocks

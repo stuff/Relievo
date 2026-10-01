@@ -7,7 +7,7 @@ describe('ButtonGroup', () => {
   it('renders its buttons in a group named by label', () => {
     render(
       <ButtonGroup label="Form actions">
-        <Button variant="secondary">Cancel</Button>
+        <Button>Cancel</Button>
         <Button>Save</Button>
       </ButtonGroup>,
     );

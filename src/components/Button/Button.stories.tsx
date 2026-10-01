@@ -1,8 +1,15 @@
-import { ArrowRightIcon, CaretDownIcon, DownloadSimpleIcon, PlusIcon } from '@phosphor-icons/react';
+import type { CSSProperties } from 'react';
+import {
+  ArrowRightIcon,
+  CaretDownIcon,
+  DownloadSimpleIcon,
+  PlusIcon,
+  TrashIcon,
+} from '@phosphor-icons/react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { LinkComponentProps } from '../../provider';
 import { RelievoProvider } from '../../provider';
-import { Button } from './Button';
+import { Button, type ButtonTone } from './Button';
 
 const meta = {
   title: 'Components/Button',
@@ -16,30 +23,69 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
-  args: { variant: 'primary', children: 'Primary' },
+const tones: ButtonTone[] = ['neutral', 'accent', 'info', 'success', 'warning', 'danger'];
+const row: CSSProperties = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: 'var(--rv-space-3)',
+  alignItems: 'center',
+};
+const capitalize = (tone: string) => tone[0].toUpperCase() + tone.slice(1);
+
+/** The default: a solid neutral button, for most actions. */
+export const Neutral: Story = {
+  args: { children: 'Save draft' },
 };
 
-export const Secondary: Story = {
-  args: { variant: 'secondary', children: 'Secondary' },
+/** The main action of a screen, in the brand color. One per view. */
+export const Accent: Story = {
+  args: { tone: 'accent', children: 'Publish' },
 };
 
+/** Text only, for low-emphasis actions in text or dense layouts. */
 export const Link: Story = {
-  args: { variant: 'link', children: 'Link' },
+  args: { variant: 'link', children: 'Cancel' },
+};
+
+/**
+ * Every tone, solid and as a link. A status tone (`info`, `success`, `warning`, `danger`) keeps the
+ * neutral fill with a border and a label in its color: filled, it would compete with the accent.
+ * It also gets its tone's icon, which `startIcon` replaces (a bin for Delete) or removes (`false`).
+ */
+export const Tones: Story = {
+  render: (args) => (
+    <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
+      {(['solid', 'link'] as const).map((variant) => (
+        <div key={variant} style={row}>
+          {tones.map((tone) => (
+            <Button {...args} key={tone} variant={variant} tone={tone}>
+              {capitalize(tone)}
+            </Button>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 export const Sizes: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
-      <Button {...args} size="sm">
-        Small
-      </Button>
-      <Button {...args} size="md">
-        Medium
-      </Button>
-      <Button {...args} size="lg">
-        Large
-      </Button>
+    <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
+      {(['sm', 'md', 'lg'] as const).map((size) => (
+        <div key={size} style={row}>
+          {tones.map((tone) => (
+            <Button
+              {...args}
+              key={tone}
+              size={size}
+              tone={tone}
+              startIcon={tone === 'neutral' || tone === 'accent' ? <PlusIcon /> : undefined}
+            >
+              {capitalize(tone)}
+            </Button>
+          ))}
+        </div>
+      ))}
     </div>
   ),
 };
@@ -52,19 +98,19 @@ export const Themes: Story = {
           key={theme}
           data-theme={theme}
           style={{
-            display: 'flex',
-            gap: 'var(--rv-space-3)',
+            ...row,
             padding: 'var(--rv-space-4)',
             borderRadius: 'var(--rv-radius-lg)',
             backgroundColor: 'var(--rv-color-background)',
             border: '1px solid var(--rv-color-border)',
           }}
         >
-          <Button {...args} variant="primary">
-            Primary
+          <Button {...args}>Neutral</Button>
+          <Button {...args} tone="accent">
+            Accent
           </Button>
-          <Button {...args} variant="secondary">
-            Secondary
+          <Button {...args} tone="danger">
+            Danger
           </Button>
           <Button {...args} variant="link">
             Link
@@ -77,22 +123,18 @@ export const Themes: Story = {
 
 export const WithIcons: Story = {
   render: (args) => (
-    <div
-      style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--rv-space-3)', alignItems: 'center' }}
-    >
-      <Button {...args} startIcon={<PlusIcon />}>
+    <div style={row}>
+      <Button {...args} tone="accent" startIcon={<PlusIcon />}>
         Add
       </Button>
-      <Button {...args} variant="secondary" endIcon={<ArrowRightIcon />}>
+      <Button {...args} endIcon={<ArrowRightIcon />}>
         Continue
       </Button>
-      <Button
-        {...args}
-        variant="secondary"
-        startIcon={<DownloadSimpleIcon />}
-        endIcon={<CaretDownIcon />}
-      >
+      <Button {...args} startIcon={<DownloadSimpleIcon />} endIcon={<CaretDownIcon />}>
         Export
+      </Button>
+      <Button {...args} tone="danger" startIcon={<TrashIcon />}>
+        Delete
       </Button>
     </div>
   ),
@@ -101,7 +143,7 @@ export const WithIcons: Story = {
 /** Icons follow the button size. */
 export const IconSizes: Story = {
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
+    <div style={row}>
       <Button {...args} size="sm" startIcon={<PlusIcon />}>
         Small
       </Button>
@@ -118,12 +160,16 @@ export const IconSizes: Story = {
 export const Disabled: Story = {
   args: { disabled: true },
   render: (args) => (
-    <div style={{ display: 'flex', gap: 'var(--rv-space-3)', alignItems: 'center' }}>
-      <Button {...args} variant="primary">
-        Primary
+    <div style={row}>
+      <Button {...args}>Neutral</Button>
+      <Button {...args} tone="accent">
+        Accent
       </Button>
-      <Button {...args} variant="secondary">
-        Secondary
+      <Button {...args} tone="danger">
+        Danger
+      </Button>
+      <Button {...args} variant="link">
+        Link
       </Button>
     </div>
   ),

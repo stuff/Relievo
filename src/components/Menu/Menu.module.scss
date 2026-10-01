@@ -16,7 +16,7 @@
 // Items: flat rows with an optional icon on each side
 .item {
   --item-color: var(--rv-color-text);
-  --item-highlight: var(--rv-color-surface-hover);
+  --item-highlight: var(--rv-color-floating-hover);
 
   @include floating.list-item;
 
@@ -72,7 +72,7 @@ $icon-size: 1.125em;
   align-items: center;
   justify-content: center;
   inline-size: 1.125em;
-  color: var(--rv-color-primary-text);
+  color: var(--rv-color-accent-text);
 }
 
 .dot {

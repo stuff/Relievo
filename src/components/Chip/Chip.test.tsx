@@ -235,4 +235,42 @@ describe('Chip.Group', () => {
       expect(chip).toBeDisabled();
     }
   });
+
+  describe('tone icon', () => {
+    it("defaults to the status tone's icon, hidden from assistive technologies", () => {
+      const { container } = render(<Chip tone="danger">Failed</Chip>);
+
+      const slot = container.querySelector('svg')!.parentElement!;
+      expect(slot).toHaveAttribute('aria-hidden', 'true');
+    });
+
+    it('shows no icon on the tones that state nothing', () => {
+      const { container: neutral } = render(<Chip>Draft</Chip>);
+      const { container: accent } = render(<Chip tone="accent">Featured</Chip>);
+
+      expect(neutral.querySelector('svg')).toBeNull();
+      expect(accent.querySelector('svg')).toBeNull();
+    });
+
+    it('lets an explicit startIcon win over the tone, on a filter chip', () => {
+      render(
+        <Chip tone="warning" startIcon={<StarIcon data-testid="star" />}>
+          Flaky
+        </Chip>,
+      );
+
+      expect(screen.getByTestId('star')).toBeInTheDocument();
+      expect(document.querySelectorAll('svg')).toHaveLength(1);
+    });
+
+    it('removes the icon with startIcon={false}', () => {
+      const { container } = render(
+        <Chip tone="success" startIcon={false}>
+          Passed
+        </Chip>,
+      );
+
+      expect(container.querySelector('svg')).toBeNull();
+    });
+  });
 });

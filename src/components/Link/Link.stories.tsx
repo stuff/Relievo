@@ -33,12 +33,12 @@ export const Default: Story = {
   ),
 };
 
-/** `primary` is the brand color, `neutral` the text color for a place that is already busy. */
+/** `accent` is the brand color, `neutral` the text color for a place that is already busy. */
 export const Tones: Story = {
   render: (args) => (
     <div style={{ display: 'grid', gap: 'var(--rv-space-3)' }}>
       <p style={{ margin: 0 }}>
-        Primary: the order holds <Link {...args} tone="primary" /> and two pairs of socks.
+        Accent: the order holds <Link {...args} tone="accent" /> and two pairs of socks.
       </p>
       <p style={{ margin: 0 }}>
         Neutral: the order holds <Link {...args} tone="neutral" /> and two pairs of socks.

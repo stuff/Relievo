@@ -102,11 +102,9 @@ $dark-palette: (
   // - flat: everything else, including static chips.
   // Values are redeclared with each palette so var() resolves against that scope's colors.
 
-  // Accent button gradient (top / bottom stop): hover lightens
+  // Accent button gradient (top / bottom stop)
   --rv-color-accent-top: color-mix(in oklab, var(--rv-color-accent), white 5%);
   --rv-color-accent-bottom: color-mix(in oklab, var(--rv-color-accent), black 20%);
-  --rv-color-accent-top-hover: color-mix(in oklab, var(--rv-color-accent), white 12%);
-  --rv-color-accent-bottom-hover: color-mix(in oklab, var(--rv-color-accent), black 14%);
 
   // Secondary text: helper texts, descriptions. As muted as 4.5:1 allows, with some margin: 5:1 on
   // the light background (the worst case; 4.4:1 at 20%), 5.4:1 on the light surface, 5.6:1+ in dark

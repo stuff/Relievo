@@ -12,13 +12,24 @@ $status-tones: info, success, warning, danger;
   // over the surface, in the text color. --button-ring is the border of a status tone, drawn as an
   // inset shadow in front of the relief so it takes no room: a bordered button is as wide as a
   // neutral one, and keeps its border when pressed.
+  --button-top: var(--rv-color-sheen-top);
+  --button-bottom: var(--rv-color-sheen-bottom);
+  --button-top-end: 25%;
   --button-bg: linear-gradient(
-    var(--rv-color-sheen-top) 0% 25%,
-    var(--rv-color-sheen-bottom) 95% 100%
+    var(--button-top) 0% var(--button-top-end),
+    var(--button-bottom) 95% 100%
   );
+  // Hover pulls the fill toward a color: the label's, so a solid button gets darker where its label
+  // is dark and lighter where it is light, and a status tone is tinted with its own. The accent's
+  // label is white in both themes, which would only wash a dark green out: it is pulled toward the
+  // text color instead, darker in the light theme and lighter in the dark one, like the other tones.
+  --button-hover-to: var(--button-fg);
+  --button-hover-pull: 12%;
   --button-bg-hover: linear-gradient(
-    var(--rv-color-sheen-top-hover) 0% 25%,
-    var(--rv-color-sheen-bottom-hover) 95% 100%
+    color-mix(in oklab, var(--button-top), var(--button-hover-to) var(--button-hover-pull)) 0%
+      var(--button-top-end),
+    color-mix(in oklab, var(--button-bottom), var(--button-hover-to) var(--button-hover-pull)) 95%
+      100%
   );
   --button-fg: var(--rv-color-text);
   --button-ring: #{$flat};
@@ -75,14 +86,11 @@ $status-tones: info, success, warning, danger;
   // with a border in its tint and a label in its text color: filled, it would look like the accent
   // (success is green too) and its label would struggle to reach 4.5:1 (warning).
   &[data-variant='solid'][data-tone='accent'] {
-    --button-bg: linear-gradient(
-      var(--rv-color-accent-top) 0% 5%,
-      var(--rv-color-accent-bottom) 95% 100%
-    );
-    --button-bg-hover: linear-gradient(
-      var(--rv-color-accent-top-hover) 0% 5%,
-      var(--rv-color-accent-bottom-hover) 95% 100%
-    );
+    --button-top: var(--rv-color-accent-top);
+    --button-bottom: var(--rv-color-accent-bottom);
+    --button-top-end: 5%;
+    --button-hover-to: var(--rv-color-text);
+    --button-hover-pull: 16%;
     --button-fg: var(--rv-color-on-accent);
   }
 

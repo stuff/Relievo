@@ -27,7 +27,6 @@ import { Link } from '../components/Link';
 import { Menu } from '../components/Menu';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
-import { Select } from '../components/Select';
 import { Spinner } from '../components/Spinner';
 import { Stack } from '../components/Stack';
 import { Tabs } from '../components/Tabs';
@@ -50,7 +49,13 @@ const row: CSSProperties = {
 
 const stack: CSSProperties = { display: 'grid', gap: 'var(--rv-space-5)' };
 
-// Options as an array, like data from an API (Category above uses Select.Item children)
+const productCategories = [
+  { value: 'clothing', label: 'Clothing' },
+  { value: 'accessories', label: 'Accessories' },
+  { value: 'shoes', label: 'Shoes' },
+  { value: 'bags', label: 'Bags' },
+];
+
 const suppliers = [
   { value: 'atelier', label: 'Atelier Lin' },
   { value: 'nordic', label: 'Nordic Wool' },
@@ -263,13 +268,8 @@ function Overview() {
                 helperText="Shown on the product page."
               />
               <Input label="Price" type="number" defaultValue="49" suffix="€" />
-              <Select label="Category" defaultValue="clothing">
-                <Select.Item value="clothing">Clothing</Select.Item>
-                <Select.Item value="accessories">Accessories</Select.Item>
-                <Select.Item value="shoes">Shoes</Select.Item>
-                <Select.Item value="bags">Bags</Select.Item>
-              </Select>
-              <Select label="Supplier" placeholder="Choose a supplier" options={suppliers} />
+              <ComboBox label="Category" options={productCategories} defaultValue="clothing" />
+              <ComboBox label="Supplier" placeholder="Search a supplier" options={suppliers} />
               <div style={{ gridColumn: '1 / -1' }}>
                 <ComboBox
                   label="Tags"

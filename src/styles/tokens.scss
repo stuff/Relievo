@@ -41,7 +41,7 @@ $light-palette: (
   highlight: white,
   // Text fields: near white, so they stand out from the surface as the place for a value
   field: color-mix(in oklab, var(--rv-color-surface), white 75%),
-  // Floating layers (a select's list, a menu): as light as the fields, so a layer above the page is
+  // Floating layers (a combobox list, a menu): as light as the fields, so a layer above the page is
   // the lightest thing on it, and the row under the pointer
   floating: color-mix(in oklab, var(--rv-color-surface), white 75%),
   floating-hover: color-mix(in oklab, var(--rv-color-text), transparent 92%),
@@ -113,7 +113,7 @@ $dark-palette: (
   //   (a shadow in their border's color and --rv-shadow-drop);
   // - pressed: a pushed button (--rv-shadow-pressed) or small control (--rv-shadow-pressed-sm);
   // - carved: text fields (--rv-shadow-inset, --rv-field-depth);
-  // - floating: layers above the page, such as a select's list (--rv-shadow-floating,
+  // - floating: layers above the page, such as a combobox list (--rv-shadow-floating,
   //   --rv-color-floating);
   // - flat: everything else, including static chips.
   // Values are redeclared with each palette so var() resolves against that scope's colors.
@@ -168,7 +168,7 @@ $dark-palette: (
       color-mix(in oklab, black, transparent 60%),
       transparent 15px
     );
-    // Floating: a layer above the page (a select's list), a deep shadow and the lit top edge
+    // Floating: a layer above the page (a combobox list), a deep shadow and the lit top edge
     --rv-shadow-floating: 0 8px 24px color-mix(in oklab, black, transparent 40%), #{$lit-edge};
   } @else {
     // Neutral button gradient, over the surface
@@ -195,7 +195,7 @@ $dark-palette: (
       color-mix(in oklab, black, transparent 92%),
       transparent 15px
     );
-    // Floating: a layer above the page (a select's list), a soft shadow cast far below it
+    // Floating: a layer above the page (a combobox list), a soft shadow cast far below it
     --rv-shadow-floating:
       0 8px 24px color-mix(in oklab, var(--rv-color-shadow), transparent 65%),
       0 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 70%);
@@ -219,7 +219,7 @@ $dark-palette: (
   --rv-easing-pop: cubic-bezier(0.3, 1.6, 0.5, 1);
   --rv-press-offset: 1px;
 
-  // Layers. A floating layer (a select's list, a menu) is portalled to the end of the page and must
+  // Layers. A floating layer (a combobox list, a menu) is portalled to the end of the page and must
   // cover the page's own raised elements, such as a sticky toolbar: keep the app's z-indexes below.
   --rv-z-floating: 1000;
 

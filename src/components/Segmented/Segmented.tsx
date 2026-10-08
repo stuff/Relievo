@@ -71,7 +71,7 @@ export interface SegmentedItemProps {
  * one value, like an input) where the chosen item stands out; the highlight slides from one item
  * to the next. Arrow keys move and select; screen readers announce radio buttons.
  *
- * For several choices, use `Chip.Group` (filters). For a long list, use a select.
+ * For several choices, use `Chip.Group` (filters). For a long list, use a `ComboBox`.
  *
  * Works uncontrolled or controlled:
  * - **Uncontrolled**: `<Segmented label="Period" defaultValue="week">`.

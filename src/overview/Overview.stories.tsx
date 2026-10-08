@@ -21,6 +21,7 @@ import { Card } from '../components/Card';
 import { Checkbox } from '../components/Checkbox';
 import { Chip } from '../components/Chip';
 import { Collapsible } from '../components/Collapsible';
+import { ComboBox } from '../components/ComboBox';
 import { Input } from '../components/Input';
 import { Link } from '../components/Link';
 import { Menu } from '../components/Menu';
@@ -54,6 +55,15 @@ const suppliers = [
   { value: 'atelier', label: 'Atelier Lin' },
   { value: 'nordic', label: 'Nordic Wool' },
   { value: 'tannery', label: 'Old Tannery' },
+];
+
+const tags = [
+  { value: 'summer', label: 'Summer' },
+  { value: 'linen', label: 'Linen' },
+  { value: 'organic', label: 'Organic' },
+  { value: 'handmade', label: 'Handmade' },
+  { value: 'bestseller', label: 'Bestseller' },
+  { value: 'new', label: 'New in' },
 ];
 
 // No icon on the status chips: the tone brings its own (see "Common props: tone" in AGENTS.md).
@@ -260,6 +270,15 @@ function Overview() {
                 <Select.Item value="bags">Bags</Select.Item>
               </Select>
               <Select label="Supplier" placeholder="Choose a supplier" options={suppliers} />
+              <div style={{ gridColumn: '1 / -1' }}>
+                <ComboBox
+                  label="Tags"
+                  placeholder="Add a tag"
+                  options={tags}
+                  multiple
+                  defaultValue={['summer', 'linen', 'organic']}
+                />
+              </div>
               <Input label="Website" placeholder="acme" prefix="https://" suffix=".com" />
               <Input
                 label="Contact email"

@@ -1,0 +1,306 @@
+@use 'sass:map';
+@use '../../styles/controls' as *;
+@use '../../styles/fields';
+@use '../../styles/floating';
+@use '../../styles/icons';
+@use '../../styles/typography';
+
+// Single size: the medium control size, so one line of the field lines up with a default Button
+// and Input.
+$size: map.get($control-sizes, md);
+$height: map.get($size, height);
+// One line of content: a chip, the input, the start icon. The field's block padding centers it in
+// the control height, so a field with one line is exactly as tall as an Input.
+$line: 1.75rem;
+// The round button, taller than a line: it overflows the line's box by the same amount on both
+// sides, so it stays centered on it without making the field taller
+$trigger: 2rem;
+
+.field {
+  @include fields.field;
+}
+
+.label {
+  @include fields.label;
+}
+
+.helperText {
+  @include fields.helper-text;
+}
+
+// The carved field: the value goes here (see the relief rule in AGENTS.md). One line is the pill
+// of an Input; with chips on several lines, it grows into a rounded rectangle whose corners keep
+// the pill's radius (half the control height, not --rv-radius-full, which would round a tall field
+// into a capsule).
+.control {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--rv-space-2);
+  inline-size: 100%;
+  min-inline-size: 0;
+  min-block-size: $height;
+  // 1px border on each side (from the carved mixin)
+  padding-block: calc((#{$height} - #{$line} - 2px) / 2);
+  padding-inline: map.get($size, padding) var(--rv-space-1);
+  border-radius: calc(#{$height} / 2);
+  cursor: text;
+
+  @include fields.carved('.field');
+
+  // With chips, the height is the chips' height, measured in JavaScript (--chips-block-size), so
+  // that it can be transitioned. The chips are clipped while the field grows to them.
+  &.multiple {
+    block-size: calc(var(--chips-block-size, #{$line}) + #{$height} - #{$line});
+    overflow: clip;
+  }
+
+  &.animated {
+    transition:
+      outline-color 150ms ease,
+      block-size var(--rv-duration-state) ease;
+  }
+}
+
+// Muted start icon, like Input's (5.6:1 in light, 6:1+ in dark), centered on the first line
+.startIcon {
+  @include icons.icon-slot;
+
+  block-size: $line;
+  color: color-mix(in oklab, var(--rv-color-text), transparent 10%);
+}
+
+// The chips and the input after them, wrapping onto new lines as chips are added
+.chips {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: var(--rv-space-1);
+  min-inline-size: 0;
+
+  // Without a start icon, the chips start closer to the field's edge than text does: a chip is a
+  // box of its own, and the field's rounded end leaves it room.
+  .control > &:first-child {
+    margin-inline-start: calc(var(--rv-space-2) - #{map.get($size, padding)});
+
+    // While no chip is chosen, the placeholder and typed text stay where an Input's text is
+    > .input:first-child {
+      padding-inline-start: calc(#{map.get($size, padding)} - var(--rv-space-2));
+    }
+  }
+}
+
+// The borderless <input>: it takes the rest of the line. At rest it can shrink to nothing, so the
+// chips alone decide how many lines the field has; while the field has the focus, it goes to a new
+// line rather than getting too narrow to type a few letters in.
+.input {
+  flex: 1;
+  min-inline-size: 0;
+
+  .control:focus-within & {
+    min-inline-size: 4rem;
+  }
+  block-size: $line;
+  // Optical centering for Geist, as in Input: its line box puts the value 1px high
+  padding: 2px 0 0;
+  border: none;
+  background: none;
+  color: var(--rv-color-text);
+  font-family: var(--rv-font-family);
+  font-size: map.get($size, font-size);
+  line-height: 1;
+
+  // The ring is drawn by .control, around the whole field
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  @include fields.placeholder;
+}
+
+// A chosen option: a capsule in the accent tint (it is the field's value, not a status), flat
+// like a static Chip, with a round button to remove it at its end. The accent text keeps 4.5:1 on
+// the tint up to 32% (see tokens.scss).
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  block-size: $line;
+  min-inline-size: 0;
+  // The remove button sits in the round end, 3px inside the border all around
+  padding-inline: 0.625rem 0.1875rem;
+  border: 1px solid color-mix(in oklab, var(--rv-color-accent-text), transparent 65%);
+  border-radius: var(--rv-radius-full);
+  background: color-mix(in oklab, var(--rv-color-accent-tint), transparent 80%);
+  color: var(--rv-color-accent-text);
+  font-family: var(--rv-font-family);
+  font-size: 0.8125rem;
+  font-weight: var(--rv-font-weight-medium);
+  line-height: 1;
+  cursor: default;
+
+  // Left Arrow from the start of the input moves the focus onto the chips
+  &:focus-visible {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 1px;
+  }
+}
+
+.chipLabel {
+  @include typography.trim-text;
+
+  white-space: nowrap;
+}
+
+// The remove button: flat inside the chip (a chip is not a button), round like the chip's end,
+// tinted on hover
+.chipRemove {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--rv-radius-full);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color var(--rv-duration-press) ease;
+
+  &:hover:not([data-disabled]) {
+    background: color-mix(in oklab, var(--rv-color-accent-tint), transparent 68%);
+  }
+
+  &[data-disabled] {
+    cursor: default;
+  }
+}
+
+.chipRemoveIcon {
+  @include icons.icon-slot(0.875rem);
+}
+
+// The round button that opens the list: the accent fill of a button, small and raised (it can be
+// pressed), pressed while held and while the list is open. Out of the tab order: the keyboard
+// opens the list from the input, with the arrows.
+.trigger {
+  --trigger-top: var(--rv-color-accent-top);
+  --trigger-bottom: var(--rv-color-accent-bottom);
+
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  inline-size: $trigger;
+  block-size: $trigger;
+  margin-block: calc((#{$line} - #{$trigger}) / 2);
+  // Pushed to the end of the field, even when the chips leave room on their last line, and to
+  // its last line when it grows: next to the input, where you type
+  align-self: flex-end;
+  margin-inline-start: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--rv-radius-full);
+  background: linear-gradient(var(--trigger-top) 0% 5%, var(--trigger-bottom) 95% 100%);
+  box-shadow: var(--rv-shadow-raised-sm);
+  color: var(--rv-color-on-accent);
+  cursor: pointer;
+  transition: box-shadow var(--rv-duration-press) ease;
+
+  // Hover pulls the fill toward the text color, like Button's
+  &:hover:not([data-disabled]) {
+    --trigger-top: color-mix(in oklab, var(--rv-color-accent-top), var(--rv-color-text) 16%);
+    --trigger-bottom: color-mix(in oklab, var(--rv-color-accent-bottom), var(--rv-color-text) 16%);
+  }
+
+  &:active:not([data-disabled]),
+  &[data-popup-open] {
+    box-shadow: var(--rv-shadow-pressed-sm);
+  }
+
+  // Disabled: it cannot be pressed, so it loses its relief (the field is already dimmed)
+  &[data-disabled] {
+    box-shadow: none;
+    cursor: default;
+  }
+}
+
+// Only the chevron turns over while the list is open: the button stays put
+.triggerIcon {
+  @include icons.icon-slot(1.1rem);
+
+  transition: rotate var(--rv-duration-state) ease;
+
+  .trigger[data-popup-open] & {
+    rotate: 180deg;
+  }
+}
+
+.positioner {
+  z-index: var(--rv-z-floating);
+  outline: none;
+}
+
+// The list floats above the page, at least as wide as the field
+.popup {
+  @include floating.floating-popup;
+
+  min-inline-size: var(--anchor-width);
+}
+
+.list {
+  outline: none;
+}
+
+.empty {
+  padding: var(--rv-space-2) var(--rv-space-3);
+  color: var(--rv-color-text-muted);
+  line-height: 1.3;
+}
+
+// Options: flat rows; the chosen ones have a check and a medium weight, so the choice does not
+// rely on color
+.item {
+  @include floating.list-item;
+
+  &[data-selected] {
+    font-weight: var(--rv-font-weight-medium);
+  }
+}
+
+// Groups: a muted title above their options, and a line between two groups
+.group + .group {
+  @include floating.list-separator;
+
+  margin-block-end: 0;
+  padding-block-start: var(--rv-space-1);
+}
+
+.groupLabel {
+  @include floating.group-label;
+}
+
+.itemText {
+  flex: 1;
+}
+
+.itemIndicator {
+  display: inline-flex;
+  color: var(--rv-color-accent-text);
+}
+
+.icon {
+  @include icons.icon-slot;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control.animated,
+  .chipRemove,
+  .trigger,
+  .triggerIcon {
+    transition: none;
+  }
+}

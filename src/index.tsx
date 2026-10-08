@@ -52,6 +52,7 @@ export {
   ButtonGroup,
   Checkbox,
   Collapsible,
+  ComboBox,
   Link,
   Pagination,
   RelievoProvider,

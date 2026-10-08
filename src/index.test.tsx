@@ -24,7 +24,6 @@ const parts: Record<string, Record<string, unknown>> = {
     RadioItem: client.MenuRadioItem,
   },
   Segmented: { Item: client.SegmentedItem },
-  Select: { Item: client.SelectItem, Group: client.SelectGroup },
   Tabs: { List: client.TabsList, Item: client.TabsItem, Panel: client.TabsPanel },
 };
 

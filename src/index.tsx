@@ -29,9 +29,6 @@ import {
   MenuSubmenu,
   Segmented as SegmentedRoot,
   SegmentedItem,
-  Select as SelectRoot,
-  SelectGroup,
-  SelectItem,
   Tabs as TabsRoot,
   TabsItem,
   TabsList,
@@ -41,7 +38,6 @@ import {
   type InputProps,
   type MenuProps,
   type SegmentedProps,
-  type SelectProps,
   type TabsProps,
 } from './client';
 
@@ -52,6 +48,7 @@ export {
   ButtonGroup,
   Checkbox,
   Collapsible,
+  ComboBox,
   Link,
   Pagination,
   RelievoProvider,
@@ -98,12 +95,6 @@ export function Segmented(props: SegmentedProps) {
   return <SegmentedRoot {...props} />;
 }
 Segmented.Item = SegmentedItem;
-
-export function Select(props: SelectProps) {
-  return <SelectRoot {...props} />;
-}
-Select.Item = SelectItem;
-Select.Group = SelectGroup;
 
 export function Tabs(props: TabsProps) {
   return <TabsRoot {...props} />;

@@ -21,12 +21,12 @@ import { Card } from '../components/Card';
 import { Checkbox } from '../components/Checkbox';
 import { Chip } from '../components/Chip';
 import { Collapsible } from '../components/Collapsible';
+import { ComboBox } from '../components/ComboBox';
 import { Input } from '../components/Input';
 import { Link } from '../components/Link';
 import { Menu } from '../components/Menu';
 import { Pagination } from '../components/Pagination';
 import { Segmented } from '../components/Segmented';
-import { Select } from '../components/Select';
 import { Spinner } from '../components/Spinner';
 import { Stack } from '../components/Stack';
 import { Tabs } from '../components/Tabs';
@@ -49,11 +49,26 @@ const row: CSSProperties = {
 
 const stack: CSSProperties = { display: 'grid', gap: 'var(--rv-space-5)' };
 
-// Options as an array, like data from an API (Category above uses Select.Item children)
+const productCategories = [
+  { value: 'clothing', label: 'Clothing' },
+  { value: 'accessories', label: 'Accessories' },
+  { value: 'shoes', label: 'Shoes' },
+  { value: 'bags', label: 'Bags' },
+];
+
 const suppliers = [
   { value: 'atelier', label: 'Atelier Lin' },
   { value: 'nordic', label: 'Nordic Wool' },
   { value: 'tannery', label: 'Old Tannery' },
+];
+
+const tags = [
+  { value: 'summer', label: 'Summer' },
+  { value: 'linen', label: 'Linen' },
+  { value: 'organic', label: 'Organic' },
+  { value: 'handmade', label: 'Handmade' },
+  { value: 'bestseller', label: 'Bestseller' },
+  { value: 'new', label: 'New in' },
 ];
 
 // No icon on the status chips: the tone brings its own (see "Common props: tone" in AGENTS.md).
@@ -253,13 +268,17 @@ function Overview() {
                 helperText="Shown on the product page."
               />
               <Input label="Price" type="number" defaultValue="49" suffix="€" />
-              <Select label="Category" defaultValue="clothing">
-                <Select.Item value="clothing">Clothing</Select.Item>
-                <Select.Item value="accessories">Accessories</Select.Item>
-                <Select.Item value="shoes">Shoes</Select.Item>
-                <Select.Item value="bags">Bags</Select.Item>
-              </Select>
-              <Select label="Supplier" placeholder="Choose a supplier" options={suppliers} />
+              <ComboBox label="Category" options={productCategories} defaultValue="clothing" />
+              <ComboBox label="Supplier" placeholder="Search a supplier" options={suppliers} />
+              <div style={{ gridColumn: '1 / -1' }}>
+                <ComboBox
+                  label="Tags"
+                  placeholder="Add a tag"
+                  options={tags}
+                  multiple
+                  defaultValue={['summer', 'linen', 'organic']}
+                />
+              </div>
               <Input label="Website" placeholder="acme" prefix="https://" suffix=".com" />
               <Input
                 label="Contact email"

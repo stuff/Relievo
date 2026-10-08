@@ -261,6 +261,21 @@ $trigger: 2rem;
   line-height: 1.3;
 }
 
+// Searching, or a failed search (with loadOptions): a muted line above the options, with a spinner
+// or the danger icon, so the failure is not told by its color alone
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--rv-space-2);
+  padding: var(--rv-space-2) var(--rv-space-3);
+  color: var(--rv-color-text-muted);
+  line-height: 1.3;
+
+  &.error {
+    color: var(--rv-color-danger-text);
+  }
+}
+
 // Options: flat rows; the chosen ones have a check and a medium weight, so the choice does not
 // rely on color
 .item {

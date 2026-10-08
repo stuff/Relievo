@@ -72,7 +72,7 @@ To browse every component with its props, open the [Storybook](https://stuff.git
 | `Segmented` | A single choice among a few short options (radio group) |
 | `Tabs` | A bar of tabs over the content they show: `Tabs.List`, `Tabs.Item` (icon), `Tabs.Panel` (`plain` or `framed`) |
 | `Select` | A single choice among a long list (`Select.Item` children or an `options` array): a raised button with an accent cap that opens a floating list |
-| `ComboBox` | A choice among a long list you type into to filter it, or several with `multiple` (removable chips): a carved field with a round accent button that opens a floating list |
+| `ComboBox` | A choice among a long list you type into to filter it, or several with `multiple` (removable chips), its options given or loaded from an API (`loadOptions`): a carved field with a round accent button that opens a floating list |
 | `Collapsible` | A section whose content (`children`) shows or hides on click, under its `label` |
 | `Spinner` | An action in progress, as a spinning ring; drop it anywhere an icon is expected, such as `startIcon` |
 | `ThemeProvider`, `useTheme` | Light / dark / system mode |

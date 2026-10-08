@@ -1,6 +1,8 @@
 import {
   useCallback,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactElement,
   type ReactNode,
@@ -10,7 +12,9 @@ import { Combobox as BaseCombobox } from '@base-ui/react/combobox';
 import { Field } from '@base-ui/react/field';
 import { CaretDownIcon, CheckIcon, XIcon } from '@phosphor-icons/react';
 import { IconSlot } from '../../internal/IconSlot';
+import { toneIcons } from '../../internal/toneIcons';
 import { useInheritedTheme } from '../../internal/useInheritedTheme';
+import { Spinner } from '../Spinner';
 import styles from './ComboBox.module.scss';
 
 export interface ComboBoxOption {
@@ -55,10 +59,43 @@ interface ComboBoxBaseProps {
    */
   hideLabel?: boolean;
   /**
-   * The options, as an array such as data from an API: `[{ value: 'fr', label: 'France' }]`. To
-   * group them under titles, pass groups instead: `[{ label: 'Europe', options: [...] }]`.
+   * The options, as an array: `[{ value: 'fr', label: 'France' }]`. To group them under titles,
+   * pass groups instead: `[{ label: 'Europe', options: [...] }]`.
+   *
+   * With `loadOptions`, the options shown before a search, and the labels of the values the field
+   * starts with (those saved by the app): pass them here so their chips have a label.
    */
-  options: readonly ComboBoxOption[] | readonly ComboBoxGroup[];
+  options?: readonly ComboBoxOption[] | readonly ComboBoxGroup[];
+  /**
+   * Loads the options from an API, for lists too long to send to the page: called with what was
+   * typed, it returns the matching options. They are shown as they are, without filtering. The
+   * combobox waits for a pause in typing (`debounce`), cancels a search when a new one starts (pass
+   * `signal` to `fetch`), shows that it is searching, and says when the search failed.
+   *
+   * ```tsx
+   * loadOptions={async (query, { signal }) => {
+   *   const response = await fetch(`/api/users?q=${query}`, { signal });
+   *   const users = await response.json();
+   *   return users.map((user) => ({ value: user.id, label: user.name }));
+   * }}
+   * ```
+   */
+  loadOptions?: (
+    query: string,
+    context: { signal: AbortSignal },
+  ) => Promise<readonly ComboBoxOption[]>;
+  /**
+   * With `loadOptions`, how long to wait after the last key press before searching, in
+   * milliseconds.
+   * @default 250
+   */
+  debounce?: number;
+  /**
+   * With `loadOptions`, how many characters must be typed before searching. At 0, the options are
+   * loaded as soon as the list opens.
+   * @default 1
+   */
+  minQueryLength?: number;
   /**
    * Shown in the field while it is empty, such as "Search a country". With `multiple`, it is
    * shown until a first option is chosen.
@@ -69,6 +106,21 @@ interface ComboBoxBaseProps {
    * @default 'No matches'
    */
   emptyText?: string;
+  /**
+   * With `loadOptions`, shown in the list before a search, while there are no options to show.
+   * @default 'Type to search'
+   */
+  promptText?: string;
+  /**
+   * With `loadOptions`, shown in the list while searching.
+   * @default 'Searching…'
+   */
+  loadingText?: string;
+  /**
+   * With `loadOptions`, shown in the list when a search failed.
+   * @default "Couldn't load results"
+   */
+  errorText?: string;
   /**
    * With `multiple`, the start of the accessible name of each chip's remove button, followed by
    * the option's label: "Remove France".
@@ -154,13 +206,84 @@ interface ComboBoxMultipleProps extends ComboBoxBaseProps {
 // One value or several: `multiple` sets the type of the value
 export type ComboBoxProps = ComboBoxSingleProps | ComboBoxMultipleProps;
 
+type Options = NonNullable<ComboBoxBaseProps['options']>;
+
+const noOptions: readonly ComboBoxOption[] = [];
+
 function isGroup(entry: ComboBoxOption | ComboBoxGroup): entry is ComboBoxGroup {
   return 'options' in entry;
 }
 
+type SearchStatus = 'idle' | 'loading' | 'error';
+
+// Searches with loadOptions: waits for a pause in typing, aborts the previous search, and remembers
+// the label of every option it received, so a chosen option keeps its label in the field once
+// other results replace it. `results` is null before a search (or below minQueryLength): the list
+// then shows the `options` prop. While searching, the list keeps the previous results, or shows
+// none: never the `options`, which do not match what was typed. A failed search shows none.
+function useSearch(
+  loadOptions: ComboBoxBaseProps['loadOptions'],
+  debounce: number,
+  minQueryLength: number,
+) {
+  const [results, setResults] = useState<readonly ComboBoxOption[] | null>(null);
+  const [status, setStatus] = useState<SearchStatus>('idle');
+  const [knownLabels, setKnownLabels] = useState<ReadonlyMap<string, string>>(new Map());
+  const pending = useRef<{ timer: number; controller: AbortController } | null>(null);
+
+  const cancel = useCallback(() => {
+    if (pending.current) {
+      window.clearTimeout(pending.current.timer);
+      pending.current.controller.abort();
+      pending.current = null;
+    }
+  }, []);
+
+  // A search still running when the combobox goes away is aborted
+  useEffect(() => cancel, [cancel]);
+
+  const search = (query: string) => {
+    if (!loadOptions) {
+      return;
+    }
+    cancel();
+    if (query.length < minQueryLength) {
+      setResults(null);
+      setStatus('idle');
+      return;
+    }
+    setStatus('loading');
+    setResults((previous) => previous ?? []);
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => {
+      loadOptions(query, { signal: controller.signal }).then(
+        (options) => {
+          if (controller.signal.aborted) {
+            return;
+          }
+          setResults(options);
+          setStatus('idle');
+          setKnownLabels(
+            (known) => new Map([...known, ...options.map((o) => [o.value, o.label] as const)]),
+          );
+        },
+        () => {
+          if (!controller.signal.aborted) {
+            setResults([]);
+            setStatus('error');
+          }
+        },
+      );
+    }, debounce);
+    pending.current = { timer, controller };
+  };
+
+  return { results, status, knownLabels, search };
+}
+
 // The options as Base UI's collection: it filters them and identifies them by `value`. Base UI
 // marks a group by an `items` array, so the kit's groups are mapped onto that shape.
-function useOptions(options: ComboBoxBaseProps['options']) {
+function useOptions(options: Options) {
   return useMemo(() => {
     const groups = options.some(isGroup)
       ? (options as readonly ComboBoxGroup[]).map((group) => ({
@@ -168,17 +291,24 @@ function useOptions(options: ComboBoxBaseProps['options']) {
           items: group.options,
         }))
       : undefined;
-    const flat = groups ? groups.flatMap((group) => group.items) : (options as ComboBoxOption[]);
 
     return {
       groups,
-      items: BaseCombobox.createItems<ComboBoxOption, string>(groups ?? flat, {
-        getValue: (option) => option.value,
-        getLabel: (option) => option.label,
-      }),
-      labels: new Map(flat.map((option) => [option.value, option.label])),
+      items: BaseCombobox.createItems<ComboBoxOption, string>(
+        groups ?? (options as readonly ComboBoxOption[]),
+        {
+          getValue: (option) => option.value,
+          getLabel: (option) => option.label,
+        },
+      ),
     };
   }, [options]);
+}
+
+function labelsOf(options: Options) {
+  return options
+    .flatMap((entry) => (isGroup(entry) ? entry.options : [entry]))
+    .map((option) => [option.value, option.label] as const);
 }
 
 // Animates the field's height as chips wrap onto a new line or leave one. CSS cannot transition a
@@ -217,11 +347,13 @@ function useChipsHeight(fieldRef: RefObject<HTMLDivElement | null>) {
  * chooses, Escape closes.
  *
  * With `multiple`, each chosen option is a chip in the field, and the field grows onto several
- * lines as chips are added. The list stays open after a choice, to choose several in a row. A
+ * lines as chips are added. The list stays open after a choice, with what was typed, to choose
+ * several in a row. A
  * chip is removed with its button, or with Backspace from the start of the field; Left Arrow
  * moves from the field to the chips.
  *
- * Options go as an array with `options`, grouped under titles if needed.
+ * Options go as an array with `options`, grouped under titles if needed. For a list too long to
+ * send to the page, `loadOptions` loads them from an API as you type.
  *
  * For 2 to 5 short options, use `Segmented`; for a few choices shown at once, `Chip.Group`.
  *
@@ -233,9 +365,15 @@ function useChipsHeight(fieldRef: RefObject<HTMLDivElement | null>) {
 export function ComboBox({
   label,
   hideLabel = false,
-  options,
+  options = noOptions,
+  loadOptions,
+  debounce = 250,
+  minQueryLength = 1,
   placeholder,
   emptyText = 'No matches',
+  promptText = 'Type to search',
+  loadingText = 'Searching…',
+  errorText = "Couldn't load results",
   removeLabel = 'Remove',
   helperText,
   error = false,
@@ -245,7 +383,13 @@ export function ComboBox({
   ...rootProps
 }: ComboBoxProps) {
   const { anchorRef, positionerRef } = useInheritedTheme<HTMLDivElement>();
-  const { groups, items, labels } = useOptions(options);
+  const { results, status, knownLabels, search } = useSearch(loadOptions, debounce, minQueryLength);
+  const { groups, items } = useOptions(results ?? options);
+  // Labels of every option seen so far: a chosen one may not be among the current results
+  const labels = useMemo(
+    () => new Map([...knownLabels, ...labelsOf(options)]),
+    [knownLabels, options],
+  );
   const multiple = rootProps.multiple === true;
   const { chipsRef, animated } = useChipsHeight(anchorRef);
 
@@ -255,7 +399,19 @@ export function ComboBox({
       eventDetails.cancel();
       return;
     }
+    // Without a minimum length, the options load as soon as the list opens
+    if (open && minQueryLength === 0 && results === null && status === 'idle') {
+      search('');
+    }
     onOpenChange?.(open, eventDetails);
+  };
+
+  // Searches what is typed, and goes back to the options when the field is emptied (with
+  // `multiple`, a choice empties it). Not the label a choice writes into the field.
+  const handleInputValueChange = (query: string, eventDetails: ChangeEventDetails) => {
+    if (eventDetails.reason === 'input-change' || query === '') {
+      search(query);
+    }
   };
 
   const renderOption = (option: ComboBoxOption) => (
@@ -291,8 +447,13 @@ export function ComboBox({
       <BaseCombobox.Root<string, boolean | undefined, ComboBoxOption>
         {...(rootProps as BaseCombobox.Root.Props<string, boolean | undefined, ComboBoxOption>)}
         items={items}
+        // The label of a chosen option that the current results no longer hold
+        itemToStringLabel={(value: string) => labels.get(value) ?? value}
+        // Loaded options are already the matches: the API filtered them
+        filter={loadOptions ? null : undefined}
         disabled={disabled}
         onOpenChange={handleOpenChange}
+        onInputValueChange={loadOptions ? handleInputValueChange : undefined}
       >
         <BaseCombobox.InputGroup
           ref={anchorRef}
@@ -337,8 +498,29 @@ export function ComboBox({
         <BaseCombobox.Portal>
           <BaseCombobox.Positioner ref={positionerRef} className={styles.positioner} sideOffset={4}>
             <BaseCombobox.Popup className={styles.popup}>
+              {/* Announced to screen readers: it stays mounted while its content changes */}
+              {loadOptions && (
+                <BaseCombobox.Status>
+                  {status === 'loading' && (
+                    <div className={styles.status}>
+                      <IconSlot icon={<Spinner />} className={styles.icon} />
+                      {loadingText}
+                    </div>
+                  )}
+                  {status === 'error' && (
+                    <div className={`${styles.status} ${styles.error}`}>
+                      <IconSlot icon={toneIcons.danger} className={styles.icon} />
+                      {errorText}
+                    </div>
+                  )}
+                </BaseCombobox.Status>
+              )}
               <BaseCombobox.Empty>
-                <div className={styles.empty}>{emptyText}</div>
+                {status === 'idle' && (
+                  <div className={styles.empty}>
+                    {results === null && loadOptions ? promptText : emptyText}
+                  </div>
+                )}
               </BaseCombobox.Empty>
               <BaseCombobox.List className={styles.list}>
                 {groups

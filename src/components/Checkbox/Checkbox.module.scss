@@ -20,6 +20,14 @@ $line-height: 1.5;
   line-height: $line-height;
   cursor: pointer;
   user-select: none;
+  border-radius: var(--rv-radius-md);
+
+  // The keyboard is in the whole control, box and label, so the ring goes around all of it, at the
+  // distance of a Button's. The helper text stays outside: it describes the choice, it is not it.
+  &:has(.box:focus-visible) {
+    outline: 2px solid var(--rv-color-focus-ring);
+    outline-offset: 3px;
+  }
 
   &[data-disabled] {
     opacity: 0.6;
@@ -75,9 +83,9 @@ $line-height: 1.5;
     );
   }
 
+  // The ring is the label's (above), not the box's
   &:focus-visible {
-    outline: 2px solid var(--rv-color-focus-ring);
-    outline-offset: 2px;
+    outline: none;
   }
 
   &:active:not([data-disabled]) {

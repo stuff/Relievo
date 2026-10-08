@@ -153,9 +153,11 @@ $dark-palette: (
     --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 1%);
 
     --rv-shadow-raised:
-      1px 2px 3px var(--rv-color-shadow), -1px -1px 3px var(--rv-color-highlight), #{$lit-edge};
+      2px 3px 5px var(--rv-color-shadow), -1px -1px 3px var(--rv-color-highlight), #{$lit-edge};
+    // Lower than --rv-shadow-raised: a contact shadow straight below and the lit top edge, for
+    // what is raised a little (a thumb, a small control, the Pagination rail)
     --rv-shadow-raised-sm:
-      1px 1px 2px var(--rv-color-shadow), -1px -1px 2px var(--rv-color-highlight), #{$lit-edge};
+      0 1px 1px var(--rv-color-shadow), inset 0 1px 0 color-mix(in oklab, white, transparent 85%);
     --rv-shadow-pressed-sm:
       inset 1px 1px 3px var(--rv-color-shadow),
       inset -1px -1px 1px color-mix(in oklab, white, transparent 88%);
@@ -176,11 +178,13 @@ $dark-palette: (
     --rv-color-sheen-bottom-hover: color-mix(in oklab, var(--rv-color-surface), black 7%);
 
     --rv-shadow-raised:
-      1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 30%),
+      2px 3px 5px color-mix(in oklab, var(--rv-color-shadow), transparent 15%),
       -1px -1px 3px var(--rv-color-highlight);
+    // Lower than --rv-shadow-raised: a contact shadow straight below and the lit top edge, for
+    // what is raised a little (a thumb, a small control, the Pagination rail)
     --rv-shadow-raised-sm:
-      1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
-      -1px -1px 3px var(--rv-color-highlight);
+      0 1px 1px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
+      inset 0 1px 0 var(--rv-color-highlight);
     --rv-shadow-pressed-sm:
       inset 1px 1px 3px color-mix(in oklab, var(--rv-color-shadow), transparent 45%),
       inset -1px -1px 2px var(--rv-color-highlight);
